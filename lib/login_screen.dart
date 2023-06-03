@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
 import 'package:mobile_kepuharjo_new/Resource/MyTextField.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
@@ -71,15 +72,14 @@ class _LoginPageState extends State<LoginPage> {
           final role = data['role'];
           print(prefs);
           if (role == "4") {
-            // Jika role == 1, push ke HomePage
             // ignore: use_build_context_synchronously
-            // Navigator.pushAndRemoveUntil(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const HomePage(),
-            //   ),
-            //   (Route<dynamic> route) => false,
-            // );
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const DashboardUser(),
+              ),
+              (Route<dynamic> route) => false,
+            );
           } else if (role == "2") {
             // Jika role == 2, push ke DashboardRt
             // ignore: use_build_context_synchronously

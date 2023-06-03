@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Wellcome/onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -74,7 +75,7 @@ class _MyAppState extends State<MyApp> {
                       var userRole = snapshot.data;
                       if (userRole == '4') {
                         // return HomePage();
-                        return OnboardingScreen();
+                        return DashboardUser();
                       } else if (userRole == '2') {
                         // return DashboardRT();
                         return OnboardingScreen();
