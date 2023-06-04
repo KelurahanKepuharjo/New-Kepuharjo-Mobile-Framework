@@ -9,6 +9,7 @@ import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:http/http.dart' as http;
+import 'package:date_format/date_format.dart';
 
 class SuratDiajukanUser extends StatefulWidget {
   const SuratDiajukanUser({super.key});
@@ -141,7 +142,10 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      data[index].createdAt.toString(),
+                                      formatDate(
+                                        DateTime.parse(data[index].createdAt!),
+                                        [dd, ' ', MM, ' ', yyyy],
+                                      ),
                                       style: MyFont.poppins(
                                           fontSize: 10, color: softgrey),
                                     ),
@@ -178,28 +182,12 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
                               children: [
                                 Row(
                                   children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 8),
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: blue.withOpacity(0.1)),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.network(
-                                            Api.connectimage +
-                                                data[index]
-                                                    .surat!
-                                                    .image
-                                                    .toString(),
-                                            height: 25,
-                                            width: 25,
-                                          ),
-                                        ],
+                                    SizedBox(
+                                      child: Image.network(
+                                        Api.connectimage +
+                                            data[index].surat!.image.toString(),
+                                        height: 50,
+                                        width: 50,
                                       ),
                                     ),
                                     const SizedBox(

@@ -18,7 +18,7 @@ class _StatusState extends State<Status> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: lavender,
@@ -53,11 +53,10 @@ class _StatusState extends State<Status> {
                           borderRadius: BorderRadius.circular(7),
                         ),
                         tabs: const [
-                          Tab(text: "Diajukan"),
-                          Tab(text: "Diporoses"),
-                          Tab(text: "Selesai"),
-                          Tab(text: "Ditolak"),
-                          Tab(text: "Dibatalkan"),
+                          Tab(text: "Surat Diajukan"),
+                          Tab(text: "Surat Diporoses"),
+                          Tab(text: "Surat Selesai"),
+                          Tab(text: "Surat Ditolak"),
                         ]),
                   ),
                 ),
@@ -81,11 +80,6 @@ class _StatusState extends State<Status> {
                   SizedBox(
                     child: Column(
                       children: [SuratDitolakUser()],
-                    ),
-                  ),
-                  SizedBox(
-                    child: Column(
-                      children: [SuratDibatalkanUser()],
                     ),
                   ),
                 ]))

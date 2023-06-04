@@ -2,7 +2,7 @@ import 'package:mobile_kepuharjo_new/Model/Kks.dart';
 
 class Masyarakat {
   String? idMasyarakat;
-  String? nik;
+  int? nik;
   String? namaLengkap;
   String? jenisKelamin;
   String? tempatLahir;
@@ -15,8 +15,8 @@ class Masyarakat {
   String? tglPerkawinan;
   String? statusKeluarga;
   String? kewarganegaraan;
-  String? noPaspor;
-  String? noKitap;
+  int? noPaspor;
+  int? noKitap;
   String? namaAyah;
   String? namaIbu;
   String? createdAt;

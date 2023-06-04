@@ -1,7 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:path/path.dart';
+import 'package:async/async.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -13,6 +17,8 @@ import 'package:mobile_kepuharjo_new/Resource/MyTextField_Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
+import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Pengajuansurat extends StatefulWidget {
   String idsurat;
@@ -36,74 +42,138 @@ class _PengajuansuratState extends State<Pengajuansurat> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    nik.text = widget.masyarakat.nik.toString();
     nokk.text = widget.keluarga.noKk.toString();
+    nik.text = widget.masyarakat.nik.toString();
     nama.text = widget.masyarakat.namaLengkap.toString();
+    ttl.text = widget.masyarakat.tempatLahir.toString() +
+        DateFormat('dd MMMM yyyy')
+            .format(DateTime.parse(widget.masyarakat.tglLahir.toString()));
+    goldarah.text = widget.masyarakat.golonganDarah.toString();
+    jk.text = widget.masyarakat.jenisKelamin.toString();
+    kewarganegaraan.text = widget.masyarakat.kewarganegaraan.toString();
+    agama.text = widget.masyarakat.agama.toString();
+    statusperkawinan.text = widget.masyarakat.statusPerkawinan.toString();
+    pekerjaan.text = widget.masyarakat.pekerjaan.toString();
+    pendidikan.text = widget.masyarakat.pendidikan.toString();
+    alamat.text = widget.keluarga.alamat.toString();
+    rt.text = widget.keluarga.rt.toString();
+    rw.text = widget.keluarga.rw.toString();
   }
 
+  final nokk = TextEditingController();
   final nik = TextEditingController();
   final nama = TextEditingController();
-  final nokk = TextEditingController();
+  final ttl = TextEditingController();
+  final goldarah = TextEditingController();
+  final jk = TextEditingController();
+  final kewarganegaraan = TextEditingController();
+  final agama = TextEditingController();
+  final statusperkawinan = TextEditingController();
+  final pekerjaan = TextEditingController();
+  final pendidikan = TextEditingController();
   final alamat = TextEditingController();
   final rt = TextEditingController();
   final rw = TextEditingController();
-  final ttl = TextEditingController();
-  final jk = TextEditingController();
-  final pendidikan = TextEditingController();
-  final agama = TextEditingController();
   final keperluan = TextEditingController();
 
-  void verifypengajuan() {
+  void verifypengajuan(BuildContext context) {
     if (keperluan.text.isEmpty) {
       Fluttertoast.showToast(
           msg: "Silahkan isi keperluan anda",
           backgroundColor: Colors.red,
           toastLength: Toast.LENGTH_LONG);
+    } else if (imageKK == null) {
+      Fluttertoast.showToast(
+          msg: "Silahkan upload foto kartu keluarga anda",
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_LONG);
+    } else if (imageBukti == null) {
+      Fluttertoast.showToast(
+          msg: "Silahkan upload foto kartu keluarga anda",
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_LONG);
     } else {
-      showSuccessDialog(context);
+      showSuccessDialog(context, imageKK, imageBukti);
     }
   }
 
-  Future pengajuansurat() async {
-    try {
-      var res = await http.post(Uri.parse(Api.pengajuan), body: {
-        "nik": widget.masyarakat.nik.toString(),
-        "id_surat": widget.idsurat,
-        "keterangan": keperluan.text,
-      });
-      final data = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        if (data['message'] == "Berhasil mengajukan surat") {
-          // ignore: use_build_context_synchronously
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const DashboardUser(),
-            ),
-            (Route<dynamic> route) => false,
-          ).then((value) {
-            Fluttertoast.showToast(
-                msg: "Berhasil mengajukan surat",
-                backgroundColor: Colors.green,
-                toastLength: Toast.LENGTH_LONG);
-          });
-        }
-      } else {
-        final data = jsonDecode(res.body);
-        if (data['message'] == "Surat sebelumnya belum selesai") {
-          MySnackbar(
-                  type: SnackbarType.failed,
-                  title:
-                      "Mohon maaf, anda tidak bisa mengajukan surat , jika surat sebelumnya masih belum selesai")
-              .showSnackbar(context);
-        }
-      }
-    } catch (e) {
-      print(e.toString());
+  // Future pengajuansurat() async {
+  //   try {
+  //     var res = await http.post(Uri.parse(Api.pengajuan), body: {
+  //       "nik": widget.masyarakat.nik.toString(),
+  //       "id_surat": widget.idsurat,
+  //       "keterangan": keperluan.text,
+  //     });
+  //     final data = jsonDecode(res.body);
+  //     if (res.statusCode == 200) {
+  //       if (data['message'] == "Berhasil mengajukan surat") {
+  //         // ignore: use_build_context_synchronously
+  //         Navigator.pushAndRemoveUntil(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (context) => const DashboardUser(),
+  //           ),
+  //           (Route<dynamic> route) => false,
+  //         ).then((value) {
+  //           Fluttertoast.showToast(
+  //               msg: "Berhasil mengajukan surat",
+  //               backgroundColor: Colors.green,
+  //               toastLength: Toast.LENGTH_LONG);
+  //         });
+  //       }
+  //     } else {
+  //       final data = jsonDecode(res.body);
+  //       if (data['message'] == "Surat sebelumnya belum selesai") {
+  //         MySnackbar(
+  //                 type: SnackbarType.failed,
+  //                 title:
+  //                     "Mohon maaf, anda tidak bisa mengajukan surat , jika surat sebelumnya masih belum selesai")
+  //             .showSnackbar(context);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
+
+  Future pengajuan_surat(
+      BuildContext context, File imageFileKK, File imageFileBukti) async {
+    var uri = Uri.parse(Api.pengajuan);
+    var req = http.MultipartRequest('POST', uri);
+
+    // Menambahkan bagian (part) pertama untuk file imageFileKK
+    var streamKK =
+        http.ByteStream(DelegatingStream.typed(imageFileKK.openRead()));
+    var lengthKK = await imageFileKK.length();
+    var multipartFileKK = http.MultipartFile('image_kk', streamKK, lengthKK,
+        filename: imageFileKK.path);
+    req.files.add(multipartFileKK);
+
+    // Menambahkan bagian (part) kedua untuk file imageFileBukti
+    var streamBukti =
+        http.ByteStream(DelegatingStream.typed(imageFileBukti.openRead()));
+    var lengthBukti = await imageFileBukti.length();
+    var multipartFileBukti = http.MultipartFile(
+        'image_bukti', streamBukti, lengthBukti,
+        filename: imageFileBukti.path);
+    req.files.add(multipartFileBukti);
+
+    req.fields['keterangan'] = keperluan.text;
+    req.fields['id_surat'] = widget.idsurat;
+    req.fields['nik'] = widget.masyarakat.nik.toString();
+
+    var response = await req.send();
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(
+          msg: "Berhasil mengajukan surat", backgroundColor: Colors.green);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Gagal mengajukan surat", backgroundColor: Colors.green);
     }
   }
 
-  showSuccessDialog(BuildContext context) {
+  showSuccessDialog(
+      BuildContext context, File imageFileKK, File imageFileBukti) {
     AwesomeDialog(
       context: context,
       animType: AnimType.SCALE,
@@ -111,10 +181,10 @@ class _PengajuansuratState extends State<Pengajuansurat> {
       title: 'Warning!',
       titleTextStyle: MyFont.poppins(
           fontSize: 25, color: lavender, fontWeight: FontWeight.bold),
-      desc: 'Apakah anda yakin, Jika data yang anda masukan telah benar',
+      desc: 'Apakah anda yakin, Jika data yang anda telah benar',
       descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
       btnOkOnPress: () {
-        pengajuansurat();
+        pengajuan_surat(context, imageFileKK, imageFileBukti);
       },
       btnCancelOnPress: () {
         Navigator.pop(context);
@@ -124,6 +194,24 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     ).show();
   }
 
+  Future getImageGalerryKK() async {
+    final picker = ImagePicker();
+    final imageFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imageKK = File(imageFile!.path);
+    });
+  }
+
+  Future getImageGalerryBukti() async {
+    final picker = ImagePicker();
+    final imageFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imageBukti = File(imageFile!.path);
+    });
+  }
+
+  late File imageKK;
+  late File imageBukti;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,11 +278,121 @@ class _PengajuansuratState extends State<Pengajuansurat> {
               inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
             ),
             GetTextFieldPengajuan(
+              controller: ttl,
+              label: "Tempat, Tanggal Lahir",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: goldarah,
+              label: "Golongan Darah",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: jk,
+              label: "Jenis Kelamin",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: kewarganegaraan,
+              label: "Kewarganegaraan",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: agama,
+              label: "Agama",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: statusperkawinan,
+              label: "Status Perkawinan",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: pekerjaan,
+              label: "Pekerjaan",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: pendidikan,
+              label: "Pendidikan",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: alamat,
+              label: "Alamat",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: rt,
+              label: "RT",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: rw,
+              label: "RW",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
               controller: keperluan,
               label: "Keperluan",
               isEnable: true,
               keyboardType: TextInputType.name,
               inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            InkWell(
+              onTap: () {
+                getImageGalerryKK();
+              },
+              child: Container(
+                height: 150,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(width: 1, color: lavender)),
+                child: imageKK == null
+                    ? Center(
+                        child: Text(
+                        'Upload Kartu Keluarga',
+                        style: MyFont.poppins(fontSize: 12, color: black),
+                      ))
+                    : Image.file(
+                        imageKK,
+                        fit: BoxFit.contain,
+                      ),
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                getImageGalerryBukti();
+              },
+              child: Container(
+                height: 150,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(width: 1, color: lavender)),
+                child: imageBukti == null
+                    ? Center(
+                        child: Text(
+                        'Upload Bukti',
+                        style: MyFont.poppins(fontSize: 12, color: black),
+                      ))
+                    : Image.file(
+                        imageBukti,
+                        fit: BoxFit.contain,
+                      ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 30),
@@ -209,7 +407,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                           borderRadius: BorderRadius.circular(10),
                         )),
                     onPressed: () async {
-                      verifypengajuan();
+                      verifypengajuan(context);
                     },
                     child: Text('Ajukan Surat',
                         textAlign: TextAlign.center,

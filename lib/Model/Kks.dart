@@ -1,10 +1,10 @@
 class Kks {
   String? id;
-  String? noKk;
+  int? noKk;
   String? alamat;
-  String? rt;
-  String? rw;
-  String? kodePos;
+  int? rt;
+  int? rw;
+  int? kodePos;
   String? kelurahan;
   String? kecamatan;
   String? kabupaten;

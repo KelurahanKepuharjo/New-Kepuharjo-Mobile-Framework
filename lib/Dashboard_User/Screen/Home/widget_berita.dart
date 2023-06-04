@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Model/Berita.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
+import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 
 class WidgetBerita extends StatefulWidget {
@@ -55,10 +56,10 @@ class _WidgetBeritaState extends State<WidgetBerita> {
                           height: 125,
                           width: 125,
                           decoration: BoxDecoration(
-                              // image: DecorationImage(
-                              //     image: NetworkImage(Api.connectimage +
-                              //         data[index].image.toString()),
-                              //     fit: BoxFit.cover),
+                              image: DecorationImage(
+                                  image: NetworkImage(Api.connectimage +
+                                      data[index].image!.trim()),
+                                  fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         const SizedBox(

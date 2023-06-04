@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Pengajuan/daftar_keluarga.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
@@ -68,13 +69,13 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => DaftarKeluarga(
-                          //         selectedSurat: isiData[index],
-                          //       ),
-                          //     ));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DaftarKeluarga(
+                                  selectedSurat: isiData[index],
+                                ),
+                              ));
                         },
                         child: Column(
                           children: [

@@ -2,7 +2,7 @@ import 'package:mobile_kepuharjo_new/Model/Masyarakat.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
 
 class Pengajuan {
-  String? id;
+  int? id;
   String? nomorSurat;
   String? status;
   String? keterangan;
@@ -13,7 +13,7 @@ class Pengajuan {
   String? imageBukti;
   String? info;
   String? idMasyarakat;
-  String? idSurat;
+  int? idSurat;
   Masyarakat? masyarakat;
   Surat? surat;
 

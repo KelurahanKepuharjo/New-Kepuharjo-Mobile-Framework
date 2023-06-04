@@ -3,7 +3,7 @@ import 'package:mobile_kepuharjo_new/Model/Masyarakat.dart';
 class User {
   String? id;
   String? password;
-  String? noHp;
+  int? noHp;
   String? role;
   String? createdAt;
   String? updatedAt;
