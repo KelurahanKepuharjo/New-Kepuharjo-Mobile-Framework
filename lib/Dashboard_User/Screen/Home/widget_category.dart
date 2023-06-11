@@ -15,7 +15,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 700,
+      height: 800,
       padding: const EdgeInsets.only(top: 10),
       margin: const EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
@@ -30,6 +30,9 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
             WidgetPelayanan(),
             WidgetTextBerita(),
             WidgetBerita(),
+            SizedBox(
+              height: 70,
+            )
           ],
         ),
       )),

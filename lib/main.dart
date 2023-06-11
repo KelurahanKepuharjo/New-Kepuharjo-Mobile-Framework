@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/select.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Wellcome/onboarding.dart';
+import 'package:mobile_kepuharjo_new/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +15,8 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (_) => SelectedPage(), child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -62,33 +65,6 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: _isLoggedIn
-            ? FutureBuilder(
-                future: _getUserRole(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else {
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      var userRole = snapshot.data;
-                      if (userRole == '4') {
-                        // return HomePage();
-                        return DashboardUser();
-                      } else if (userRole == '2') {
-                        // return DashboardRT();
-                        return OnboardingScreen();
-                      } else if (userRole == '3') {
-                        // return DashboardRW();
-                        return OnboardingScreen();
-                      } else {
-                        return OnboardingScreen();
-                      }
-                    }
-                  }
-                },
-              )
-            : OnboardingScreen());
+        home: SplashScreen());
   }
 }

@@ -45,9 +45,8 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     nokk.text = widget.keluarga.noKk.toString();
     nik.text = widget.masyarakat.nik.toString();
     nama.text = widget.masyarakat.namaLengkap.toString();
-    ttl.text = widget.masyarakat.tempatLahir.toString() +
-        DateFormat('dd MMMM yyyy')
-            .format(DateTime.parse(widget.masyarakat.tglLahir.toString()));
+    ttl.text =
+        "${widget.masyarakat.tempatLahir}, ${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.masyarakat.tglLahir.toString()))}";
     goldarah.text = widget.masyarakat.golonganDarah.toString();
     jk.text = widget.masyarakat.jenisKelamin.toString();
     kewarganegaraan.text = widget.masyarakat.kewarganegaraan.toString();
@@ -93,7 +92,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
           backgroundColor: Colors.red,
           toastLength: Toast.LENGTH_LONG);
     } else {
-      showSuccessDialog(context, imageKK, imageBukti);
+      showSuccessDialog(context, imageKK!, imageBukti!);
     }
   }
 
@@ -166,9 +165,22 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
           msg: "Berhasil mengajukan surat", backgroundColor: Colors.green);
-    } else {
-      Fluttertoast.showToast(
-          msg: "Gagal mengajukan surat", backgroundColor: Colors.green);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DashboardUser(),
+          ));
+    } else if (response.statusCode == 400) {
+      var responseJson = await response.stream.bytesToString();
+      print(responseJson);
+      var responseData = json.decode(responseJson);
+      var errorMessage = responseData['message'];
+      if (errorMessage == "Surat sebelumnya belum selesai") {
+        Fluttertoast.showToast(msg: errorMessage, backgroundColor: Colors.red);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Gagal mengajukan surat", backgroundColor: Colors.red);
+      }
     }
   }
 
@@ -210,8 +222,8 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     });
   }
 
-  late File imageKK;
-  late File imageBukti;
+  File? imageKK;
+  File? imageBukti;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -350,16 +362,20 @@ class _PengajuansuratState extends State<Pengajuansurat> {
               keyboardType: TextInputType.name,
               inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
             ),
+            const SizedBox(
+              height: 20,
+            ),
             InkWell(
               onTap: () {
                 getImageGalerryKK();
               },
               child: Container(
+                padding: const EdgeInsets.all(15),
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1, color: lavender)),
+                    border: Border.all(width: 1, color: black)),
                 child: imageKK == null
                     ? Center(
                         child: Text(
@@ -367,21 +383,25 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                         style: MyFont.poppins(fontSize: 12, color: black),
                       ))
                     : Image.file(
-                        imageKK,
+                        imageKK!,
                         fit: BoxFit.contain,
                       ),
               ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             InkWell(
               onTap: () {
                 getImageGalerryBukti();
               },
               child: Container(
+                padding: const EdgeInsets.all(15),
                 height: 150,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1, color: lavender)),
+                    border: Border.all(width: 1, color: black)),
                 child: imageBukti == null
                     ? Center(
                         child: Text(
@@ -389,7 +409,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                         style: MyFont.poppins(fontSize: 12, color: black),
                       ))
                     : Image.file(
-                        imageBukti,
+                        imageBukti!,
                         fit: BoxFit.contain,
                       ),
               ),

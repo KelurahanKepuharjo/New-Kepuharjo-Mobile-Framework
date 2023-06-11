@@ -37,7 +37,8 @@ class ApiServices {
 
   //pengajuan rt
   Future<List<Pengajuan>> getPengajuanRt(String status) async {
-    Future<String> token = _getToken();
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
     final response = await http.post(Uri.parse(Api.status_surat_rt),
         body: {"status": status}, headers: {"Authorization": "Bearer $token"});
     if (response.statusCode == 200) {

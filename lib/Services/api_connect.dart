@@ -28,6 +28,9 @@ class Api {
 
   //rt
   static const status_surat_rt = "$connectHost/status-surat-rt";
+  static const update_status_setujui_rt =
+      "$connectHost/update_status_disetujuirt";
+  static const update_status_tolak_rt = "$connectHost/update_status_ditolakrt";
   static const rekap_rt = "$connectHost/rekap-rt";
 
   //rw

@@ -75,7 +75,8 @@ class _LayananState extends State<Layanan> {
                                         ));
                                   },
                                   leading: SizedBox(
-                                    height: 35,
+                                    height: 50,
+                                    width: 50,
                                     child: Image.network(
                                       Api.connectimage +
                                           data[index].image.toString(),

@@ -279,7 +279,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ? CircularProgressIndicator(
                               color: white,
                             )
-                          : Text('Daftar',
+                          : Text('Aktifkan akun',
                               style:
                                   MyFont.poppins(fontSize: 14, color: white)),
                     )),
@@ -294,7 +294,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: MyFont.poppins(fontSize: 11, color: grey),
                     ),
                     InkWell(
-                      child: Text("Login",
+                      child: Text("Masuk",
                           style: MyFont.poppins(fontSize: 12, color: blue)),
                       onTap: () {
                         Navigator.push(

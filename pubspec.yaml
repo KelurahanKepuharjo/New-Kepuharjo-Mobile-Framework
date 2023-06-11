@@ -39,6 +39,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   google_fonts: ^4.0.3
+  card_loading: ^0.3.0
   page_transition: ^2.0.9
   smooth_page_indicator: ^1.0.1
   path_provider:
@@ -50,9 +51,10 @@ dev_dependencies:
   flutter_flushbar: ^0.0.2
   fluttertoast: ^8.2.1
   permission_handler: ^10.2.0
-  fl_chart: ^0.62.0
+  # fl_chart: ^0.62.0
   awesome_dialog: ^3.0.2
   image_picker: ^0.8.6
+  flutter_spinkit: ^5.2.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

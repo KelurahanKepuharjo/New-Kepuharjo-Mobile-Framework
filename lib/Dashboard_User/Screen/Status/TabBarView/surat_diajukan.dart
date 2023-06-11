@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/detail_surat.dart';
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
@@ -91,11 +92,6 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
         if (snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
           List<Pengajuan>? data = snapshot.data;
-          if (_isVisible.length == 0) {
-            for (int i = 0; i < data!.length; i++) {
-              _isVisible.add(false);
-            }
-          }
           return Expanded(
             child: RefreshIndicator(
               color: lavender,
@@ -107,195 +103,166 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
                 scrollDirection: Axis.vertical,
                 itemCount: data!.length,
                 itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        _isVisible[index] = !_isVisible[index];
-                      });
-                    },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 1000),
-                      curve: Curves.fastOutSlowIn,
-                      height: _isVisible[index] ? 172 : 115,
-                      margin: const EdgeInsets.symmetric(vertical: 8),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                  return Container(
+                    height: 172,
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: white,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "S-Kepuharjo",
+                                    style: MyFont.poppins(
+                                        fontSize: 10,
+                                        color: black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    formatDate(
+                                      DateTime.parse(data[index].createdAt!),
+                                      [dd, ' ', MM, ' ', yyyy],
+                                    ),
+                                    style: MyFont.poppins(
+                                        fontSize: 10, color: softgrey),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                height: 30,
+                                width: 90,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.grey.withOpacity(0.2)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "S-Kepuharjo",
+                                      data[index].status.toString(),
                                       style: MyFont.poppins(
                                           fontSize: 10,
                                           color: black,
                                           fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      formatDate(
-                                        DateTime.parse(data[index].createdAt!),
-                                        [dd, ' ', MM, ' ', yyyy],
-                                      ),
-                                      style: MyFont.poppins(
-                                          fontSize: 10, color: softgrey),
-                                    ),
+                                    )
                                   ],
                                 ),
-                                Container(
-                                  height: 30,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.grey),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        data[index].status.toString(),
-                                        style: MyFont.poppins(
-                                            fontSize: 10,
-                                            color: black,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
+                              )
+                            ],
+                          ),
+                        ),
+                        Divider(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    child: Image.network(
+                                      Api.connectimage +
+                                          data[index].surat!.image.toString(),
+                                      height: 50,
+                                      width: 50,
+                                    ),
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Divider(),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      child: Image.network(
-                                        Api.connectimage +
-                                            data[index].surat!.image.toString(),
-                                        height: 50,
-                                        width: 50,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _isVisible[index] =
-                                              !_isVisible[index];
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: SizedBox(
-                                          height: 40,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                data[index]
-                                                    .masyarakat!
-                                                    .nik
-                                                    .toString(),
-                                                style: MyFont.poppins(
-                                                    fontSize: 12,
-                                                    color: black,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                data[index]
-                                                    .masyarakat!
-                                                    .namaLengkap
-                                                    .toString(),
-                                                style: MyFont.poppins(
-                                                  fontSize: 12,
-                                                  color: black,
-                                                ),
-                                              ),
-                                            ],
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: SizedBox(
+                                      height: 40,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            data[index]
+                                                .masyarakat!
+                                                .nik
+                                                .toString(),
+                                            style: MyFont.poppins(
+                                                fontSize: 12,
+                                                color: black,
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                        ),
+                                          Text(
+                                            data[index]
+                                                .masyarakat!
+                                                .namaLengkap
+                                                .toString(),
+                                            style: MyFont.poppins(
+                                              fontSize: 12,
+                                              color: black,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(
-                                    height: 40,
-                                    width: 40,
-                                    child: InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _isVisible[index] =
-                                              !_isVisible[index];
-                                        });
-                                      },
-                                      child: Icon(
-                                        _isVisible[index]
-                                            ? Icons.keyboard_arrow_down_rounded
-                                            : Icons
-                                                .keyboard_arrow_right_rounded,
-                                        color: lavender,
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          AnimatedSize(
-                            duration: const Duration(milliseconds: 1000),
-                            curve: Curves.fastOutSlowIn,
-                            vsync: this,
-                            child: Visibility(
-                              visible: _isVisible[index],
-                              child: Container(
-                                margin: EdgeInsets.all(8),
-                                height: _isVisible[index] ? 40 : 0,
-                                width: MediaQuery.of(context).size.width,
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: lavender,
-                                        shadowColor: Colors.transparent,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        )),
-                                    onPressed: () {
-                                      showSuccessDialog(
-                                          context,
-                                          data[index]
-                                              .masyarakat!
-                                              .nik
-                                              .toString(),
-                                          data[index].idSurat.toString());
-                                    },
-                                    child: Text('Batalkan Surat',
-                                        style: MyFont.poppins(
-                                            fontSize: 12, color: white))),
+                                  ),
+                                ],
                               ),
-                            ),
+                              SizedBox(
+                                  height: 40,
+                                  width: 40,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailSurat(
+                                                surat: data[index].surat!,
+                                                pengajuan: data[index],
+                                                masyarakat:
+                                                    data[index].masyarakat!),
+                                          ));
+                                    },
+                                    child: Icon(
+                                      Icons.info_outline,
+                                      color: lavender,
+                                    ),
+                                  )),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          margin: EdgeInsets.all(8),
+                          height: 40,
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: lavender,
+                                  shadowColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  )),
+                              onPressed: () {
+                                showSuccessDialog(
+                                    context,
+                                    data[index].masyarakat!.nik.toString(),
+                                    data[index].idSurat.toString());
+                              },
+                              child: Text('Batalkan Surat',
+                                  style: MyFont.poppins(
+                                      fontSize: 12, color: white))),
+                        ),
+                      ],
                     ),
                   );
                 },

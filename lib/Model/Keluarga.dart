@@ -2,12 +2,12 @@ import 'package:mobile_kepuharjo_new/Model/Masyarakat.dart';
 
 class Keluarga {
   String? id;
-  String? noKk;
+  int? noKk;
   String? namaKepalaKeluarga;
   String? alamat;
-  String? rt;
-  String? rw;
-  String? kodePos;
+  int? rt;
+  int? rw;
+  int? kodePos;
   String? kelurahan;
   String? kecamatan;
   String? kabupaten;

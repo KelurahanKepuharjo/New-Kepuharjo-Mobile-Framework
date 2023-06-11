@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_category.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/Settings.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
@@ -146,11 +147,11 @@ class _HomeState extends State<Home> {
                     if (value == 1) {
                       showSuccessDialog(context);
                     } else {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => Pengaturan(),
-                      //     ));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Pengaturan(),
+                          ));
                     }
                   }
                 });
@@ -163,27 +164,27 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      body: SafeArea(
+      body: SingleChildScrollView(
           child: Container(
         padding: const EdgeInsets.only(bottom: 0),
-        height: MediaQuery.of(context).size.height * 1.0,
+        height: MediaQuery.of(context).size.height * 0.9,
         child: Stack(
           children: [
             Container(),
             Container(
-              height: 160,
+              height: 200,
               width: MediaQuery.of(context).size.width,
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.3),
-                image: DecorationImage(
+                image: const DecorationImage(
                     image: AssetImage("images/kab.jpeg"), fit: BoxFit.cover),
               ),
               child: AnimatedContainer(
                 duration: Duration(seconds: 1),
                 color:
-                    select ? Colors.transparent : Colors.black.withOpacity(0.3),
-                padding: EdgeInsets.all(15),
+                    select ? Colors.transparent : Colors.black.withOpacity(0.5),
+                padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,7 +262,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             const Positioned(
-                top: 120,
+                top: 160,
                 bottom: 0,
                 right: 0,
                 left: 0,

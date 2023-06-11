@@ -4,6 +4,7 @@ import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
+import 'package:date_format/date_format.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 
 class SuratSelesaiUser extends StatefulWidget {
@@ -79,7 +80,10 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    data[index].createdAt.toString(),
+                                    formatDate(
+                                      DateTime.parse(data[index].createdAt!),
+                                      [dd, ' ', MM, ' ', yyyy],
+                                    ),
                                     style: MyFont.poppins(
                                         fontSize: 10, color: softgrey),
                                   ),

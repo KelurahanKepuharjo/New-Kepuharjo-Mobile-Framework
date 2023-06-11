@@ -59,6 +59,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
                 if (snapshot.hasData) {
                   List<Surat>? isiData = snapshot.data;
                   return GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: isiData!.length > 8 ? 8 : isiData.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
