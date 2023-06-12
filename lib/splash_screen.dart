@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/home_rt.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/home_rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
@@ -55,6 +56,9 @@ class _SplashScreenState extends State<SplashScreen> {
               } else if (userRole == '2') {
                 // targetScreen = DashboardRT();
                 targetScreen = DashboardRT();
+              } else if (userRole == '3') {
+                // targetScreen = DashboardRT();
+                targetScreen = DashboardRW();
               } else {
                 targetScreen = OnboardingScreen();
               }
@@ -97,9 +101,8 @@ class _SplashScreenState extends State<SplashScreen> {
             const SizedBox(
               height: 70,
             ),
-            SpinKitCircle(
-              color: lavender,
-              size: 35,
+            CircularProgressIndicator(
+              color: blue,
             )
           ],
         ),

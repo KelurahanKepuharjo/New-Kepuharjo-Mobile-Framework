@@ -2,22 +2,19 @@ import 'dart:convert';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/widget_card.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/widget_teks_dashboard.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/widget_card_Rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_berita.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_text_berita.dart';
-import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeRT extends StatefulWidget {
-  const HomeRT({super.key});
+class HomeRW extends StatefulWidget {
+  const HomeRW({super.key});
 
   @override
-  State<HomeRT> createState() => _HomeRTState();
+  State<HomeRW> createState() => _HomeRWState();
 }
 
-class _HomeRTState extends State<HomeRT> {
-
+class _HomeRWState extends State<HomeRW> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -32,11 +29,11 @@ class _HomeRTState extends State<HomeRT> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               WidgetTextDashboard(),
-              WidgetCard(),
+              WidgetCardRw(),
               WidgetTextBerita(),
               WidgetBerita(),
               SizedBox(
-                height: 30,
+                height: 30, 
               )
             ],
           ),

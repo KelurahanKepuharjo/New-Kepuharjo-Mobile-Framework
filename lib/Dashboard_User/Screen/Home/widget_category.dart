@@ -15,7 +15,6 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 800,
       padding: const EdgeInsets.only(top: 10),
       margin: const EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
@@ -24,6 +23,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       child: Expanded(
           child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [

@@ -4,8 +4,10 @@ import 'package:mobile_kepuharjo_new/Model/Surat.dart';
 class Pengajuan {
   int? id;
   String? nomorSurat;
+  String? noPengantar;
   String? status;
   String? keterangan;
+  String? keteranganDitolak;
   String? createdAt;
   String? updatedAt;
   String? filePdf;
@@ -20,8 +22,10 @@ class Pengajuan {
   Pengajuan(
       {this.id,
       this.nomorSurat,
+      this.noPengantar,
       this.status,
       this.keterangan,
+      this.keteranganDitolak,
       this.createdAt,
       this.updatedAt,
       this.filePdf,
@@ -36,8 +40,10 @@ class Pengajuan {
   Pengajuan.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nomorSurat = json['nomor_surat'];
+    noPengantar = json['no_pengantar'];
     status = json['status'];
     keterangan = json['keterangan'];
+    keteranganDitolak = json['keterangan_ditolak'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     filePdf = json['file_pdf'];

@@ -12,15 +12,13 @@ class Api {
   static const berita = "$connectHost/berita";
   static const surat = "$connectHost/surat";
 
-  static const suratmasuk = "$connectHost/suratmasuk";
-  static const rekap = "$connectHost/rekap";
   static const keluarga = "$connectHost/keluarga";
-  static const disetujui = "$connectHost/disetujui";
+
   static const pengajuan = "$connectHost/pengajuan";
 
   //status
-  static const status = "$connectHost/statusdiajukan";
-  static const diproses = "$connectHost/statusproses";
+  static const status = "$connectHost/status-surat";
+  static const diproses = "$connectHost/status-proses";
   static const pembatalan = "$connectHost/pembatalan";
 
   //editnohp
@@ -28,12 +26,12 @@ class Api {
 
   //rt
   static const status_surat_rt = "$connectHost/status-surat-rt";
-  static const update_status_setujui_rt =
-      "$connectHost/update_status_disetujuirt";
-  static const update_status_tolak_rt = "$connectHost/update_status_ditolakrt";
+  static const status_setuju_rt = "$connectHost/update-status-setuju-rt";
+  static const status_tolak_rt = "$connectHost/update-status-tolak-rt";
   static const rekap_rt = "$connectHost/rekap-rt";
 
   //rw
   static const status_surat_rw = "$connectHost/status-surat-rw";
   static const rekap_rw = "$connectHost/rekap-rw";
+  static const status_setuju_rw = "$connectHost/update-status-setuju-rw";
 }

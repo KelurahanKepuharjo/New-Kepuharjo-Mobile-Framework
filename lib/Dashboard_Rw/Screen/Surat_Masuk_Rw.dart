@@ -12,14 +12,14 @@ import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 
-class SuratMasuk extends StatefulWidget {
-  const SuratMasuk({super.key});
+class SuratMasukRw extends StatefulWidget {
+  const SuratMasukRw({super.key});
 
   @override
-  State<SuratMasuk> createState() => _SuratMasukState();
+  State<SuratMasukRw> createState() => _SuratMasukRwState();
 }
 
-class _SuratMasukState extends State<SuratMasuk> {
+class _SuratMasukRwState extends State<SuratMasukRw> {
   List<Pengajuan> pengajuan = [];
   @override
   void initState() {
@@ -30,18 +30,17 @@ class _SuratMasukState extends State<SuratMasuk> {
 
   Future<void> _getSuratMasuk() async {
     final api = ApiServices();
-    final surat = await api.getPengajuanRt("Diajukan");
+    final surat = await api.getPengajuanRw("Disetujui RT");
     setState(() {
       pengajuan = surat;
     });
   }
 
-  Future status_setuju(String id, String nopengantar) async {
+  Future status_setuju(String id) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
-      var res = await http.post(Uri.parse("${Api.status_setuju_rt}/$id"),
-          body: {"no_pengantar": nopengantar},
+      var res = await http.post(Uri.parse("${Api.status_setuju_rw}/$id"),
           headers: {"Authorization": "Bearer $token"});
       final data = jsonDecode(res.body);
       if (res.statusCode == 200) {
@@ -49,10 +48,6 @@ class _SuratMasukState extends State<SuratMasuk> {
           Fluttertoast.showToast(
               msg: "Status pengajuan berhasil disetujui",
               backgroundColor: Colors.green);
-          setState(() {
-            noPengantar.clear();
-            ketDitolak.clear();
-          });
         }
       } else {
         Fluttertoast.showToast(
@@ -62,36 +57,6 @@ class _SuratMasukState extends State<SuratMasuk> {
       print(e.toString());
     }
   }
-
-  Future status_tolak(String id, String keteranganTolak) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token');
-      var res = await http.post(Uri.parse("${Api.status_tolak_rt}/$id"),
-          body: {"keterangan_ditolak": keteranganTolak},
-          headers: {"Authorization": "Bearer $token"});
-      final data = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        if (data['message'] == "Status surat updated successfully") {
-          Fluttertoast.showToast(
-              msg: "Status pengajuan berhasil ditolak",
-              backgroundColor: Colors.red);
-          setState(() {
-            noPengantar.clear();
-            ketDitolak.clear();
-          });
-        }
-      } else {
-        Fluttertoast.showToast(
-            msg: data['message'], backgroundColor: Colors.red);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  TextEditingController ketDitolak = TextEditingController();
-  TextEditingController noPengantar = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -242,8 +207,10 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                       child: Column(
                                                         children: [
                                                           GetTextFieldUser(
-                                                            controller:
-                                                                noPengantar,
+                                                            controller: TextEditingController(
+                                                                text: pengajuan[
+                                                                        index]
+                                                                    .noPengantar),
                                                             label:
                                                                 "No. Pengantar",
                                                             isEnable: true,
@@ -426,22 +393,6 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                             icon: Icons
                                                                 .people_rounded,
                                                           ),
-                                                          GetTextFieldUser(
-                                                            controller:
-                                                                ketDitolak,
-                                                            label:
-                                                                "Keterangan Ditolak",
-                                                            isEnable: true,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .singleLineFormatter,
-                                                            length: 255,
-                                                            icon: Icons
-                                                                .highlight_off_rounded,
-                                                          ),
                                                           const SizedBox(
                                                             height: 10,
                                                           ),
@@ -600,6 +551,7 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
                                                             children: [
+                                                              Spacer(),
                                                               SizedBox(
                                                                 height: 40,
                                                                 width: 80,
@@ -614,20 +566,14 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                                     onPressed: () {
                                                                       setState(
                                                                           () {
-                                                                        if (noPengantar
-                                                                            .text
-                                                                            .isEmpty) {
-                                                                          Fluttertoast.showToast(
-                                                                              msg: "Silahkan Isi No. Pengantar",
-                                                                              backgroundColor: Colors.green);
-                                                                        } else {
-                                                                          status_setuju(
-                                                                              pengajuan[index].id.toString(),
-                                                                              noPengantar.text);
-                                                                          _getSuratMasuk();
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        }
+                                                                        status_setuju(
+                                                                          pengajuan[index]
+                                                                              .id
+                                                                              .toString(),
+                                                                        );
+                                                                        _getSuratMasuk();
+                                                                        Navigator.pop(
+                                                                            context);
                                                                       });
                                                                     },
                                                                     child: Text(
@@ -639,45 +585,6 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                                               white),
                                                                     )),
                                                               ),
-                                                              SizedBox(
-                                                                height: 40,
-                                                                width: 80,
-                                                                child: ElevatedButton(
-                                                                    style: ElevatedButton.styleFrom(
-                                                                        backgroundColor: Colors.red,
-                                                                        shadowColor: Colors.transparent,
-                                                                        shape: RoundedRectangleBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(10),
-                                                                        )),
-                                                                    onPressed: () {
-                                                                      setState(
-                                                                          () {
-                                                                        if (ketDitolak
-                                                                            .text
-                                                                            .isEmpty) {
-                                                                          Fluttertoast.showToast(
-                                                                              msg: "Silahkan Isi Keterangan Ditolak",
-                                                                              backgroundColor: Colors.green);
-                                                                        } else {
-                                                                          _getSuratMasuk();
-                                                                          status_tolak(
-                                                                              pengajuan[index].id.toString(),
-                                                                              ketDitolak.text);
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        }
-                                                                      });
-                                                                    },
-                                                                    child: Text(
-                                                                      "Tolak",
-                                                                      style: MyFont.poppins(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color:
-                                                                              white),
-                                                                    )),
-                                                              )
                                                             ],
                                                           )
                                                         ],

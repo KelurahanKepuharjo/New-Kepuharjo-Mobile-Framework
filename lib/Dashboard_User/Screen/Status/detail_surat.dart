@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Model/Masyarakat.dart';
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
@@ -7,6 +10,11 @@ import 'package:mobile_kepuharjo_new/Resource/MyTextField_Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:intl/intl.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:mobile_kepuharjo_new/Services/api_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 
 class DetailSurat extends StatefulWidget {
@@ -26,6 +34,63 @@ class DetailSurat extends StatefulWidget {
 }
 
 class _DetailSuratState extends State<DetailSurat> {
+  showSuccessDialog(BuildContext context, String id) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.WARNING,
+      title: 'Warning!',
+      titleTextStyle: MyFont.poppins(
+          fontSize: 25, color: lavender, fontWeight: FontWeight.bold),
+      desc: 'Apakah anda yakin, untuk membatalkan surat?',
+      descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
+      btnOkOnPress: () {
+        pembatalan(id);
+      },
+      btnCancelOnPress: () {
+        Navigator.pop(context);
+      },
+      btnCancelIcon: Icons.highlight_off_rounded,
+      btnOkIcon: Icons.task_alt_rounded,
+    ).show();
+  }
+
+  ApiServices apiServices = ApiServices();
+  late Future<List<Pengajuan>> listdata;
+
+  Future pembatalan(String id) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+      var res = await http.post(Uri.parse("${Api.pembatalan}/$id"),
+          headers: {"Authorization": "Bearer $token"});
+      final data = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        if (data['message'] == "Surat berhasil dibatalkan") {
+          Fluttertoast.showToast(
+              msg: "Berhasil membatalkan surat",
+              backgroundColor: Colors.green,
+              toastLength: Toast.LENGTH_LONG);
+          setState(() {
+            listdata = apiServices.getStatus("Diajukan");
+          });
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DashboardUser(),
+              ));
+        } else {
+          Fluttertoast.showToast(
+              msg: "Gagal membatalkan surat",
+              backgroundColor: Colors.red,
+              toastLength: Toast.LENGTH_LONG);
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -45,6 +110,9 @@ class _DetailSuratState extends State<DetailSurat> {
     rt.text = widget.masyarakat.kks!.rt.toString();
     rw.text = widget.masyarakat.kks!.rw.toString();
     keperluan.text = widget.pengajuan.keterangan.toString();
+    imagekk.text = widget.pengajuan.imageKk.toString();
+    imageBukti.text = widget.pengajuan.imageBukti.toString();
+    listdata = apiServices.getStatus("Diajukan");
   }
 
   final nokk = TextEditingController();
@@ -62,6 +130,8 @@ class _DetailSuratState extends State<DetailSurat> {
   final rt = TextEditingController();
   final rw = TextEditingController();
   final keperluan = TextEditingController();
+  final imagekk = TextEditingController();
+  final imageBukti = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,63 +260,78 @@ class _DetailSuratState extends State<DetailSurat> {
               keyboardType: TextInputType.name,
               inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "  Gambar foto Kartu Keluarga",
-                        style: MyFont.poppins(fontSize: 12, color: black),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    height: 150,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(Api.connectimage +
-                                widget.pengajuan.imageKk!.trim()),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ],
+            InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Image.network(
+                        Api.connectimage + widget.pengajuan.imageKk!.trim(),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: GetTextFieldPengajuan(
+                controller: imagekk,
+                label: "Foto Kartu Keluarga",
+                keyboardType: TextInputType.name,
+                inputFormatters:
+                    FilteringTextInputFormatter.singleLineFormatter,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "  Gambar foto Kartu Keluarga",
-                        style: MyFont.poppins(fontSize: 12, color: black),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    height: 150,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(Api.connectimage +
-                                widget.pengajuan.imageBukti!.trim()),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(10)),
-                  ),
-                ],
+            InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Image.network(
+                        Api.connectimage + widget.pengajuan.imageBukti!.trim(),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: GetTextFieldPengajuan(
+                controller: imageBukti,
+                label: "Foto Bukti",
+                keyboardType: TextInputType.name,
+                inputFormatters:
+                    FilteringTextInputFormatter.singleLineFormatter,
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 0,
+        color: white,
+        child: Container(
+          padding: EdgeInsets.all(5),
+          height: 70,
+          color: white,
+          child: Container(
+            margin: EdgeInsets.all(8),
+            height: 40,
+            width: MediaQuery.of(context).size.width,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: lavender,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+              onPressed: () {
+                showSuccessDialog(context, widget.pengajuan.id.toString());
+              },
+              child: Text(
+                'Batalkan Surat',
+                style: MyFont.poppins(fontSize: 12, color: white),
+              ),
+            ),
+          ),
         ),
       ),
     );

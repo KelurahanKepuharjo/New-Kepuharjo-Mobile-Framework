@@ -20,6 +20,7 @@ class _StatusState extends State<Status> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
+          backgroundColor: backgroundGrey,
           appBar: AppBar(
             backgroundColor: lavender,
             shadowColor: Colors.transparent,

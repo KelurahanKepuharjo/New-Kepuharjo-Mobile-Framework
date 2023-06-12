@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'select.dart';
+// import 'select.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/select.dart';
 
 import '../custom_navigation_drawer.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,7 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
                   return const Divider(height: 12.0);
                 },
                 itemBuilder: (context, index) {
-                  final NavigationModel item = navigationItems[index];
+                  final NavigationModelRw item = navigationItems[index];
                   return Container(
                       margin: const EdgeInsets.symmetric(horizontal: 12.0),
                       decoration: BoxDecoration(

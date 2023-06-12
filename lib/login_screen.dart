@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/home_rt.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/home_rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
 import 'package:mobile_kepuharjo_new/Resource/MyTextField.dart';
@@ -94,13 +95,13 @@ class _LoginPageState extends State<LoginPage> {
           } else if (role == "3") {
             // Jika role == 3, push ke DashboardRw
             // ignore: use_build_context_synchronously
-            // Navigator.pushAndRemoveUntil(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => const DashboardRW(),
-            //   ),
-            //   (Route<dynamic> route) => false,
-            // );
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const DashboardRW(),
+              ),
+              (Route<dynamic> route) => false,
+            );
           }
         }
       } else {

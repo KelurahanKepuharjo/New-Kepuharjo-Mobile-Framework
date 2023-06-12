@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_berita.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_category.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_pelayanan.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_text_berita.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/Settings.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
@@ -165,110 +168,100 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: SingleChildScrollView(
-          child: Container(
-        padding: const EdgeInsets.only(bottom: 0),
-        height: MediaQuery.of(context).size.height * 0.9,
-        child: Stack(
-          children: [
-            Container(),
-            Container(
-              height: 200,
+          child: Column(
+        children: [
+          Container(
+            height: 180,
+            width: MediaQuery.of(context).size.width,
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.3),
+              image: const DecorationImage(
+                  image: AssetImage("images/kab.jpeg"), fit: BoxFit.cover),
+            ),
+            child: AnimatedContainer(
+              duration: Duration(seconds: 1),
+              color:
+                  select ? Colors.transparent : Colors.black.withOpacity(0.5),
+              padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
               width: MediaQuery.of(context).size.width,
-              alignment: Alignment.centerLeft,
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-                image: const DecorationImage(
-                    image: AssetImage("images/kab.jpeg"), fit: BoxFit.cover),
-              ),
-              child: AnimatedContainer(
-                duration: Duration(seconds: 1),
-                color:
-                    select ? Colors.transparent : Colors.black.withOpacity(0.5),
-                padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    select
-                        ? AnimatedDefaultTextStyle(
-                            style: MyFont.inter(fontSize: 18, color: white),
-                            duration: Duration(seconds: 2),
-                            child: Text(""))
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 10, left: 8),
-                            child: AnimatedDefaultTextStyle(
-                                curve: Curves.slowMiddle,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  select
+                      ? AnimatedDefaultTextStyle(
+                          style: MyFont.inter(fontSize: 18, color: white),
+                          duration: Duration(seconds: 2),
+                          child: Text(""))
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 10, left: 8),
+                          child: AnimatedDefaultTextStyle(
+                              curve: Curves.slowMiddle,
+                              style: MyFont.poppins(
+                                  fontSize: 18,
+                                  color: white,
+                                  fontWeight: FontWeight.bold),
+                              duration: Duration(seconds: 2),
+                              child: Text(
+                                "Profil Kelurahan",
                                 style: MyFont.poppins(
                                     fontSize: 18,
                                     color: white,
                                     fontWeight: FontWeight.bold),
-                                duration: Duration(seconds: 2),
-                                child: Text(
-                                  "Profil Kelurahan",
-                                  style: MyFont.poppins(
-                                      fontSize: 18,
-                                      color: white,
-                                      fontWeight: FontWeight.bold),
+                              )),
+                        ),
+                  select
+                      ? AnimatedDefaultTextStyle(
+                          style: MyFont.inter(fontSize: 18, color: white),
+                          duration: Duration(seconds: 2),
+                          child: Text(""))
+                      : Padding(
+                          padding: const EdgeInsets.only(left: 8.0, bottom: 10),
+                          child: AnimatedDefaultTextStyle(
+                            curve: Curves.slowMiddle,
+                            style: MyFont.poppins(
+                              fontSize: 11,
+                              color: white,
+                            ),
+                            duration: Duration(seconds: 2),
+                            child: Text(
+                              "Kel. Kepuharjo, Kec. Lumajang, Kab. Lumajang",
+                              style: MyFont.poppins(fontSize: 11, color: white),
+                            ),
+                          ),
+                        ),
+                  select
+                      ? AnimatedDefaultTextStyle(
+                          style: MyFont.inter(fontSize: 18, color: white),
+                          duration: Duration(seconds: 2),
+                          child: Text(""))
+                      : Container(
+                          margin: EdgeInsets.only(left: 8),
+                          height: 35,
+                          width: 80,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: lavender.withOpacity(0.9),
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
                                 )),
-                          ),
-                    select
-                        ? AnimatedDefaultTextStyle(
-                            style: MyFont.inter(fontSize: 18, color: white),
-                            duration: Duration(seconds: 2),
-                            child: Text(""))
-                        : Padding(
-                            padding:
-                                const EdgeInsets.only(left: 8.0, bottom: 10),
-                            child: AnimatedDefaultTextStyle(
-                              curve: Curves.slowMiddle,
-                              style: MyFont.poppins(
-                                fontSize: 11,
-                                color: white,
-                              ),
-                              duration: Duration(seconds: 2),
-                              child: Text(
-                                "Kel. Kepuharjo, Kec. Lumajang, Kab. Lumajang",
+                            onPressed: () async {
+                              // isLoading ? null : verifyLogin();
+                            },
+                            child: Text('Profil',
                                 style:
-                                    MyFont.poppins(fontSize: 11, color: white),
-                              ),
-                            ),
+                                    MyFont.poppins(fontSize: 11, color: white)),
                           ),
-                    select
-                        ? AnimatedDefaultTextStyle(
-                            style: MyFont.inter(fontSize: 18, color: white),
-                            duration: Duration(seconds: 2),
-                            child: Text(""))
-                        : Container(
-                            margin: EdgeInsets.only(left: 8),
-                            height: 35,
-                            width: 80,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: lavender.withOpacity(0.9),
-                                  shadowColor: Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  )),
-                              onPressed: () async {
-                                // isLoading ? null : verifyLogin();
-                              },
-                              child: Text('Profil',
-                                  style: MyFont.poppins(
-                                      fontSize: 11, color: white)),
-                            ),
-                          )
-                  ],
-                ),
+                        )
+                ],
               ),
             ),
-            const Positioned(
-                top: 160,
-                bottom: 0,
-                right: 0,
-                left: 0,
-                child: CategoriesWidget()),
-          ],
-        ),
+          ),
+          WidgetPelayanan(),
+          WidgetTextBerita(),
+          WidgetBerita(),
+        ],
       )),
     );
   }

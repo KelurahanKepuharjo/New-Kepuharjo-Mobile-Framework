@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/navigation_drawer.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/Drawer/navigation_drawer.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/select.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Dashboard_Rt.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Rekap_Pengajuan.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Surat_Ditolak.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Surat_Masuk.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Surat_Selesai.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
-import 'package:mobile_kepuharjo_new/Model/User.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Dashboard_Rw.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Rekap_Pengajuan_Rw.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Surat_Masuk_Rw.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Surat_Selesai_Rw.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:provider/provider.dart';
 
-class DashboardRT extends StatefulWidget {
-  const DashboardRT({super.key});
+class DashboardRW extends StatefulWidget {
+  const DashboardRW({super.key});
 
   @override
-  State<DashboardRT> createState() => _DashboardRTState();
+  State<DashboardRW> createState() => _DashboardRWState();
 }
 
-class _DashboardRTState extends State<DashboardRT> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+class _DashboardRWState extends State<DashboardRW> {
+  final GlobalKey<ScaffoldState> _scaffoldKeyRw = GlobalKey<ScaffoldState>();
 
   void _openDrawer() {
-    _scaffoldKey.currentState?.openDrawer();
+    _scaffoldKeyRw.currentState?.openDrawer();
   }
 
   @override
@@ -36,19 +34,17 @@ class _DashboardRTState extends State<DashboardRT> {
   Widget getPage(int index) {
     switch (index) {
       case 0:
-        return HomeRT();
+        return HomeRW();
       case 1:
-        return SuratMasuk();
+        return SuratMasukRw();
       case 2:
-        return SuratDitolak();
+        return SuratSelesaiRw();
       case 3:
-        return SuratSelesai();
+        return RekapPengajuanRw();
       case 4:
-        return RekapPengajuan();
-      case 5:
         return Tentang();
       default:
-        return HomeRT();
+        return HomeRW();
     }
   }
 
@@ -64,7 +60,7 @@ class _DashboardRTState extends State<DashboardRT> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
+        key: _scaffoldKeyRw,
         backgroundColor: white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
