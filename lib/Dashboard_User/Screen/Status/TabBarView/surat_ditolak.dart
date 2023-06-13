@@ -4,7 +4,8 @@ import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
-import 'package:date_format/date_format.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 
 class SuratDitolakUser extends StatefulWidget {
@@ -44,6 +45,13 @@ class _SuratDitolakUserState extends State<SuratDitolakUser> {
                 scrollDirection: Axis.vertical,
                 itemCount: data!.length,
                 itemBuilder: (context, index) {
+                  String dateTime = data[index].createdAt.toString();
+                  final date = DateTime.parse(dateTime);
+                  initializeDateFormatting('id_ID', null);
+                  final dateFormat = DateFormat('dd MMMM yyyy', 'id_ID');
+                  final timeFormat = DateFormat('HH:mm');
+                  final formattedDate = dateFormat.format(date);
+                  final formattedTime = timeFormat.format(date);
                   return Container(
                     height: 115,
                     margin: const EdgeInsets.symmetric(vertical: 8),
@@ -71,10 +79,7 @@ class _SuratDitolakUserState extends State<SuratDitolakUser> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    formatDate(
-                                      DateTime.parse(data[index].createdAt!),
-                                      [dd, ' ', MM, ' ', yyyy],
-                                    ),
+                                    "$formattedDate  $formattedTime",
                                     style: MyFont.poppins(
                                         fontSize: 10, color: softgrey),
                                   ),
