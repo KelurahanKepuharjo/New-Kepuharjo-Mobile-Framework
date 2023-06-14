@@ -27,15 +27,19 @@ class _LayananState extends State<Layanan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: white,
         appBar: AppBar(
-          backgroundColor: lavender,
+          backgroundColor: white,
           shadowColor: Colors.transparent,
-          centerTitle: true,
+          // centerTitle: true,
           automaticallyImplyLeading: false,
-          title: Text(
-            "Jenis Surat",
-            style: MyFont.poppins(
-                fontSize: 16, color: white, fontWeight: FontWeight.bold),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              "Jenis Surat",
+              style: MyFont.poppins(
+                  fontSize: 14, color: black, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
         body: SingleChildScrollView(
@@ -96,7 +100,7 @@ class _LayananState extends State<Layanan> {
                                   ),
                                   trailing: Icon(
                                     Icons.keyboard_arrow_right_rounded,
-                                    color: blue,
+                                    color: black,
                                   ),
                                 )
                               ],

@@ -267,7 +267,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: blue,
+                          backgroundColor: lavender,
                           shadowColor: Colors.transparent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -295,7 +295,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     InkWell(
                       child: Text("Masuk",
-                          style: MyFont.poppins(fontSize: 12, color: blue)),
+                          style: MyFont.poppins(
+                              fontSize: 12,
+                              color: lavender,
+                              fontWeight: FontWeight.bold)),
                       onTap: () {
                         Navigator.push(
                             context,

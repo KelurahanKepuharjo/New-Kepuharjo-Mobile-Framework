@@ -287,7 +287,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: blue,
+                          backgroundColor: lavender,
                           shadowColor: Colors.transparent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -315,7 +315,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     InkWell(
                       child: Text("Aktifasi Akun",
-                          style: MyFont.poppins(fontSize: 12, color: blue)),
+                          style: MyFont.poppins(
+                              fontSize: 12,
+                              color: lavender,
+                              fontWeight: FontWeight.bold)),
                       onTap: () {
                         Navigator.push(
                             context,

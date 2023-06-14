@@ -20,46 +20,46 @@ class _StatusState extends State<Status> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-          backgroundColor: backgroundGrey,
+          backgroundColor: white,
           appBar: AppBar(
-            backgroundColor: lavender,
+            backgroundColor: white,
             shadowColor: Colors.transparent,
-            centerTitle: true,
+            // centerTitle: true,
             automaticallyImplyLeading: false,
-            title: Text(
-              "Status Surat",
-              style: MyFont.poppins(
-                  fontSize: 16, color: white, fontWeight: FontWeight.bold),
+            title: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                "Status Surat",
+                style: MyFont.poppins(
+                    fontSize: 14, color: black, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           body: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Column(
               children: [
-                Container(
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey.shade300,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(3),
-                    child: TabBar(
-                        unselectedLabelColor: Colors.black,
-                        labelColor: Colors.white,
-                        labelStyle: MyFont.poppins(fontSize: 12, color: black),
-                        isScrollable: true,
-                        indicator: BoxDecoration(
-                          color: lavender,
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        tabs: const [
-                          Tab(text: "Surat Diajukan"),
-                          Tab(text: "Surat Diporoses"),
-                          Tab(text: "Surat Selesai"),
-                          Tab(text: "Surat Ditolak"),
-                        ]),
-                  ),
+                Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: TabBar(
+                      unselectedLabelColor: grey,
+                      labelColor: lavender,
+                      labelStyle: MyFont.poppins(
+                          fontSize: 12,
+                          color: black,
+                          fontWeight: FontWeight.bold),
+                      isScrollable: true,
+                      indicatorColor: lavender,
+                      // indicator: BoxDecoration(
+                      //   color: lavender,
+                      //   borderRadius: BorderRadius.circular(7),
+                      // ),
+                      tabs: const [
+                        Tab(text: "Surat Diajukan"),
+                        Tab(text: "Surat Diporoses"),
+                        Tab(text: "Surat Selesai"),
+                        Tab(text: "Surat Ditolak"),
+                      ]),
                 ),
                 Expanded(
                     child: TabBarView(children: [

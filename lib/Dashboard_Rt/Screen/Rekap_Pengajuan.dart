@@ -447,7 +447,7 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
                                                                     child:
                                                                         Container(
                                                                       padding:
-                                                                          EdgeInsets.all(
+                                                                          const EdgeInsets.all(
                                                                               8),
                                                                       decoration:
                                                                           BoxDecoration(

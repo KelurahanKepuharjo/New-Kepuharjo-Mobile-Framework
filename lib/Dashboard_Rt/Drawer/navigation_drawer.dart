@@ -41,7 +41,7 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
     prefs = await SharedPreferences.getInstance();
     setState(() {
       currentSelectedIndex = prefs.getInt('selectedIndex') ?? 0;
-    });
+    }); 
   }
 
   void saveSharedPreferences(int index) async {

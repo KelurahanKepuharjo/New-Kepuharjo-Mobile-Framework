@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/home.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/home_user.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Pengajuan/daftar_pelayanan.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/Settings.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/Status.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
@@ -28,9 +30,10 @@ class _DashboardUserState extends State<DashboardUser> {
 
   int index = 0;
   List<Widget> screen = <Widget>[
-    const Home(),
+    const HomeUser(),
     const Layanan(),
     const Status(),
+    const Pengaturan(),
   ];
 
   List navbutton = [
@@ -48,6 +51,11 @@ class _DashboardUserState extends State<DashboardUser> {
       "active_icon": Icons.restore,
       "non_active_icon": Icons.restore,
       "label": "Status"
+    },
+    {
+      "active_icon": Icons.person,
+      "non_active_icon": Icons.person_outline,
+      "label": "Profil"
     },
   ];
   void onTap(value) {
@@ -79,7 +87,7 @@ class _DashboardUserState extends State<DashboardUser> {
           onTap: onTap,
           elevation: 0,
           backgroundColor: Colors.transparent,
-          items: List.generate(3, (index) {
+          items: List.generate(4, (index) {
             var navBtn = navbutton[index];
             return BottomNavigationBarItem(
                 icon: Icon(navBtn["non_active_icon"]),
