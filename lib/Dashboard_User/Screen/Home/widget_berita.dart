@@ -32,7 +32,7 @@ class _WidgetBeritaState extends State<WidgetBerita> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
       width: MediaQuery.of(context).size.width,
       // padding: const EdgeInsets.only(left: 8.0),
       child: FutureBuilder<List<Berita>>(
