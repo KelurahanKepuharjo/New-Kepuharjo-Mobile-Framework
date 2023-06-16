@@ -8,9 +8,22 @@ import 'package:mobile_kepuharjo_new/Wellcome/onboarding.dart';
 import 'package:mobile_kepuharjo_new/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+Future<void> _backgroundMessageHandler(RemoteMessage message) async {
+  // Notifikasi diterima saat aplikasi ditutup (terminated)
+  print(
+      "Notifikasi diterima saat aplikasi ditutup (terminated): ${message.notification?.title}");
+  print(
+      "Notifikasi diterima saat aplikasi ditutup (terminated): ${message.notification?.body}");
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
+  // FirebaseMessaging.instance.subscribeToTopic('all');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -50,10 +63,53 @@ class _MyAppState extends State<MyApp> {
     return userJson.toString();
   }
 
+  void configureFirebaseMessaging() {
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (message != null) {
+        // Notifikasi diterima saat aplikasi dibuka dari background (terminated)
+        print(
+            "Notifikasi diterima saat aplikasi dibuka dari background (terminated): ${message.notification?.title}");
+        print(
+            "Notifikasi diterima saat aplikasi dibuka dari background (terminated): ${message.notification?.body}");
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // Notifikasi diterima saat aplikasi berjalan di foreground
+      print(
+          "Notifikasi diterima saat aplikasi berjalan di foreground: ${message.notification?.title}");
+      print(
+          "Notifikasi diterima saat aplikasi berjalan di foreground: ${message.notification?.body}");
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // Notifikasi diterima saat aplikasi dibuka dari background (background running)
+      print(
+          "Notifikasi diterima saat aplikasi dibuka dari background (background running): ${message.notification?.title}");
+      print(
+          "Notifikasi diterima saat aplikasi dibuka dari background (background running): ${message.notification?.body}");
+    });
+
+    FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
+  }
+
+  Future<void> _backgroundMessageHandler(RemoteMessage message) async {
+    // Notifikasi diterima saat aplikasi ditutup (terminated)
+    print(
+        "Notifikasi diterima saat aplikasi ditutup (terminated): ${message.notification?.title}");
+    print(
+        "Notifikasi diterima saat aplikasi ditutup (terminated): ${message.notification?.body}");
+  }
+
   @override
   void initState() {
     _checkIfLoggedIn();
     super.initState();
+    configureFirebaseMessaging();
+    FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
+    // FirebaseMessaging.instance.subscribeToTopic('all');
   }
 
   @override

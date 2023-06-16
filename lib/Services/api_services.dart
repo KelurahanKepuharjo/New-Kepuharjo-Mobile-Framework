@@ -9,6 +9,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServices {
+  Future<void> sendFcmToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    final authtoken = prefs.getString('token');
+    try {
+      final response = await http.post(
+        Uri.parse(Api.fcm_token),
+        body: {'fcm_token': token},
+        headers: {"Authorization": "Bearer $authtoken"},
+      );
+
+      if (response.statusCode == 200) {
+        print('Token perangkat berhasil disimpan di server.');
+      } else {
+        print('Gagal menyimpan token perangkat di server.');
+      }
+    } catch (e) {
+      print('Terjadi kesalahan: $e');
+    }
+  }
+
   Future<List<Berita>> getBerita() async {
     final response = await http.get(Uri.parse(Api.berita));
     if (response.statusCode == 200) {

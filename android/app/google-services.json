@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "681998080091",
+    "project_id": "kelurahan-kepuharjo",
+    "storage_bucket": "kelurahan-kepuharjo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681998080091:android:c998517c1999077d51877e",
+        "android_client_info": {
+          "package_name": "com.example.mobile_kepuharjo_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681998080091-fqo97djug1m7ufn7ubjffae32hdj8mn7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADImLoUuWsRvlTBLZAZK5FCWHJy69x58w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681998080091-fqo97djug1m7ufn7ubjffae32hdj8mn7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

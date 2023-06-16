@@ -64,216 +64,271 @@ class _PengaturanState extends State<Pengaturan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: backgroundGrey,
       appBar: AppBar(
         backgroundColor: white,
         shadowColor: Colors.transparent,
-        automaticallyImplyLeading: false,
         title: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
+          padding: const EdgeInsets.only(left: 12.0),
           child: Text(
-            "Pengaturan",
+            "Profil",
             style: MyFont.poppins(
-                fontSize: 14, color: black, fontWeight: FontWeight.bold),
+                fontSize: 20, color: black, fontWeight: FontWeight.bold),
           ),
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(15),
+        // padding: EdgeInsets.all(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.all(10),
-              // padding: const EdgeInsets.all(20),
-              height: 75,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(width: 1, color: lavender)),
-
+              padding: EdgeInsets.all(8),
+              color: white,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ListTile(
-                    leading: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          color: lavender,
-                          borderRadius: BorderRadius.circular(100)),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            user?.masyarakat?.namaLengkap!
-                                    .substring(0, 2)
-                                    .toUpperCase() ??
-                                "",
-                            style: MyFont.montserrat(
-                                fontSize: 16,
-                                color: white,
-                                fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    height: 65,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(width: 1, color: softgrey)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              color: lavender,
+                              borderRadius: BorderRadius.circular(100)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                user?.masyarakat?.namaLengkap!
+                                        .substring(0, 2)
+                                        .toUpperCase() ??
+                                    "",
+                                style: MyFont.montserrat(
+                                    fontSize: 16,
+                                    color: white,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user?.masyarakat?.namaLengkap ?? "",
+                              style: MyFont.poppins(
+                                  fontSize: 14,
+                                  color: black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              user?.masyarakat?.nik.toString() ?? "",
+                              style: MyFont.poppins(
+                                  fontSize: 12,
+                                  color: black,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    title: Text(
-                      user?.masyarakat?.namaLengkap ?? "",
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, top: 5),
+                    child: Text(
+                      "Akun",
+                      textAlign: TextAlign.start,
                       style: MyFont.poppins(
                           fontSize: 14,
                           color: black,
                           fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text(
-                      user?.masyarakat?.nik.toString() ?? "",
-                      style: MyFont.poppins(
-                          fontSize: 12,
-                          color: black,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    trailing: Icon(
-                      Icons.keyboard_arrow_right_rounded,
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.person_outline_rounded,
+                      size: 25,
                       color: black,
                     ),
-                  )
+                    title: Text(
+                      "Informasi Akun",
+                      style: MyFont.poppins(fontSize: 12, color: black),
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    onTap: () {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => UbahNomerHandphone(),
+                      //     ));
+                    },
+                    leading: Icon(
+                      Icons.phonelink_setup_rounded,
+                      size: 25,
+                      color: black,
+                    ),
+                    title: Text(
+                      "Ubah Nomer Telepon",
+                      style: MyFont.poppins(fontSize: 12, color: black),
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    leading: Icon(
+                      Icons.people_outline_rounded,
+                      size: 25,
+                      color: black,
+                    ),
+                    title: Text(
+                      "Daftar Keluarga",
+                      style: MyFont.poppins(fontSize: 12, color: black),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Container(
+              padding: EdgeInsets.all(8),
+              color: white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, top: 15),
+                    child: Text(
+                      "Lokasi",
+                      textAlign: TextAlign.start,
+                      style: MyFont.poppins(
+                          fontSize: 14,
+                          color: black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.location_on_outlined,
+                      size: 25,
+                      color: black,
+                    ),
+                    title: Text(
+                      "Lokasi Kelurahan",
+                      style: MyFont.poppins(fontSize: 12, color: black),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Container(
+              padding: EdgeInsets.all(8),
+              color: white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, top: 15),
+                    child: Text(
+                      "Surat",
+                      textAlign: TextAlign.start,
+                      style: MyFont.poppins(
+                          fontSize: 14,
+                          color: black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.markunread_outlined,
+                      size: 25,
+                      color: black,
+                    ),
+                    title: Text(
+                      "Surat Dibatalakan",
+                      style: MyFont.poppins(fontSize: 12, color: black),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Container(
+              color: white,
+              padding: EdgeInsets.all(8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, top: 15),
+                    child: Text(
+                      "Tentang",
+                      textAlign: TextAlign.start,
+                      style: MyFont.poppins(
+                          fontSize: 14,
+                          color: black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.info_outline_rounded,
+                      size: 25,
+                      color: black,
+                    ),
+                    title: Text(
+                      "Info Aplikasi",
+                      style: MyFont.poppins(fontSize: 12, color: black),
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    leading: Icon(
+                      Icons.help_outline_rounded,
+                      size: 25,
+                      color: black,
+                    ),
+                    title: Text(
+                      "Tentang",
+                      style: MyFont.poppins(fontSize: 12, color: black),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
                 ],
               ),
             ),
             const SizedBox(
               height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Text(
-                "Akun",
-                textAlign: TextAlign.start,
-                style: MyFont.poppins(
-                    fontSize: 12, color: black, fontWeight: FontWeight.bold),
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.person_outline_rounded,
-                size: 25,
-                color: black,
-              ),
-              title: Text(
-                "Informasi Akun",
-                style: MyFont.poppins(fontSize: 12, color: black),
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => UbahNomerHandphone(),
-                //     ));
-              },
-              leading: Icon(
-                Icons.phonelink_setup_rounded,
-                size: 25,
-                color: black,
-              ),
-              title: Text(
-                "Ubah Nomer Telepon",
-                style: MyFont.poppins(fontSize: 12, color: black),
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.people_outline_rounded,
-                size: 25,
-                color: black,
-              ),
-              title: Text(
-                "Daftar Keluarga",
-                style: MyFont.poppins(fontSize: 12, color: black),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Text(
-                "Lokasi",
-                textAlign: TextAlign.start,
-                style: MyFont.poppins(
-                    fontSize: 12, color: black, fontWeight: FontWeight.bold),
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.location_on_outlined,
-                size: 25,
-                color: black,
-              ),
-              title: Text(
-                "Lokasi Kelurahan",
-                style: MyFont.poppins(fontSize: 12, color: black),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Text(
-                "Surat",
-                textAlign: TextAlign.start,
-                style: MyFont.poppins(
-                    fontSize: 12, color: black, fontWeight: FontWeight.bold),
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.markunread_outlined,
-                size: 25,
-                color: black,
-              ),
-              title: Text(
-                "Surat Dibatalakan",
-                style: MyFont.poppins(fontSize: 12, color: black),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Text(
-                "Tentang",
-                textAlign: TextAlign.start,
-                style: MyFont.poppins(
-                    fontSize: 12, color: black, fontWeight: FontWeight.bold),
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.info_outline_rounded,
-                size: 25,
-                color: black,
-              ),
-              title: Text(
-                "Info Aplikasi",
-                style: MyFont.poppins(fontSize: 12, color: black),
-              ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.help_outline_rounded,
-                size: 25,
-                color: black,
-              ),
-              title: Text(
-                "Tentang",
-                style: MyFont.poppins(fontSize: 12, color: black),
-              ),
-            ),
-            const SizedBox(
-              height: 50,
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
@@ -285,7 +340,7 @@ class _PengaturanState extends State<Pengaturan> {
                   backgroundColor: lavender, // Warna latar belakang
                   // side: BorderSide(width: 1, color: lavender), // Border
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(25),
                   ),
                 ),
                 onPressed: () {

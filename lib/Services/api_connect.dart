@@ -8,6 +8,7 @@ class Api {
   static const register = "$connectHost/auth/register";
   static const logout = "$connectHost/auth/logout";
   static const me = "$connectHost/auth/me";
+  static const fcm_token = "$connectHost/auth/fcm-token";
 
   static const berita = "$connectHost/berita";
   static const surat = "$connectHost/surat";

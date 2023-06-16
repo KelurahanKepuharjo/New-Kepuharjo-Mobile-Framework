@@ -38,7 +38,7 @@ class _LayananState extends State<Layanan> {
             child: Text(
               "Jenis Surat",
               style: MyFont.poppins(
-                  fontSize: 14, color: black, fontWeight: FontWeight.bold),
+                  fontSize: 16, color: black, fontWeight: FontWeight.bold),
             ),
           ),
         ),
