@@ -29,6 +29,22 @@ class ApiServices {
     }
   }
 
+  Future<void> sendNotification(String body, String token, String title) async {
+    try {
+      final response = await http.post(
+        Uri.parse(Api.notifikasi),
+        body: {'title': title, 'body': body, 'token': token},
+      );
+      if (response.statusCode == 200) {
+        print('Berhasil mengirim notifikasi');
+      } else {
+        print('Gagal mengirim notifikasi');
+      }
+    } catch (e) {
+      print('Terjadi kesalahan: $e');
+    }
+  }
+
   Future<List<Berita>> getBerita() async {
     final response = await http.get(Uri.parse(Api.berita));
     if (response.statusCode == 200) {

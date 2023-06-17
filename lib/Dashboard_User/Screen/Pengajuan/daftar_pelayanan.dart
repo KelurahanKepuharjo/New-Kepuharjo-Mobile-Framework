@@ -24,10 +24,29 @@ class _LayananState extends State<Layanan> {
     listdata = apiServices.getSurat();
   }
 
+  final searchController = TextEditingController();
+  void _searchData(String searchText) {
+    // Menggunakan setState untuk memperbarui tampilan berdasarkan input pencarian
+    setState(() {
+      // Implementasikan logika pencarian di sini
+      // Misalnya, Anda dapat menggunakan method filter pada list data yang sudah ada
+
+      // Contoh: Mencari data yang memiliki namaSurat mengandung searchText
+      // Anda dapat mengganti logika pencarian ini sesuai kebutuhan Anda
+      listdata = apiServices.getSurat().then((suratList) {
+        return suratList
+            .where((surat) => surat.namaSurat!
+                .toLowerCase()
+                .contains(searchText.toLowerCase()))
+            .toList();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: white,
+        // backgroundColor: white,
         appBar: AppBar(
           backgroundColor: white,
           shadowColor: Colors.transparent,
@@ -43,7 +62,7 @@ class _LayananState extends State<Layanan> {
           ),
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           child: Column(
             children: [
               RefreshIndicator(
@@ -51,34 +70,85 @@ class _LayananState extends State<Layanan> {
                 onRefresh: () async {
                   listdata = apiServices.getSurat();
                 },
-                child: FutureBuilder<List<Surat>>(
-                  future: listdata,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData &&
-                        snapshot.connectionState == ConnectionState.done) {
-                      List<Surat>? data = snapshot.data;
-                      return SizedBox(
-                          child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: data!.length,
-                        itemBuilder: (context, index) {
-                          return SizedBox(
-                            height: 80,
-                            child: Column(
+                child: Container(
+                  color: white,
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 48,
+                    child: TextField(
+                      style: MyFont.poppins(fontSize: 12, color: black),
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        hintStyle: MyFont.poppins(fontSize: 12, color: black),
+                        hintText: 'Cari',
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: black,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: black,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: black,
+                          ),
+                        ),
+                      ),
+                      onChanged: _searchData,
+                    ),
+                  ),
+                ),
+              ),
+              FutureBuilder<List<Surat>>(
+                future: listdata,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData &&
+                      snapshot.connectionState == ConnectionState.done) {
+                    List<Surat>? data = snapshot.data;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: data!.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DaftarKeluarga(
+                                      selectedSurat: data[index]),
+                                ));
+                          },
+                          child: Container(
+                            height: 90,
+                            padding: const EdgeInsets.all(10),
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 5),
+                            decoration: BoxDecoration(
+                              color: white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DaftarKeluarga(
-                                              selectedSurat: data[index]),
-                                        ));
-                                  },
-                                  leading: SizedBox(
+                                Container(
+                                  height: 70,
+                                  width: 70,
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: softgrey.withOpacity(0.1),
+                                  ),
+                                  child: SizedBox(
                                     height: 50,
                                     width: 50,
                                     child: Image.network(
@@ -86,38 +156,46 @@ class _LayananState extends State<Layanan> {
                                           data[index].image.toString(),
                                     ),
                                   ),
-                                  title: Text(
-                                    "Surat Keterangan",
-                                    style: MyFont.poppins(
-                                        fontSize: 13,
-                                        color: black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Text(
-                                    data[index].namaSurat.toString(),
-                                    style: MyFont.poppins(
-                                        fontSize: 12, color: black),
-                                  ),
-                                  trailing: Icon(
-                                    Icons.keyboard_arrow_right_rounded,
-                                    color: black,
+                                ),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Surat Keterangan",
+                                        style: MyFont.poppins(
+                                            fontSize: 13,
+                                            color: black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        data[index].namaSurat.toString(),
+                                        style: MyFont.poppins(
+                                            fontSize: 12, color: black),
+                                      ),
+                                    ],
                                   ),
                                 )
                               ],
                             ),
-                          );
-                        },
-                      ));
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: blue,
-                      ),
+                          ),
+                        );
+                      },
                     );
-                  },
-                ),
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: lavender,
+                    ),
+                  );
+                },
               )
             ],
           ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/tentang_user.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
@@ -64,7 +66,7 @@ class _PengaturanState extends State<Pengaturan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundGrey,
+      // backgroundColor: backgroundGrey,
       appBar: AppBar(
         backgroundColor: white,
         shadowColor: Colors.transparent,
@@ -79,6 +81,7 @@ class _PengaturanState extends State<Pengaturan> {
       ),
       body: SingleChildScrollView(
         // padding: EdgeInsets.all(15),
+        // physics: BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,6 +314,13 @@ class _PengaturanState extends State<Pengaturan> {
                   ),
                   Divider(),
                   ListTile(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TentangUser(),
+                          ));
+                    },
                     leading: Icon(
                       Icons.help_outline_rounded,
                       size: 25,

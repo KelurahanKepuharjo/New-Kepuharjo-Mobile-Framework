@@ -38,23 +38,55 @@ class _DashboardUserState extends State<DashboardUser> {
 
   List navbutton = [
     {
-      "active_icon": Icons.home_rounded,
-      "non_active_icon": Icons.home_outlined,
+      "active_icon": Image.asset(
+        "images/beranda.png",
+        height: 25,
+        color: lavender,
+      ),
+      "non_active_icon": Image.asset(
+        "images/beranda.png",
+        height: 25,
+        color: softgrey,
+      ),
       "label": "Home"
     },
     {
-      "active_icon": Icons.assignment,
-      "non_active_icon": Icons.assignment_outlined,
+      "active_icon": Image.asset(
+        "images/email.png",
+        height: 25,
+        color: lavender,
+      ),
+      "non_active_icon": Image.asset(
+        "images/email.png",
+        height: 25,
+        color: softgrey,
+      ),
       "label": "Pengajuan"
     },
     {
-      "active_icon": Icons.restore,
-      "non_active_icon": Icons.restore,
+      "active_icon": Image.asset(
+        "images/clipboard.png",
+        height: 25,
+        color: lavender,
+      ),
+      "non_active_icon": Image.asset(
+        "images/clipboard.png",
+        height: 25,
+        color: softgrey,
+      ),
       "label": "Status"
     },
     {
-      "active_icon": Icons.person,
-      "non_active_icon": Icons.person_outline,
+      "active_icon": Image.asset(
+        "images/account.png",
+        height: 30,
+        color: lavender,
+      ),
+      "non_active_icon": Image.asset(
+        "images/account.png",
+        height: 30,
+        color: softgrey,
+      ),
       "label": "Profil"
     },
   ];
@@ -80,18 +112,18 @@ class _DashboardUserState extends State<DashboardUser> {
               fontSize: 12, color: white, fontWeight: FontWeight.w500),
           selectedFontSize: 12,
           type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: true,
+          showUnselectedLabels: false,
           selectedItemColor: lavender,
           unselectedItemColor: softgrey,
           currentIndex: index,
           onTap: onTap,
           elevation: 0,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           items: List.generate(4, (index) {
             var navBtn = navbutton[index];
             return BottomNavigationBarItem(
-                icon: Icon(navBtn["non_active_icon"]),
-                activeIcon: Icon(navBtn["active_icon"]),
+                icon: navBtn["non_active_icon"],
+                activeIcon: navBtn["active_icon"],
                 label: navBtn["label"]);
           })),
     );

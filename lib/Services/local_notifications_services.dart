@@ -7,7 +7,7 @@ class LocalNotificationsServices {
   static void initialized() {
     final InitializationSettings initializationSettings =
         InitializationSettings(
-            android: AndroidInitializationSettings("@minmap/ic_launcher"));
+            android: AndroidInitializationSettings("@mipmap/mylogo"));
     notificationsPlugin.initialize(initializationSettings);
   }
 
@@ -16,10 +16,8 @@ class LocalNotificationsServices {
         android: AndroidNotificationDetails(
             "com.example.mobile_kepuharjo_new", "S-Kepuharjo",
             importance: Importance.max, priority: Priority.high));
-    notificationsPlugin.show(
-        DateTime.now().microsecond,
-        message.notification!.title,
-        message.notification!.body,
-        notificationsDetail);
+    int notificationId = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    notificationsPlugin.show(notificationId, message.notification!.title,
+        message.notification!.body, notificationsDetail);
   }
 }

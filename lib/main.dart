@@ -25,6 +25,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
+  LocalNotificationsServices.initialized();
   // FirebaseMessaging.instance.subscribeToTopic('all');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -95,6 +96,11 @@ class _MyAppState extends State<MyApp> {
       print(
           "Notifikasi diterima saat aplikasi dibuka dari background (background running): ${message.notification?.body}");
       LocalNotificationsServices.showNotificationForeground(message);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SplashScreen(),
+          ));
     });
 
     FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);

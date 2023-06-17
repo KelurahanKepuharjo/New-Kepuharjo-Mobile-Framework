@@ -66,9 +66,6 @@ class _LoginPageState extends State<LoginPage> {
             nik.clear();
             pw.clear();
           });
-          // ignore: use_build_context_synchronously
-          MySnackbar(type: SnackbarType.success, title: "Berhasil Login")
-              .showSnackbar(context);
           final prefs = await SharedPreferences.getInstance();
           prefs.setString('token', data['token']);
           prefs.setString('role', data['role']);

@@ -5,6 +5,7 @@ class User {
   String? password;
   int? noHp;
   String? role;
+  String? fcmToken;
   String? createdAt;
   String? updatedAt;
   String? idMasyarakat;
@@ -15,6 +16,7 @@ class User {
       this.password,
       this.noHp,
       this.role,
+      this.fcmToken,
       this.createdAt,
       this.updatedAt,
       this.idMasyarakat,
@@ -25,6 +27,7 @@ class User {
     password = json['password'];
     noHp = json['no_hp'];
     role = json['role'];
+    fcmToken = json['fcm_token'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     idMasyarakat = json['id_masyarakat'];
@@ -39,6 +42,7 @@ class User {
     data['password'] = this.password;
     data['no_hp'] = this.noHp;
     data['role'] = this.role;
+    data['fcm_token'] = this.fcmToken;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['id_masyarakat'] = this.idMasyarakat;

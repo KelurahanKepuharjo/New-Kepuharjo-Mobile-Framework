@@ -3,9 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_kepuharjo_new/Model/User.dart';
+import 'package:mobile_kepuharjo_new/Services/api_services.dart';
+import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -42,6 +46,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getUser();
     nokk.text = widget.keluarga.noKk.toString();
     nik.text = widget.masyarakat.nik.toString();
     nama.text = widget.masyarakat.namaLengkap.toString();
@@ -134,7 +139,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
   //     print(e.toString());
   //   }
   // }
-
+  ApiServices apiServices = ApiServices();
   Future pengajuan_surat(
       BuildContext context, File imageFileKK, File imageFileBukti) async {
     var uri = Uri.parse(Api.pengajuan);
@@ -165,6 +170,9 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
           msg: "Berhasil mengajukan surat", backgroundColor: Colors.green);
+      apiServices.sendNotification("Pengajuan surat anda berhasil diajukan",
+          user?.fcmToken ?? "", "Berhasil");
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -222,6 +230,18 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     });
   }
 
+  User? user;
+
+  Future<void> getUser() async {
+    final authServices = AuthServices();
+    final auth = await authServices.me();
+    if (auth != null) {
+      setState(() {
+        user = auth;
+      });
+    }
+  }
+
   File? imageKK;
   File? imageBukti;
   @override
@@ -231,7 +251,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
       appBar: AppBar(
           backgroundColor: lavender,
           shadowColor: Colors.transparent,
-          centerTitle: true,
+          centerTitle: false,
           automaticallyImplyLeading: false,
           title: Text(
             "Pengajuan Surat",
@@ -251,7 +271,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
             ),
           )),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -365,76 +385,152 @@ class _PengajuansuratState extends State<Pengajuansurat> {
             const SizedBox(
               height: 20,
             ),
-            InkWell(
+            GestureDetector(
               onTap: () {
                 getImageGalerryKK();
               },
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                height: 150,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1, color: black)),
-                child: imageKK == null
-                    ? Center(
-                        child: Text(
-                        'Upload Kartu Keluarga',
-                        style: MyFont.poppins(fontSize: 12, color: black),
-                      ))
-                    : Image.file(
-                        imageKK!,
-                        fit: BoxFit.contain,
-                      ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                child: DottedBorder(
+                    borderType: BorderType.RRect,
+                    radius: Radius.circular(10),
+                    dashPattern: [8, 4],
+                    strokeCap: StrokeCap.round,
+                    color: black,
+                    child: imageKK == null
+                        ? Container(
+                            height: 150,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: grey.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "images/photo.png",
+                                  height: 40,
+                                  color: black,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Upload Foto Kartu Keluarga",
+                                  style: MyFont.poppins(
+                                      fontSize: 12, color: softgrey),
+                                )
+                              ],
+                            ),
+                          )
+                        : Container(
+                            height: 150,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    image: FileImage(imageKK!),
+                                    fit: BoxFit.cover)),
+                          )),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            InkWell(
+            GestureDetector(
               onTap: () {
                 getImageGalerryBukti();
               },
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                height: 150,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1, color: black)),
-                child: imageBukti == null
-                    ? Center(
-                        child: Text(
-                        'Upload Bukti',
-                        style: MyFont.poppins(fontSize: 12, color: black),
-                      ))
-                    : Image.file(
-                        imageBukti!,
-                        fit: BoxFit.contain,
-                      ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                child: DottedBorder(
+                    borderType: BorderType.RRect,
+                    radius: Radius.circular(10),
+                    dashPattern: [8, 4],
+                    strokeCap: StrokeCap.round,
+                    color: black,
+                    child: imageBukti == null
+                        ? Container(
+                            height: 150,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                color: grey.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "images/photo.png",
+                                  height: 40,
+                                  color: black,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Upload Foto Bukti",
+                                  style: MyFont.poppins(
+                                      fontSize: 12, color: softgrey),
+                                )
+                              ],
+                            ),
+                          )
+                        : Container(
+                            height: 150,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    image: FileImage(imageBukti!),
+                                    fit: BoxFit.cover)),
+                          )),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: SizedBox(
-                  height: 48,
-                  width: MediaQuery.of(context).size.width,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: lavender,
-                        shadowColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )),
-                    onPressed: () async {
-                      verifypengajuan(context);
-                    },
-                    child: Text('Ajukan Surat',
-                        textAlign: TextAlign.center,
-                        style: MyFont.poppins(fontSize: 14, color: white)),
-                  )),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 30),
+            //   child: SizedBox(
+            //       height: 48,
+            //       width: MediaQuery.of(context).size.width,
+            //       child: ElevatedButton(
+            //         style: ElevatedButton.styleFrom(
+            //             backgroundColor: lavender,
+            //             shadowColor: Colors.transparent,
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(50),
+            //             )),
+            //         onPressed: () async {
+            //           verifypengajuan(context);
+            //         },
+            //         child: Text('Ajukan Surat',
+            //             textAlign: TextAlign.center,
+            //             style: MyFont.poppins(fontSize: 14, color: white)),
+            //       )),
+            // ),
           ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 0,
+        color: white,
+        child: Container(
+          padding: EdgeInsets.all(5),
+          height: 70,
+          color: white,
+          child: Container(
+              margin: EdgeInsets.all(8),
+              height: 40,
+              width: MediaQuery.of(context).size.width,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: lavender,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )),
+                onPressed: () async {
+                  verifypengajuan(context);
+                },
+                child: Text('Ajukan Surat',
+                    textAlign: TextAlign.center,
+                    style: MyFont.poppins(fontSize: 14, color: white)),
+              )),
         ),
       ),
     );

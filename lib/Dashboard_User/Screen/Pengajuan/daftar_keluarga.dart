@@ -34,7 +34,7 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
       appBar: AppBar(
           backgroundColor: lavender,
           shadowColor: Colors.transparent,
-          centerTitle: true,
+          centerTitle: false,
           automaticallyImplyLeading: false,
           title: Text(
             "Daftar Keluarga",
