@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/select.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
+import 'package:mobile_kepuharjo_new/Services/local_notifications_services.dart';
 import 'package:mobile_kepuharjo_new/Wellcome/onboarding.dart';
 import 'package:mobile_kepuharjo_new/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +18,7 @@ Future<void> _backgroundMessageHandler(RemoteMessage message) async {
       "Notifikasi diterima saat aplikasi ditutup (terminated): ${message.notification?.title}");
   print(
       "Notifikasi diterima saat aplikasi ditutup (terminated): ${message.notification?.body}");
+  LocalNotificationsServices.showNotificationForeground(message);
 }
 
 void main() async {
@@ -73,6 +75,7 @@ class _MyAppState extends State<MyApp> {
             "Notifikasi diterima saat aplikasi dibuka dari background (terminated): ${message.notification?.title}");
         print(
             "Notifikasi diterima saat aplikasi dibuka dari background (terminated): ${message.notification?.body}");
+        LocalNotificationsServices.showNotificationForeground(message);
       }
     });
 
@@ -82,6 +85,7 @@ class _MyAppState extends State<MyApp> {
           "Notifikasi diterima saat aplikasi berjalan di foreground: ${message.notification?.title}");
       print(
           "Notifikasi diterima saat aplikasi berjalan di foreground: ${message.notification?.body}");
+      LocalNotificationsServices.showNotificationForeground(message);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -90,6 +94,7 @@ class _MyAppState extends State<MyApp> {
           "Notifikasi diterima saat aplikasi dibuka dari background (background running): ${message.notification?.title}");
       print(
           "Notifikasi diterima saat aplikasi dibuka dari background (background running): ${message.notification?.body}");
+      LocalNotificationsServices.showNotificationForeground(message);
     });
 
     FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
@@ -101,6 +106,7 @@ class _MyAppState extends State<MyApp> {
         "Notifikasi diterima saat aplikasi ditutup (terminated): ${message.notification?.title}");
     print(
         "Notifikasi diterima saat aplikasi ditutup (terminated): ${message.notification?.body}");
+    LocalNotificationsServices.showNotificationForeground(message);
   }
 
   @override
@@ -108,6 +114,7 @@ class _MyAppState extends State<MyApp> {
     _checkIfLoggedIn();
     super.initState();
     configureFirebaseMessaging();
+    LocalNotificationsServices.initialized();
     FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
     // FirebaseMessaging.instance.subscribeToTopic('all');
   }
