@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/daftar_keluarga.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/info_aplikasi.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/informasi_akun.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/tentang_user.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/TabBarView/surat_dibatalkan.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
+import 'package:android_intent_plus/android_intent.dart';
 
 class Pengaturan extends StatefulWidget {
   const Pengaturan({super.key});
@@ -44,7 +49,7 @@ class _PengaturanState extends State<Pengaturan> {
       dialogType: DialogType.WARNING,
       title: 'Warning!',
       titleTextStyle: MyFont.poppins(
-          fontSize: 25, color: lavender, fontWeight: FontWeight.bold),
+          fontSize: 25, color: primaryColor, fontWeight: FontWeight.bold),
       desc: 'Apakah anda yakin, untuk Keluar dari aplikasi',
       descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
       btnOkOnPress: () {
@@ -62,6 +67,8 @@ class _PengaturanState extends State<Pengaturan> {
       btnOkIcon: Icons.task_alt_rounded,
     ).show();
   }
+
+  String lokasi = "kantor Kelurahan Kepuharjo Kabupaten Lumajang";
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +114,7 @@ class _PengaturanState extends State<Pengaturan> {
                           height: 40,
                           width: 40,
                           decoration: BoxDecoration(
-                              color: lavender,
+                              color: primaryColor,
                               borderRadius: BorderRadius.circular(100)),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -152,63 +159,101 @@ class _PengaturanState extends State<Pengaturan> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 5),
-                    child: Text(
-                      "Akun",
-                      textAlign: TextAlign.start,
-                      style: MyFont.poppins(
-                          fontSize: 14,
-                          color: black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.person_outline_rounded,
-                      size: 25,
-                      color: black,
-                    ),
-                    title: Text(
-                      "Informasi Akun",
-                      style: MyFont.poppins(fontSize: 12, color: black),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => UbahNomerHandphone(),
-                      //     ));
-                    },
-                    leading: Icon(
-                      Icons.phonelink_setup_rounded,
-                      size: 25,
-                      color: black,
-                    ),
-                    title: Text(
-                      "Ubah Nomer Telepon",
-                      style: MyFont.poppins(fontSize: 12, color: black),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    leading: Icon(
-                      Icons.people_outline_rounded,
-                      size: 25,
-                      color: black,
-                    ),
-                    title: Text(
-                      "Daftar Keluarga",
-                      style: MyFont.poppins(fontSize: 12, color: black),
+                    padding:
+                        const EdgeInsets.only(left: 15, top: 5, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Akun",
+                          textAlign: TextAlign.start,
+                          style: MyFont.poppins(
+                              fontSize: 14,
+                              color: black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => InformasiAkun(),
+                                ));
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "images/profile.png",
+                                height: 27,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "Informasi Akun",
+                                style:
+                                    MyFont.poppins(fontSize: 12, color: black),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          height: 30,
+                        ),
+                        Row(
+                          children: [
+                            Image.asset(
+                              "images/call.png",
+                              height: 25,
+                            ),
+                            const SizedBox(
+                              width: 17,
+                            ),
+                            Text(
+                              "Ubah Nomer Telepon",
+                              style: MyFont.poppins(fontSize: 12, color: black),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          height: 30,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DaftarKeluargaUser(),
+                                ));
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "images/group.png",
+                                height: 27,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "Daftar Keluarga",
+                                style:
+                                    MyFont.poppins(fontSize: 12, color: black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
             const SizedBox(
-              height: 8,
+              height: 5,
             ),
             Container(
               padding: EdgeInsets.all(8),
@@ -217,35 +262,56 @@ class _PengaturanState extends State<Pengaturan> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 15),
-                    child: Text(
-                      "Lokasi",
-                      textAlign: TextAlign.start,
-                      style: MyFont.poppins(
-                          fontSize: 14,
-                          color: black,
-                          fontWeight: FontWeight.bold),
+                    padding:
+                        const EdgeInsets.only(left: 15, top: 5, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Lokasi",
+                          textAlign: TextAlign.start,
+                          style: MyFont.poppins(
+                              fontSize: 14,
+                              color: black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            final intent = AndroidIntent(
+                                action: 'action_view',
+                                data: Uri.encodeFull(
+                                    'google.navigation:q=${lokasi.trim()}'),
+                                package: 'com.google.android.apps.maps');
+                            await intent.launch();
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "images/maps.png",
+                                height: 27,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "Lokasi Kelurahan",
+                                style:
+                                    MyFont.poppins(fontSize: 12, color: black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.location_on_outlined,
-                      size: 25,
-                      color: black,
-                    ),
-                    title: Text(
-                      "Lokasi Kelurahan",
-                      style: MyFont.poppins(fontSize: 12, color: black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
                   ),
                 ],
               ),
             ),
             const SizedBox(
-              height: 8,
+              height: 5,
             ),
             Container(
               padding: EdgeInsets.all(8),
@@ -254,85 +320,134 @@ class _PengaturanState extends State<Pengaturan> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 15),
-                    child: Text(
-                      "Surat",
-                      textAlign: TextAlign.start,
-                      style: MyFont.poppins(
-                          fontSize: 14,
-                          color: black,
-                          fontWeight: FontWeight.bold),
+                    padding:
+                        const EdgeInsets.only(left: 15, top: 5, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Surat",
+                          textAlign: TextAlign.start,
+                          style: MyFont.poppins(
+                              fontSize: 14,
+                              color: black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => SuratDibatalkanUser(),
+                                ));
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "images/mail_cancel.png",
+                                height: 30,
+                              ),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                              Text(
+                                "Surat Dibatalkan",
+                                style:
+                                    MyFont.poppins(fontSize: 12, color: black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.markunread_outlined,
-                      size: 25,
-                      color: black,
-                    ),
-                    title: Text(
-                      "Surat Dibatalakan",
-                      style: MyFont.poppins(fontSize: 12, color: black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
                   ),
                 ],
               ),
             ),
             const SizedBox(
-              height: 8,
+              height: 5,
             ),
             Container(
-              color: white,
               padding: EdgeInsets.all(8),
+              color: white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15, top: 15),
-                    child: Text(
-                      "Tentang",
-                      textAlign: TextAlign.start,
-                      style: MyFont.poppins(
-                          fontSize: 14,
-                          color: black,
-                          fontWeight: FontWeight.bold),
+                    padding:
+                        const EdgeInsets.only(left: 15, top: 5, bottom: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Tentang",
+                          textAlign: TextAlign.start,
+                          style: MyFont.poppins(
+                              fontSize: 14,
+                              color: black,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => InfoAplikasi(),
+                                ));
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "images/info.png",
+                                height: 27,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "Info Aplikasi",
+                                style:
+                                    MyFont.poppins(fontSize: 12, color: black),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          height: 30,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TentangUser(),
+                                ));
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "images/ask.png",
+                                height: 27,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "Tentang",
+                                style:
+                                    MyFont.poppins(fontSize: 12, color: black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(
-                      Icons.info_outline_rounded,
-                      size: 25,
-                      color: black,
-                    ),
-                    title: Text(
-                      "Info Aplikasi",
-                      style: MyFont.poppins(fontSize: 12, color: black),
-                    ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TentangUser(),
-                          ));
-                    },
-                    leading: Icon(
-                      Icons.help_outline_rounded,
-                      size: 25,
-                      color: black,
-                    ),
-                    title: Text(
-                      "Tentang",
-                      style: MyFont.poppins(fontSize: 12, color: black),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
                   ),
                 ],
               ),
@@ -347,8 +462,8 @@ class _PengaturanState extends State<Pengaturan> {
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   primary: Colors.black, // Warna teks
-                  backgroundColor: lavender, // Warna latar belakang
-                  // side: BorderSide(width: 1, color: lavender), // Border
+                  backgroundColor: primaryColor, // Warna latar belakang
+                  // side: BorderSide(width: 1, color: primaryColor), // Border
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),

@@ -33,7 +33,7 @@ class _WidgetBeritaState extends State<WidgetBerita> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
+      margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
       width: MediaQuery.of(context).size.width,
       // padding: const EdgeInsets.only(left: 8.0),
       child: FutureBuilder<List<Berita>>(
@@ -42,7 +42,8 @@ class _WidgetBeritaState extends State<WidgetBerita> {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasData) {
             List<Berita>? data = snapshot.data;
-            return SizedBox(
+            return Container(
+              margin: EdgeInsets.only(right: 15),
               // height: MediaQuery.of(context).size.height * 0.3,
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
@@ -82,8 +83,8 @@ class _WidgetBeritaState extends State<WidgetBerita> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              SizedBox(
-                                width: 120,
+                              Expanded(
+                                // width: 120,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -129,7 +130,7 @@ class _WidgetBeritaState extends State<WidgetBerita> {
           }
           return Center(
             child: CircularProgressIndicator(
-              color: blue,
+              color: primaryColor,
             ),
           );
         },

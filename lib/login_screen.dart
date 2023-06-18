@@ -291,7 +291,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: lavender,
+                          backgroundColor: primaryColor,
                           shadowColor: Colors.transparent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -321,8 +321,8 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text("Aktifasi Akun",
                           style: MyFont.poppins(
                               fontSize: 12,
-                              color: lavender,
-                              fontWeight: FontWeight.bold)),
+                              color: primaryColor,
+                              fontWeight: FontWeight.w600)),
                       onTap: () {
                         Navigator.push(
                             context,

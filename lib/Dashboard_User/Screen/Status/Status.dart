@@ -43,15 +43,19 @@ class _StatusState extends State<Status> {
                   padding: const EdgeInsets.all(3),
                   child: TabBar(
                       unselectedLabelColor: grey,
-                      labelColor: lavender,
+                      labelColor: primaryColor,
                       labelStyle: MyFont.poppins(
                           fontSize: 12,
                           color: black,
                           fontWeight: FontWeight.bold),
+                      unselectedLabelStyle: MyFont.poppins(
+                          fontSize: 12,
+                          color: grey,
+                          fontWeight: FontWeight.w500),
                       isScrollable: true,
-                      indicatorColor: lavender,
+                      indicatorColor: primaryColor,
                       // indicator: BoxDecoration(
-                      //   color: lavender,
+                      //   color: primaryColor,
                       //   borderRadius: BorderRadius.circular(7),
                       // ),
                       tabs: const [

@@ -192,7 +192,7 @@ class _LayananState extends State<Layanan> {
                   }
                   return Center(
                     child: CircularProgressIndicator(
-                      color: lavender,
+                      color: primaryColor,
                     ),
                   );
                 },

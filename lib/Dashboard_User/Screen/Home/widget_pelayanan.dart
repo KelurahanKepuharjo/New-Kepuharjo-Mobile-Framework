@@ -28,7 +28,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 20, 0, 10),
+      padding: const EdgeInsets.fromLTRB(10, 0, 10, 00),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +52,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
             ),
           ),
           SizedBox(
-            height: 200,
+            height: 180,
             child: FutureBuilder<List<Surat>>(
               future: listdata,
               builder: (context, snapshot) {
@@ -112,7 +112,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
                 }
                 return Center(
                   child: CircularProgressIndicator(
-                    color: blue,
+                    color: primaryColor,
                   ),
                 );
               },

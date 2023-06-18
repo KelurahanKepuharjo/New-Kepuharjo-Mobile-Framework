@@ -249,14 +249,14 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
-          backgroundColor: lavender,
+          backgroundColor: white,
           shadowColor: Colors.transparent,
           centerTitle: false,
           automaticallyImplyLeading: false,
           title: Text(
             "Pengajuan Surat",
             style: MyFont.poppins(
-                fontSize: 16, color: white, fontWeight: FontWeight.bold),
+                fontSize: 14, color: black, fontWeight: FontWeight.bold),
           ),
           leading: GestureDetector(
             onTap: () {
@@ -266,17 +266,17 @@ class _PengajuansuratState extends State<Pengajuansurat> {
               padding: const EdgeInsets.only(left: 10),
               child: Icon(
                 Icons.keyboard_arrow_left_rounded,
-                color: white,
+                color: black,
               ),
             ),
           )),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 8, 8, 0),
+              padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 0),
               child: Text(
                 "Pengajuan Surat Keterangan ${widget.namaSurat}",
                 style: MyFont.poppins(
@@ -390,7 +390,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                 getImageGalerryKK();
               },
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
                 child: DottedBorder(
                     borderType: BorderType.RRect,
                     radius: Radius.circular(10),
@@ -439,7 +439,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                 getImageGalerryBukti();
               },
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
                 child: DottedBorder(
                     borderType: BorderType.RRect,
                     radius: Radius.circular(10),
@@ -483,56 +483,56 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                           )),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 30),
-            //   child: SizedBox(
-            //       height: 48,
-            //       width: MediaQuery.of(context).size.width,
-            //       child: ElevatedButton(
-            //         style: ElevatedButton.styleFrom(
-            //             backgroundColor: lavender,
-            //             shadowColor: Colors.transparent,
-            //             shape: RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.circular(50),
-            //             )),
-            //         onPressed: () async {
-            //           verifypengajuan(context);
-            //         },
-            //         child: Text('Ajukan Surat',
-            //             textAlign: TextAlign.center,
-            //             style: MyFont.poppins(fontSize: 14, color: white)),
-            //       )),
-            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: SizedBox(
+                  height: 48,
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        )),
+                    onPressed: () async {
+                      verifypengajuan(context);
+                    },
+                    child: Text('Ajukan Surat',
+                        textAlign: TextAlign.center,
+                        style: MyFont.poppins(fontSize: 14, color: white)),
+                  )),
+            ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0,
-        color: white,
-        child: Container(
-          padding: EdgeInsets.all(5),
-          height: 70,
-          color: white,
-          child: Container(
-              margin: EdgeInsets.all(8),
-              height: 40,
-              width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: lavender,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )),
-                onPressed: () async {
-                  verifypengajuan(context);
-                },
-                child: Text('Ajukan Surat',
-                    textAlign: TextAlign.center,
-                    style: MyFont.poppins(fontSize: 14, color: white)),
-              )),
-        ),
-      ),
+      //   bottomNavigationBar: BottomAppBar(
+      //     elevation: 0,
+      //     color: Colors.transparent,
+      //     child: Container(
+      //       padding: EdgeInsets.all(5),
+      //       height: 70,
+      //       color: Colors.transparent,
+      //       child: Container(
+      //           margin: EdgeInsets.all(8),
+      //           height: 40,
+      //           width: MediaQuery.of(context).size.width,
+      //           child: ElevatedButton(
+      //             style: ElevatedButton.styleFrom(
+      //                 backgroundColor: primaryColor,
+      //                 shadowColor: Colors.transparent,
+      //                 shape: RoundedRectangleBorder(
+      //                   borderRadius: BorderRadius.circular(10),
+      //                 )),
+      //             onPressed: () async {
+      //               verifypengajuan(context);
+      //             },
+      //             child: Text('Ajukan Surat',
+      //                 textAlign: TextAlign.center,
+      //                 style: MyFont.poppins(fontSize: 14, color: white)),
+      //           )),
+      //     ),
+      //   ),
     );
   }
 }

@@ -44,7 +44,7 @@ class _HomeUserState extends State<HomeUser> {
           SliverAppBar(
             automaticallyImplyLeading: false,
             title: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
                   Text(
@@ -66,9 +66,20 @@ class _HomeUserState extends State<HomeUser> {
               ),
             ),
             pinned: true,
-            backgroundColor: lavender,
+            backgroundColor: primaryColor,
             shadowColor: Colors.transparent,
             expandedHeight: 250,
+            bottom: PreferredSize(
+                preferredSize: Size.fromHeight(10),
+                child: Container(
+                  height: 20,
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                      color: white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20))),
+                )),
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 fit: StackFit.expand,
@@ -83,7 +94,7 @@ class _HomeUserState extends State<HomeUser> {
                     ),
                   ),
                   Positioned(
-                    top: 100,
+                    top: 70,
                     child: AnimatedContainer(
                       alignment: Alignment.centerLeft,
                       duration: Duration(seconds: 1),
@@ -153,7 +164,7 @@ class _HomeUserState extends State<HomeUser> {
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor:
-                                            lavender.withOpacity(0.9),
+                                            primaryColor.withOpacity(0.9),
                                         shadowColor: Colors.transparent,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -177,6 +188,8 @@ class _HomeUserState extends State<HomeUser> {
           ),
           SliverToBoxAdapter(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 WidgetPelayanan(),
                 WidgetTextBerita(),

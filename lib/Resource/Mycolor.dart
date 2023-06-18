@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 Color white = Colors.white;
 Color black = Colors.black;
 Color blue = Color(0xff0165ff);
+Color primaryColor = Color(0xff1381d8);
+Color secondColor = Color(0xff36ac10);
 Color grey = Color(0xff787878);
 Color softgrey = Color(0xffa1a1a1);
 Color selectedColor = Color(0xFF4AC8EA);

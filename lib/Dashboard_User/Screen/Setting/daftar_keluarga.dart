@@ -6,16 +6,14 @@ import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 
-class DaftarKeluarga extends StatefulWidget {
-  final Surat selectedSurat;
-  const DaftarKeluarga({required this.selectedSurat, Key? key})
-      : super(key: key);
+class DaftarKeluargaUser extends StatefulWidget {
+  const DaftarKeluargaUser({Key? key}) : super(key: key);
 
   @override
-  State<DaftarKeluarga> createState() => _DaftarKeluargaState();
+  State<DaftarKeluargaUser> createState() => _DaftarKeluargaUserState();
 }
 
-class _DaftarKeluargaState extends State<DaftarKeluarga> {
+class _DaftarKeluargaUserState extends State<DaftarKeluargaUser> {
   AuthServices authServices = AuthServices();
   late Future<List<Keluarga>> listdata;
 
@@ -28,8 +26,6 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
 
   @override
   Widget build(BuildContext context) {
-    String idSurat = widget.selectedSurat.idSurat.toString();
-    String namaSurat = widget.selectedSurat.namaSurat.toString();
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -77,25 +73,12 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Pengajuansurat(
-                                            idsurat: idSurat,
-                                            namaSurat: namaSurat,
-                                            keluarga: data[index],
-                                            masyarakat:
-                                                data[index].masyarakat![index],
-                                          ),
-                                        ));
-                                  },
                                   leading: Container(
                                     height: 40,
                                     width: 40,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: primaryColor.withOpacity(0.1)),
+                                        color: grey.withOpacity(0.1)),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -103,7 +86,7 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
                                         Image.asset(
                                           "images/group.png",
                                           height: 30,
-                                          color: primaryColor,
+                                          color: black,
                                         )
                                       ],
                                     ),
@@ -125,10 +108,6 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
                                         .toString(),
                                     style: MyFont.poppins(
                                         fontSize: 12, color: black),
-                                  ),
-                                  trailing: Icon(
-                                    Icons.keyboard_arrow_right_rounded,
-                                    color: primaryColor,
                                   ),
                                 ),
                               ],

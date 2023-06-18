@@ -41,7 +41,7 @@ class _DashboardUserState extends State<DashboardUser> {
       "active_icon": Image.asset(
         "images/beranda.png",
         height: 25,
-        color: lavender,
+        color: primaryColor,
       ),
       "non_active_icon": Image.asset(
         "images/beranda.png",
@@ -54,7 +54,7 @@ class _DashboardUserState extends State<DashboardUser> {
       "active_icon": Image.asset(
         "images/email.png",
         height: 25,
-        color: lavender,
+        color: primaryColor,
       ),
       "non_active_icon": Image.asset(
         "images/email.png",
@@ -67,7 +67,7 @@ class _DashboardUserState extends State<DashboardUser> {
       "active_icon": Image.asset(
         "images/clipboard.png",
         height: 25,
-        color: lavender,
+        color: primaryColor,
       ),
       "non_active_icon": Image.asset(
         "images/clipboard.png",
@@ -80,7 +80,7 @@ class _DashboardUserState extends State<DashboardUser> {
       "active_icon": Image.asset(
         "images/account.png",
         height: 30,
-        color: lavender,
+        color: primaryColor,
       ),
       "non_active_icon": Image.asset(
         "images/account.png",
@@ -113,7 +113,7 @@ class _DashboardUserState extends State<DashboardUser> {
           selectedFontSize: 12,
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: false,
-          selectedItemColor: lavender,
+          selectedItemColor: primaryColor,
           unselectedItemColor: softgrey,
           currentIndex: index,
           onTap: onTap,
