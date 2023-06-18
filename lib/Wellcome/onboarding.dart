@@ -57,7 +57,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     controller: _controller,
                     count: 3,
                     effect: SlideEffect(
-                        dotWidth: 10, dotHeight: 10, activeDotColor: blue),
+                        dotWidth: 10,
+                        dotHeight: 10,
+                        activeDotColor: primaryColor),
                   ),
                   onLastPage
                       ? GestureDetector(

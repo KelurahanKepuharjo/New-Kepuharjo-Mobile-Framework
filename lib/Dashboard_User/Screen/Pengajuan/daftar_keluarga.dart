@@ -95,7 +95,7 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
                                     width: 40,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: primaryColor.withOpacity(0.1)),
+                                        color: grey.withOpacity(0.1)),
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -103,7 +103,7 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
                                         Image.asset(
                                           "images/group.png",
                                           height: 30,
-                                          color: primaryColor,
+                                          color: black,
                                         )
                                       ],
                                     ),
@@ -128,7 +128,7 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
                                   ),
                                   trailing: Icon(
                                     Icons.keyboard_arrow_right_rounded,
-                                    color: primaryColor,
+                                    color: black,
                                   ),
                                 ),
                               ],

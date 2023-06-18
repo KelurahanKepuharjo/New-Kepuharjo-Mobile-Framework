@@ -20,11 +20,10 @@ class _StatusState extends State<Status> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-          backgroundColor: white,
+          // backgroundColor: black,
           appBar: AppBar(
             backgroundColor: white,
             shadowColor: Colors.transparent,
-            // centerTitle: true,
             automaticallyImplyLeading: false,
             title: Padding(
               padding: const EdgeInsets.only(left: 8.0),
@@ -36,11 +35,12 @@ class _StatusState extends State<Status> {
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(3),
+                Container(
+                  color: white,
+                  margin: const EdgeInsets.all(0),
                   child: TabBar(
                       unselectedLabelColor: grey,
                       labelColor: primaryColor,
@@ -54,10 +54,6 @@ class _StatusState extends State<Status> {
                           fontWeight: FontWeight.w500),
                       isScrollable: true,
                       indicatorColor: primaryColor,
-                      // indicator: BoxDecoration(
-                      //   color: primaryColor,
-                      //   borderRadius: BorderRadius.circular(7),
-                      // ),
                       tabs: const [
                         Tab(text: "Surat Diajukan"),
                         Tab(text: "Surat Diporoses"),
@@ -66,28 +62,31 @@ class _StatusState extends State<Status> {
                       ]),
                 ),
                 Expanded(
-                    child: TabBarView(children: [
-                  SizedBox(
-                    child: Column(
-                      children: [SuratDiajukanUser()],
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TabBarView(children: [
+                    SizedBox(
+                      child: Column(
+                        children: [SuratDiajukanUser()],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    child: Column(
-                      children: [SuratDiprosesUser()],
+                    SizedBox(
+                      child: Column(
+                        children: [SuratDiprosesUser()],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    child: Column(
-                      children: [SuratSelesaiUser()],
+                    SizedBox(
+                      child: Column(
+                        children: [SuratSelesaiUser()],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    child: Column(
-                      children: [SuratDitolakUser()],
+                    SizedBox(
+                      child: Column(
+                        children: [SuratDitolakUser()],
+                      ),
                     ),
-                  ),
-                ]))
+                  ]),
+                ))
               ],
             ),
           )),

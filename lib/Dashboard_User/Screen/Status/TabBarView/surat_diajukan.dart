@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/detail_surat.dart';
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
+import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
@@ -12,6 +13,7 @@ import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SuratDiajukanUser extends StatefulWidget {
@@ -31,6 +33,19 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
     // TODO: implement initState
     super.initState();
     listdata = apiServices.getStatus("Diajukan");
+    getUser();
+  }
+
+  User? user;
+
+  Future<void> getUser() async {
+    final authServices = AuthServices();
+    final auth = await authServices.me();
+    if (auth != null) {
+      setState(() {
+        user = auth;
+      });
+    }
   }
 
   showSuccessDialog(BuildContext context, String id) {
@@ -45,6 +60,8 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
       descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
       btnOkOnPress: () {
         pembatalan(id);
+        apiServices.sendNotification("Pengajuan surat anda berhasil dibatalkan",
+            user?.fcmToken ?? "", "Berhasil");
       },
       btnCancelOnPress: () {
         Navigator.pop(context);
@@ -63,13 +80,14 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
       final data = jsonDecode(res.body);
       if (res.statusCode == 200) {
         if (data['message'] == "Surat berhasil dibatalkan") {
-          setState(() {
-            listdata = apiServices.getStatus("Diajukan");
-          });
           Fluttertoast.showToast(
               msg: "Berhasil membatalkan surat",
               backgroundColor: Colors.green,
               toastLength: Toast.LENGTH_LONG);
+          apiServices.sendNotification(
+              "Pengajuan surat anda berhasil dibatalkan",
+              user?.fcmToken ?? "",
+              "Berhasil");
         } else {
           Fluttertoast.showToast(
               msg: "Gagal membatalkan surat",
@@ -183,12 +201,28 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
                               children: [
                                 Row(
                                   children: [
-                                    SizedBox(
-                                      child: Image.network(
-                                        Api.connectimage +
-                                            data[index].surat!.image.toString(),
-                                        height: 50,
-                                        width: 50,
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 8),
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: primaryColor.withOpacity(0.1)),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.network(
+                                            Api.connectimage +
+                                                data[index]
+                                                    .surat!
+                                                    .image
+                                                    .toString(),
+                                            height: 40,
+                                            width: 40,
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     const SizedBox(
@@ -244,7 +278,7 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
                                             ));
                                       },
                                       child: Icon(
-                                        Icons.info_outline,
+                                        Icons.info_outline_rounded,
                                         color: black,
                                       ),
                                     )),

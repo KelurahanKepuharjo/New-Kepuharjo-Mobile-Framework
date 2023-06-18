@@ -17,12 +17,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 
-class DetailSurat extends StatefulWidget {
+class InfoSurat extends StatefulWidget {
   Masyarakat masyarakat;
   Surat surat;
   Pengajuan pengajuan;
 
-  DetailSurat(
+  InfoSurat(
       {Key? key,
       required this.surat,
       required this.pengajuan,
@@ -30,73 +30,25 @@ class DetailSurat extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<DetailSurat> createState() => _DetailSuratState();
+  State<InfoSurat> createState() => _InfoSuratState();
 }
 
-class _DetailSuratState extends State<DetailSurat> {
-  showSuccessDialog(BuildContext context, String id) {
-    AwesomeDialog(
-      context: context,
-      animType: AnimType.SCALE,
-      dialogType: DialogType.WARNING,
-      title: 'Warning!',
-      titleTextStyle: MyFont.poppins(
-          fontSize: 25, color: lavender, fontWeight: FontWeight.bold),
-      desc: 'Apakah anda yakin, untuk membatalkan surat?',
-      descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
-      btnOkOnPress: () {
-        pembatalan(id);
-      },
-      btnCancelOnPress: () {
-        Navigator.pop(context);
-      },
-      btnCancelIcon: Icons.highlight_off_rounded,
-      btnOkIcon: Icons.task_alt_rounded,
-    ).show();
-  }
-
-  ApiServices apiServices = ApiServices();
-  late Future<List<Pengajuan>> listdata;
-
-  Future pembatalan(String id) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('token');
-      var res = await http.post(Uri.parse("${Api.pembatalan}/$id"),
-          headers: {"Authorization": "Bearer $token"});
-      final data = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        if (data['message'] == "Surat berhasil dibatalkan") {
-          Fluttertoast.showToast(
-              msg: "Berhasil membatalkan surat",
-              backgroundColor: Colors.green,
-              toastLength: Toast.LENGTH_LONG);
-          setState(() {
-            listdata = apiServices.getStatus("Diajukan");
-          });
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DashboardUser(),
-              ));
-        } else {
-          Fluttertoast.showToast(
-              msg: "Gagal membatalkan surat",
-              backgroundColor: Colors.red,
-              toastLength: Toast.LENGTH_LONG);
-        }
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
+class _InfoSuratState extends State<InfoSurat> {
+  bool isKetTolakVisible = false;
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (widget.pengajuan.keteranganDitolak != null &&
+        widget.pengajuan.keteranganDitolak!.isNotEmpty) {
+      setState(() {
+        isKetTolakVisible = true;
+      });
+    }
     nokk.text = widget.masyarakat.kks!.noKk.toString();
     nik.text = widget.masyarakat.nik.toString();
     nama.text = widget.masyarakat.namaLengkap.toString();
+    ketTolak.text = widget.pengajuan.keteranganDitolak.toString();
     ttl.text =
         "${widget.masyarakat.tempatLahir}, ${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.masyarakat.tglLahir.toString()))}";
     goldarah.text = widget.masyarakat.golonganDarah.toString();
@@ -112,12 +64,12 @@ class _DetailSuratState extends State<DetailSurat> {
     keperluan.text = widget.pengajuan.keterangan.toString();
     imagekk.text = widget.pengajuan.imageKk.toString();
     imageBukti.text = widget.pengajuan.imageBukti.toString();
-    listdata = apiServices.getStatus("Diajukan");
   }
 
   final nokk = TextEditingController();
   final nik = TextEditingController();
   final nama = TextEditingController();
+  final ketTolak = TextEditingController();
   final ttl = TextEditingController();
   final goldarah = TextEditingController();
   final jk = TextEditingController();
@@ -261,6 +213,16 @@ class _DetailSuratState extends State<DetailSurat> {
               keyboardType: TextInputType.name,
               inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
             ),
+            Visibility(
+              visible: isKetTolakVisible,
+              child: GetTextFieldPengajuan(
+                controller: ketTolak,
+                label: "Keterangan Ditolak",
+                keyboardType: TextInputType.name,
+                inputFormatters:
+                    FilteringTextInputFormatter.singleLineFormatter,
+              ),
+            ),
             InkWell(
               onTap: () {
                 showDialog(
@@ -304,35 +266,6 @@ class _DetailSuratState extends State<DetailSurat> {
               ),
             ),
           ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0,
-        color: white,
-        child: Container(
-          padding: EdgeInsets.all(5),
-          height: 70,
-          color: white,
-          child: Container(
-            margin: EdgeInsets.all(8),
-            height: 40,
-            width: MediaQuery.of(context).size.width,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  shadowColor: Colors.transparent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  )),
-              onPressed: () {
-                showSuccessDialog(context, widget.pengajuan.id.toString());
-              },
-              child: Text(
-                'Batalkan Surat',
-                style: MyFont.poppins(fontSize: 12, color: white),
-              ),
-            ),
-          ),
         ),
       ),
     );
