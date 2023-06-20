@@ -3,6 +3,7 @@ import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
+import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 
 class WidgetCard extends StatefulWidget {
@@ -64,6 +65,97 @@ class _WidgetCardState extends State<WidgetCard> {
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
+          // SizedBox(
+          //   height: 125,
+          //   width: MediaQuery.of(context).size.width,
+          //   child: ListView.builder(
+          //     itemCount: 3,
+          //     shrinkWrap: true,
+          //     scrollDirection: Axis.horizontal,
+          //     itemBuilder: (context, index) {
+          //       return Stack(
+          //         fit: StackFit.loose,
+          //         children: [
+          //           Container(
+          //             margin: const EdgeInsets.symmetric(horizontal: 8),
+          //             // padding: const EdgeInsets.all(10),
+          //             height: 125,
+          //             width: 200,
+          //             decoration: BoxDecoration(
+          //               borderRadius: BorderRadius.circular(10),
+          //               color: (index == 0)
+          //                   ? Colors.yellow
+          //                   : (index == 1)
+          //                       ? Colors.green
+          //                       : (index == 2)
+          //                           ? Colors.red
+          //                           : Colors.grey,
+          //             ),
+          //           ),
+          //           Container(
+          //             padding: const EdgeInsets.all(10),
+          //             margin: const EdgeInsets.symmetric(horizontal: 8),
+          //             height: 125,
+          //             width: 193,
+          //             decoration: BoxDecoration(
+          //                 borderRadius: BorderRadius.circular(10),
+          //                 color: white),
+          //             child: Column(
+          //               children: [
+          //                 Row(
+          //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                   children: [
+          //                     (index == 0)
+          //                         ? Text(
+          //                             "Surat\nMasuk",
+          //                             style: MyFont.poppins(
+          //                                 fontSize: 16,
+          //                                 color: black,
+          //                                 fontWeight: FontWeight.bold),
+          //                           )
+          //                         : (index == 1)
+          //                             ? Text(
+          //                                 "Surat\nDisetujui",
+          //                                 style: MyFont.poppins(
+          //                                     fontSize: 16,
+          //                                     color: black,
+          //                                     fontWeight: FontWeight.bold),
+          //                               )
+          //                             : (index == 2)
+          //                                 ? Text(
+          //                                     "Surat\nDitolak",
+          //                                     style: MyFont.poppins(
+          //                                         fontSize: 16,
+          //                                         color: black,
+          //                                         fontWeight: FontWeight.bold),
+          //                                   )
+          //                                 : SizedBox(),
+          //                     (index == 0)
+          //                         ? Image.asset(
+          //                             "images/masuk.png",
+          //                             height: 50,
+          //                           )
+          //                         : (index == 1)
+          //                             ? Image.asset(
+          //                                 "images/proses.png",
+          //                                 height: 40,
+          //                               )
+          //                             : (index == 2)
+          //                                 ? Image.asset(
+          //                                     "images/tolak.png",
+          //                                     height: 40,
+          //                                   )
+          //                                 : SizedBox(),
+          //                   ],
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       );
+          //     },
+          //   ),
+          // ),
           SizedBox(
             height: 100,
             child: Card(
@@ -205,7 +297,7 @@ class _WidgetCardState extends State<WidgetCard> {
                                       label: Text(
                                     style: MyFont.poppins(
                                         fontSize: 12, color: black),
-                                    "No.",
+                                    "Foto",
                                   )),
                                   DataColumn(
                                       label: Text(
@@ -216,10 +308,14 @@ class _WidgetCardState extends State<WidgetCard> {
                                 ],
                                 rows: _surat.map((e) {
                                   return DataRow(cells: [
-                                    DataCell(Text(
-                                      e.idSurat.toString(),
-                                      style: MyFont.poppins(
-                                          fontSize: 11, color: black),
+                                    DataCell(Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Image.network(
+                                        Api.connectimage + e.image!.trim(),
+                                        height: 50,
+                                        width: 50,
+                                      ),
                                     )),
                                     DataCell(Text(
                                       "Surat Keterangan " +

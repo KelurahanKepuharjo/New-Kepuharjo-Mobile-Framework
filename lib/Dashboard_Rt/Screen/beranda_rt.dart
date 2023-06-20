@@ -1,28 +1,29 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/custom_navigation_drawer.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/navigation_drawer.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/widget_card.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_berita.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_pelayanan.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_text_berita.dart';
-import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
-import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
+import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 
-class HomeUser extends StatefulWidget {
-  const HomeUser({super.key});
+import '../../Resource/Myfont.dart';
+
+class BerandaRT extends StatefulWidget {
+  const BerandaRT({super.key});
 
   @override
-  State<HomeUser> createState() => _HomeUserState();
+  State<BerandaRT> createState() => _BerandaRTState();
 }
 
-class _HomeUserState extends State<HomeUser> {
+class _BerandaRTState extends State<BerandaRT> {
   Timer? _timer;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       setState(() {
         select = !select;
       });
@@ -37,37 +38,69 @@ class _HomeUserState extends State<HomeUser> {
     _timer?.cancel();
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
+
   bool select = true;
+  int selectedIndex = 0;
+  void onItemClicked(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
+      appBar: null,
+      drawer: CollapsingNavigationDrawer(
+        selectedIndex: selectedIndex,
+        onItemClicked: onItemClicked,
+      ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             automaticallyImplyLeading: false,
-            title: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Text(
-                    "S-Kepuharjo",
-                    style: MyFont.montserrat(
-                        fontSize: 18,
-                        color: white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Image.asset(
-                    "images/mylogo.png",
-                    width: 30,
-                    height: 30,
-                  ),
-                ],
-              ),
-            ),
-            pinned: true,
+            // title: Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: Row(
+            //     children: [
+            //       GestureDetector(
+            //         onTap: () {
+            //           _openDrawer();
+            //         },
+            //         child: Image.asset(
+            //           "images/menu.png",
+            //           color: white,
+            //           height: 25,
+            //         ),
+            //       ),
+            //       const SizedBox(
+            //         width: 15,
+            //       ),
+            //       Text(
+            //         "S-Kepuharjo",
+            //         style: MyFont.montserrat(
+            //             fontSize: 18,
+            //             color: white,
+            //             fontWeight: FontWeight.bold),
+            //       ),
+            //       const SizedBox(
+            //         width: 5,
+            //       ),
+            //       Image.asset(
+            //         "images/mylogo.png",
+            //         width: 30,
+            //         height: 30,
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            pinned: false,
             backgroundColor: primaryColor,
             shadowColor: Colors.transparent,
             expandedHeight: 250,
@@ -96,7 +129,7 @@ class _HomeUserState extends State<HomeUser> {
                     ),
                   ),
                   Positioned(
-                    top: 70,
+                    top: 30,
                     child: AnimatedContainer(
                       alignment: Alignment.centerLeft,
                       duration: Duration(seconds: 1),
@@ -173,10 +206,7 @@ class _HomeUserState extends State<HomeUser> {
                                               BorderRadius.circular(5),
                                         )),
                                     onPressed: () async {
-                                      MySnackbar(
-                                              type: SnackbarType.error,
-                                              title: "OK")
-                                          .showSnackbar(context);
+                                      // isLoading ? null : verifyLogin();
                                     },
                                     child: Text('Profil',
                                         style: MyFont.poppins(
@@ -193,10 +223,9 @@ class _HomeUserState extends State<HomeUser> {
           ),
           SliverToBoxAdapter(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                WidgetPelayanan(),
+                WidgetCard(),
                 WidgetTextBerita(),
                 WidgetBerita(),
               ],

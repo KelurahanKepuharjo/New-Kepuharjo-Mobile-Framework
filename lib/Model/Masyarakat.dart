@@ -1,4 +1,5 @@
 import 'package:mobile_kepuharjo_new/Model/Kks.dart';
+import 'package:mobile_kepuharjo_new/Model/User.dart';
 
 class Masyarakat {
   String? idMasyarakat;
@@ -23,6 +24,7 @@ class Masyarakat {
   String? updatedAt;
   String? id;
   Kks? kks;
+  User? user;
 
   Masyarakat(
       {this.idMasyarakat,
@@ -46,7 +48,8 @@ class Masyarakat {
       this.createdAt,
       this.updatedAt,
       this.id,
-      this.kks});
+      this.kks,
+      this.user});
 
   Masyarakat.fromJson(Map<String, dynamic> json) {
     idMasyarakat = json['id_masyarakat'];
@@ -71,6 +74,7 @@ class Masyarakat {
     updatedAt = json['updated_at'];
     id = json['id'];
     kks = json['kks'] != null ? new Kks.fromJson(json['kks']) : null;
+    user = json['akun'] != null ? new User.fromJson(json['akun']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -98,6 +102,9 @@ class Masyarakat {
     data['id'] = this.id;
     if (this.kks != null) {
       data['kks'] = this.kks!.toJson();
+    }
+    if (this.user != null) {
+      data['akun'] = this.user!.toJson();
     }
     return data;
   }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
 import 'package:mobile_kepuharjo_new/Resource/MyTextField.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:mobile_kepuharjo_new/login_screen.dart';
@@ -29,78 +30,70 @@ class _RegisterPageState extends State<RegisterPage> {
   bool isLoading = false;
   String errorMsg = '';
   void verifyRegister() {
-    setState(() {
-      errorMsg = '';
-    });
     if (nik.text.isEmpty) {
-      setState(() {
-        errorMsg = "Silahkan isi Nomor Induk Kependudukan anda";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Silahkan isi Nomor Induk Kependudukan anda")
+          .showSnackbar(context);
     } else if (nik.text.length < 16) {
-      setState(() {
-        errorMsg = "Nik tidak boleh kurang dari 16 digit";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title:
+                  "Nomor Induk Kependudukan tidak boleh kurang dari 16 digit")
+          .showSnackbar(context);
     } else if (pw.text.isEmpty) {
-      setState(() {
-        errorMsg = "Silahkan isi kata sandi anda";
-      });
+      MySnackbar(
+              type: SnackbarType.error, title: "Silahkan isi kata sandi anda")
+          .showSnackbar(context);
     } else if (pw.text.length < 8) {
-      setState(() {
-        errorMsg = "Kata sandi tidak boleh kurang dari 8 karakter";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Kata sandi tidak boleh kurang dari 8 karakter")
+          .showSnackbar(context);
     } else if (pw.text.contains(RegExp(r'[A-Z]')) == false) {
-      setState(() {
-        errorMsg = "Kata sandi harus mengandung kuruf kapital";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Kata sandi harus mengandung huruf kapital")
+          .showSnackbar(context);
     } else if (pw.text.contains(RegExp(r'[a-z]')) == false) {
-      setState(() {
-        errorMsg = "Kata sandi harus mengandung kuruf kecil";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Kata sandi harus mengandung huruf kecil")
+          .showSnackbar(context);
     } else if (pw.text.contains(RegExp(r'\d')) == false) {
-      setState(() {
-        errorMsg = "Kata sandi harus mengandung angka";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Kata sandi harus mengandung angka")
+          .showSnackbar(context);
     } else if (pw.text.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]')) == false) {
-      setState(() {
-        errorMsg = "Kata sandi harus mengandung spesial karakter";
-      });
-    } else if (conpw.text.contains(RegExp(r'[A-Z]')) == false) {
-      setState(() {
-        errorMsg = "Konfirmasi Kata sandi harus mengandung kuruf kapital";
-      });
-    } else if (conpw.text.contains(RegExp(r'[a-z]')) == false) {
-      setState(() {
-        errorMsg = "Konfirmasi Kata sandi harus mengandung kuruf kecil";
-      });
-    } else if (conpw.text.contains(RegExp(r'\d')) == false) {
-      setState(() {
-        errorMsg = "Konfirmasi Kata sandi harus mengandung angka";
-      });
-    } else if (conpw.text.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]')) ==
-        false) {
-      setState(() {
-        errorMsg = "Konfirmasi Kata sandi harus mengandung spesial karakter";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Kata sandi harus mengandung spesial karakter")
+          .showSnackbar(context);
     } else if (conpw.text.isEmpty) {
-      setState(() {
-        errorMsg = "Silahkan isi konfirmasi kata sandi anda";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Silahkan isi konfirmasi kata sandi anda")
+          .showSnackbar(context);
     } else if (conpw.text.length < 8) {
-      setState(() {
-        errorMsg = "Kata sandi tidak boleh kurang dari 8 karakter";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Kata sandi tidak boleh kurang dari 8 karakter")
+          .showSnackbar(context);
     } else if (pw.text != conpw.text) {
-      setState(() {
-        errorMsg = "Kata sandi harus sama";
-      });
+      MySnackbar(
+              type: SnackbarType.error, title: "Kata sandi tidak boleh berbeda")
+          .showSnackbar(context);
     } else if (notlp.text.isEmpty) {
-      setState(() {
-        errorMsg = "Silahkan isi no.telepon anda";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Silahkan isi nomor telepon anda")
+          .showSnackbar(context);
     } else if (notlp.text.length < 11) {
-      setState(() {
-        errorMsg = "No.Telepon tidak boleh kurang dari 11 digit";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Nomor telepon tidak boleh kurang dari 11 digit")
+          .showSnackbar(context);
     } else {
       register();
     }
@@ -120,26 +113,29 @@ class _RegisterPageState extends State<RegisterPage> {
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         if (data["message"] == "Berhasil Register") {
-          Fluttertoast.showToast(
-              msg: "Nik anda berhasil diaktifkan",
-              backgroundColor: Colors.green);
+          MySnackbar(
+                  type: SnackbarType.success,
+                  title: "Nomor Induk Kependudukan anda telah diaktifkan")
+              .showSnackbar(context);
           setState(() {
             nik.clear();
             notlp.clear();
             pw.clear();
           });
-          
         }
       } else {
         final data = jsonDecode(res.body);
         if (data["message"] == "Akun sudah terdaftar") {
-          setState(() {
-            errorMsg = "NIK sudah terdaftar";
-          });
+          MySnackbar(
+                  type: SnackbarType.error,
+                  title: "Nomor Induk Kependudukan sudah diaktifkan")
+              .showSnackbar(context);
         } else if (data["message"] == "Nik anda belum terdaftar") {
-          setState(() {
-            errorMsg = "Silahkan melakukan aktifasi akun anda terlebih dahulu";
-          });
+          MySnackbar(
+                  type: SnackbarType.error,
+                  title:
+                      "Silahkan melakukan aktifasi Nomor Induk KependudukaN anda terlebih dahulu kepada pihak kelurahan")
+              .showSnackbar(context);
         } else {
           setState(() {
             errorMsg = "Gagal Daftar";
@@ -222,7 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               GetTextFieldUser(
                 controller: nik,
-                label: "No. NIK",
+                label: "Nomor Induk Kependudukan",
                 keyboardType: TextInputType.number,
                 inputFormatters:
                     FilteringTextInputFormatter.singleLineFormatter,
@@ -275,7 +271,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: grey)),
-                          labelText: "Password",
+                          labelText: "Kata Sandi",
                           labelStyle: MyFont.poppins(fontSize: 13, color: grey),
                           suffixIcon: IconButton(
                               onPressed: () {
@@ -332,7 +328,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: grey)),
-                          labelText: "Konfirmasi Password",
+                          labelText: "Konfirmasi Kata Sandi",
                           labelStyle: MyFont.poppins(fontSize: 13, color: grey),
                           suffixIcon: IconButton(
                               onPressed: () {

@@ -36,7 +36,9 @@ class _SuratMasukState extends State<SuratMasuk> {
     });
   }
 
-  Future status_setuju(String id, String nopengantar) async {
+  ApiServices apiServices = ApiServices();
+
+  Future status_setuju(String id, String nopengantar, String tokenfcm) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -49,6 +51,8 @@ class _SuratMasukState extends State<SuratMasuk> {
           Fluttertoast.showToast(
               msg: "Status pengajuan berhasil disetujui",
               backgroundColor: Colors.green);
+          apiServices.sendNotification(
+              "Surat anda telah disetujui oleh rt", tokenfcm, "Berhasil");
           setState(() {
             noPengantar.clear();
             ketDitolak.clear();
@@ -623,7 +627,8 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                                         } else {
                                                                           status_setuju(
                                                                               pengajuan[index].id.toString(),
-                                                                              noPengantar.text);
+                                                                              noPengantar.text,
+                                                                              pengajuan[index].masyarakat!.user!.fcmToken.toString());
                                                                           _getSuratMasuk();
                                                                           Navigator.pop(
                                                                               context);

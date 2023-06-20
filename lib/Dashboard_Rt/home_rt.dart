@@ -7,11 +7,15 @@ import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Surat_Ditolak.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Surat_Masuk.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Surat_Selesai.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/beranda_rt.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/info_aplikasi.dart';
 import 'package:mobile_kepuharjo_new/Model/User.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:provider/provider.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class DashboardRT extends StatefulWidget {
   const DashboardRT({super.key});
@@ -36,7 +40,7 @@ class _DashboardRTState extends State<DashboardRT> {
   Widget getPage(int index) {
     switch (index) {
       case 0:
-        return HomeRT();
+        return BerandaRT();
       case 1:
         return SuratMasuk();
       case 2:
@@ -63,6 +67,7 @@ class _DashboardRTState extends State<DashboardRT> {
 
   @override
   Widget build(BuildContext context) {
+    bool showAppBar = selectedIndex != 0;
     return Scaffold(
         key: _scaffoldKey,
         backgroundColor: white,
@@ -84,8 +89,9 @@ class _DashboardRTState extends State<DashboardRT> {
               _openDrawer();
             },
             child: Icon(
-              Icons.menu_rounded,
+              Icons.grid_view_rounded,
               color: black,
+              // size: 30,
             ),
           ),
           actions: [
@@ -142,8 +148,14 @@ class _DashboardRTState extends State<DashboardRT> {
                       ]).then((value) {
                     if (value != null) {
                       if (value == 1) {
-                        authServices.logout(context);
-                      } else {}
+                        showSuccessDialog(context);
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => InfoAplikasi(),
+                            ));
+                      }
                     }
                   });
                 },
@@ -164,5 +176,34 @@ class _DashboardRTState extends State<DashboardRT> {
             return getPage(selectedPage.selectedIndex);
           },
         ));
+  }
+
+  showSuccessDialog(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.WARNING,
+      title: 'Warning!',
+      titleTextStyle: MyFont.poppins(
+          fontSize: 25, color: primaryColor, fontWeight: FontWeight.bold),
+      desc: 'Apakah anda yakin, untuk Keluar dari aplikasi',
+      descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
+      btnOkOnPress: () {
+        authServices.logout(context);
+        Fluttertoast.showToast(
+            msg: "Berhasil keluar dari aplikasi",
+            backgroundColor: Colors.green);
+      },
+      btnCancelOnPress: () {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const DashboardRT(),
+            ),
+            (route) => false);
+      },
+      btnCancelIcon: Icons.highlight_off_rounded,
+      btnOkIcon: Icons.task_alt_rounded,
+    ).show();
   }
 }

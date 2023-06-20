@@ -21,6 +21,7 @@ class MySnackbar {
       duration: const Duration(seconds: 3),
       flushbarPosition: FlushbarPosition.BOTTOM,
       icon: _getIcon(),
+      flushbarStyle: FlushbarStyle.FLOATING,
       shouldIconPulse: false,
       // title: type,
       messageText: Text(title,
@@ -28,12 +29,12 @@ class MySnackbar {
               fontSize: 12, color: white, fontWeight: FontWeight.w500)),
       titleText: Text(
         type,
-        style: GoogleFonts.inter(
+        style: MyFont.poppins(
             fontSize: 16, color: white, fontWeight: FontWeight.bold),
       ),
-      padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+      padding: const EdgeInsets.fromLTRB(25, 20, 25, 20),
       borderRadius: BorderRadius.circular(16),
-      margin: const EdgeInsets.fromLTRB(10, 0, 10, 25),
+      margin: const EdgeInsets.fromLTRB(10, 59, 10, 10),
       backgroundColor: _getColor(),
       barBlur: 10,
     ).show(context);
@@ -42,10 +43,10 @@ class MySnackbar {
   Color _getColor() {
     switch (type) {
       case SnackbarType.success:
-        return Colors.green;
+        return Colors.black.withOpacity(0.7);
         break;
       case SnackbarType.failed:
-        return Colors.red;
+        return Colors.black.withOpacity(0.7);
         break;
       case SnackbarType.error:
         return Colors.black.withOpacity(0.7);

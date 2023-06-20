@@ -82,20 +82,19 @@ class _PengajuansuratState extends State<Pengajuansurat> {
 
   void verifypengajuan(BuildContext context) {
     if (keperluan.text.isEmpty) {
-      Fluttertoast.showToast(
-          msg: "Silahkan isi keperluan anda",
-          backgroundColor: Colors.red,
-          toastLength: Toast.LENGTH_LONG);
+      MySnackbar(
+              type: SnackbarType.failed, title: "Silahkan isi keperluan anda")
+          .showSnackbar(context);
     } else if (imageKK == null) {
-      Fluttertoast.showToast(
-          msg: "Silahkan upload foto kartu keluarga anda",
-          backgroundColor: Colors.red,
-          toastLength: Toast.LENGTH_LONG);
+      MySnackbar(
+              type: SnackbarType.failed,
+              title: "Silahkan upload foto Kartu Keluarga anda")
+          .showSnackbar(context);
     } else if (imageBukti == null) {
-      Fluttertoast.showToast(
-          msg: "Silahkan upload foto kartu keluarga anda",
-          backgroundColor: Colors.red,
-          toastLength: Toast.LENGTH_LONG);
+      MySnackbar(
+              type: SnackbarType.failed,
+              title: "Silahkan upload foto bukti/pendukung anda")
+          .showSnackbar(context);
     } else {
       showSuccessDialog(context, imageKK!, imageBukti!);
     }
@@ -170,6 +169,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
           msg: "Berhasil mengajukan surat", backgroundColor: Colors.green);
+
       apiServices.sendNotification("Pengajuan surat anda berhasil diajukan",
           user?.fcmToken ?? "", "Berhasil");
       // ignore: use_build_context_synchronously
@@ -177,17 +177,23 @@ class _PengajuansuratState extends State<Pengajuansurat> {
           context,
           MaterialPageRoute(
             builder: (context) => DashboardUser(),
-          ));
-    } else if (response.statusCode == 400) {
+          )).then((value) => MySnackbar(
+              type: SnackbarType.success, title: "Berhasil mengajukan surat")
+          .showSnackbar(context));
+    } else if (response.statusCode == 404) {
       var responseJson = await response.stream.bytesToString();
       print(responseJson);
       var responseData = json.decode(responseJson);
       var errorMessage = responseData['message'];
       if (errorMessage == "Surat sebelumnya belum selesai") {
         Fluttertoast.showToast(msg: errorMessage, backgroundColor: Colors.red);
+        MySnackbar(
+                type: SnackbarType.failed,
+                title: "Surat sebelumnya masih belum selesai")
+            .showSnackbar(context);
       } else {
-        Fluttertoast.showToast(
-            msg: "Gagal mengajukan surat", backgroundColor: Colors.red);
+        MySnackbar(type: SnackbarType.failed, title: "Gagal mengajukan surat")
+            .showSnackbar(context);
       }
     }
   }

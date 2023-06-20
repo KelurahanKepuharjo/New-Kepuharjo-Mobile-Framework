@@ -31,21 +31,26 @@ class _LoginPageState extends State<LoginPage> {
   bool isLoading = false;
   void verifyLogin() {
     if (nik.text.isEmpty) {
-      setState(() {
-        errorMsg = "Silahkan isi NIK anda";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Silahkan isi Nomor Induk Kependudukan anda")
+          .showSnackbar(context);
     } else if (nik.text.length < 16) {
-      setState(() {
-        errorMsg = "Nik tidak boleh kurang dari 16 digit";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title:
+                  "Nomor Induk Kependudukan tidak boleh kurang dari 16 digit")
+          .showSnackbar(context);
     } else if (pw.text.isEmpty) {
-      setState(() {
-        errorMsg = "Silahkan isi password anda";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Kata sandi tidak boleh kurang dari 16 digit")
+          .showSnackbar(context);
     } else if (pw.text.length < 8) {
-      setState(() {
-        errorMsg = "Password tidak boleh kurang dari 8 karakter";
-      });
+      MySnackbar(
+              type: SnackbarType.error,
+              title: "Kata sandi tidak boleh kurang dari 8 karakter")
+          .showSnackbar(context);
     } else {
       login();
     }
@@ -54,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
   Future login() async {
     setState(() {
       isLoading = true;
-      errorMsg = '';
     });
     try {
       var res = await http.post(Uri.parse(Api.login),
@@ -66,6 +70,8 @@ class _LoginPageState extends State<LoginPage> {
             nik.clear();
             pw.clear();
           });
+          // ignore: use_build_context_synchronously
+
           final prefs = await SharedPreferences.getInstance();
           prefs.setString('token', data['token']);
           prefs.setString('role', data['role']);
@@ -86,6 +92,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
               (Route<dynamic> route) => false,
             );
+            MySnackbar(
+                    type: SnackbarType.success,
+                    title: "Selamat, anda berhasil masuk")
+                .showSnackbar(context);
           } else if (role == "2") {
             // Jika role == 2, push ke DashboardRt
             // ignore: use_build_context_synchronously
@@ -96,6 +106,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
               (Route<dynamic> route) => false,
             );
+            MySnackbar(
+                    type: SnackbarType.success,
+                    title: "Selamat, anda berhasil masuk")
+                .showSnackbar(context);
           } else if (role == "3") {
             // Jika role == 3, push ke DashboardRw
             // ignore: use_build_context_synchronously
@@ -106,6 +120,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
               (Route<dynamic> route) => false,
             );
+            MySnackbar(
+                    type: SnackbarType.success,
+                    title: "Selamat, anda berhasil masuk")
+                .showSnackbar(context);
           }
         }
       } else {
@@ -115,14 +133,21 @@ class _LoginPageState extends State<LoginPage> {
           setState(() {
             errorMsg = "Silahkan Aktifkan NIK anda terlebih dahulu";
           });
+          MySnackbar(
+                  type: SnackbarType.error,
+                  title:
+                      "Silahkan Aktifkan Nomor Induk Kependudukan anda terlebih dahulu")
+              .showSnackbar(context);
         } else if (data['message'] == "Password Anda Salah") {
           setState(() {
             errorMsg = "Password Anda Salah";
           });
+
+          MySnackbar(type: SnackbarType.error, title: "Kata sandi salah")
+              .showSnackbar(context);
         } else {
-          setState(() {
-            errorMsg = "Gagal Login";
-          });
+          MySnackbar(type: SnackbarType.error, title: "Gagal masuk")
+              .showSnackbar(context);
         }
       }
     } catch (e) {
@@ -250,7 +275,7 @@ class _LoginPageState extends State<LoginPage> {
                         decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: grey)),
-                            labelText: "Password",
+                            labelText: "Kata sandi",
                             labelStyle:
                                 MyFont.poppins(fontSize: 13, color: grey),
                             suffixIcon: IconButton(
