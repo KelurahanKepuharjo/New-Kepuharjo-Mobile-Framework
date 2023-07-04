@@ -1,6 +1,9 @@
+import 'dart:io';
+
+import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/info_surat.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
@@ -8,7 +11,12 @@ import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:date_format/date_format.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SuratSelesaiUser extends StatefulWidget {
   const SuratSelesaiUser({super.key});
@@ -27,6 +35,22 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
     // TODO: implement initState
     super.initState();
     listdata = apiServices.getStatus("Selesai");
+  }
+
+  Future<void> downloadPdf(String pdfUrl, String fileName) async {
+    final directory = await getExternalStorageDirectory();
+    final filePath = '${directory!.path}/$fileName';
+
+    try {
+      http.Response response = await http.get(Uri.parse(pdfUrl));
+      if (response.statusCode == 200) {
+        await File(filePath).writeAsBytes(response.bodyBytes);
+        print('PDF saved to $filePath');
+        OpenFile.open(filePath);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   List<bool> _isVisible = [];
@@ -102,24 +126,51 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  height: 30,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.green),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        data[index].status.toString(),
-                                        style: MyFont.poppins(
-                                            fontSize: 10,
-                                            color: white,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: 30,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Colors.green),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            data[index].status.toString(),
+                                            style: MyFont.poppins(
+                                                fontSize: 10,
+                                                color: white,
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => InfoSurat(
+                                                  surat: data[index].surat!,
+                                                  pengajuan: data[index],
+                                                  masyarakat:
+                                                      data[index].masyarakat!),
+                                            ));
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 8.0),
+                                        child: Icon(
+                                          Icons.info_outline_rounded,
+                                          color: black,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 )
                               ],
                             ),
@@ -239,8 +290,21 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
                                                 borderRadius:
                                                     BorderRadius.circular(5),
                                               )),
-                                          onPressed: () {
-                                            // verifyLogin();
+                                          onPressed: () async {
+                                            var permissionStatus =
+                                                await Permission.storage
+                                                    .request()
+                                                    .isGranted;
+                                            if (permissionStatus) {
+                                              await downloadPdf(
+                                                  Api.connectpdf +
+                                                      data[index]
+                                                          .filePdf
+                                                          .toString(),
+                                                  data[index]
+                                                      .filePdf
+                                                      .toString());
+                                            } else {}
                                           },
                                           child: Column(
                                             mainAxisAlignment:
@@ -270,62 +334,62 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
                                           )),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      margin: EdgeInsets.all(8),
-                                      height: _isVisible[index] ? 40 : 0,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.blue,
-                                              shadowColor: Colors.transparent,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              )),
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      InfoSurat(
-                                                          surat: data[index]
-                                                              .surat!,
-                                                          pengajuan:
-                                                              data[index],
-                                                          masyarakat:
-                                                              data[index]
-                                                                  .masyarakat!),
-                                                ));
-                                          },
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons.info_outline_rounded,
-                                                    color: white,
-                                                    size: 27,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 7,
-                                                  ),
-                                                  Text('Info Surat',
-                                                      style: MyFont.poppins(
-                                                          fontSize: 12,
-                                                          color: white)),
-                                                ],
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                  ),
+                                  //   Expanded(
+                                  //     child: Container(
+                                  //       margin: EdgeInsets.all(8),
+                                  //       height: _isVisible[index] ? 40 : 0,
+                                  //       width: MediaQuery.of(context).size.width,
+                                  //       child: ElevatedButton(
+                                  //           style: ElevatedButton.styleFrom(
+                                  //               backgroundColor: Colors.blue,
+                                  //               shadowColor: Colors.transparent,
+                                  //               shape: RoundedRectangleBorder(
+                                  //                 borderRadius:
+                                  //                     BorderRadius.circular(5),
+                                  //               )),
+                                  //           onPressed: () {
+                                  //             Navigator.push(
+                                  //                 context,
+                                  //                 MaterialPageRoute(
+                                  //                   builder: (context) =>
+                                  //                       InfoSurat(
+                                  //                           surat: data[index]
+                                  //                               .surat!,
+                                  //                           pengajuan:
+                                  //                               data[index],
+                                  //                           masyarakat:
+                                  //                               data[index]
+                                  //                                   .masyarakat!),
+                                  //                 ));
+                                  //           },
+                                  //           child: Column(
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment.center,
+                                  //             children: [
+                                  //               Row(
+                                  //                 crossAxisAlignment:
+                                  //                     CrossAxisAlignment.center,
+                                  //                 mainAxisAlignment:
+                                  //                     MainAxisAlignment.center,
+                                  //                 children: [
+                                  //                   Icon(
+                                  //                     Icons.info_outline_rounded,
+                                  //                     color: white,
+                                  //                     size: 27,
+                                  //                   ),
+                                  //                   const SizedBox(
+                                  //                     width: 7,
+                                  //                   ),
+                                  //                   Text('Info Surat',
+                                  //                       style: MyFont.poppins(
+                                  //                           fontSize: 12,
+                                  //                           color: white)),
+                                  //                 ],
+                                  //               ),
+                                  //             ],
+                                  //           )),
+                                  //     ),
+                                  //   ),
                                 ],
                               ),
                             ),
@@ -339,11 +403,45 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
             ),
           );
         } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
+          return Expanded(
+            child: ListView.builder(
+              itemCount: 6,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 8),
+                  height: 120,
+                  width: MediaQuery.of(context).size.width,
+                  child: CardLoading(
+                    height: 120,
+                    width: MediaQuery.of(context).size.width,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                );
+              },
+            ),
+          );
         }
-        return Center(
-          child: CircularProgressIndicator(
-            color: blue,
+        return Expanded(
+          child: ListView.builder(
+            itemCount: 6,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.symmetric(vertical: 8),
+                height: 120,
+                width: MediaQuery.of(context).size.width,
+                child: CardLoading(
+                  height: 120,
+                  width: MediaQuery.of(context).size.width,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              );
+            },
           ),
         );
       },

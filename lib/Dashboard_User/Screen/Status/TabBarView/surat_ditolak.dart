@@ -1,3 +1,4 @@
+import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/detail_surat.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/info_surat.dart';
@@ -221,11 +222,45 @@ class _SuratDitolakUserState extends State<SuratDitolakUser> {
             ),
           );
         } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
+          return Expanded(
+            child: ListView.builder(
+              itemCount: 6,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 8),
+                  height: 120,
+                  width: MediaQuery.of(context).size.width,
+                  child: CardLoading(
+                    height: 120,
+                    width: MediaQuery.of(context).size.width,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                );
+              },
+            ),
+          );
         }
-        return Center(
-          child: CircularProgressIndicator(
-            color: blue,
+        return Expanded(
+          child: ListView.builder(
+            itemCount: 6,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.symmetric(vertical: 8),
+                height: 120,
+                width: MediaQuery.of(context).size.width,
+                child: CardLoading(
+                  height: 120,
+                  width: MediaQuery.of(context).size.width,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              );
+            },
           ),
         );
       },

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/home_rt.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/home_rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
@@ -31,26 +32,33 @@ class _LoginPageState extends State<LoginPage> {
   bool isLoading = false;
   void verifyLogin() {
     if (nik.text.isEmpty) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Silahkan isi Nomor Induk Kependudukan anda")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Silahkan isi Nomor Induk Kependudukan anda",
+          backgroundColor: Colors.red,
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (nik.text.length < 16) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title:
-                  "Nomor Induk Kependudukan tidak boleh kurang dari 16 digit")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Nomor Induk Kependudukan tidak boleh kurang dari 16 digit",
+          backgroundColor: Colors.red,
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.isEmpty) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Kata sandi tidak boleh kurang dari 16 digit")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Kata sandi tidak boleh kosong",
+          backgroundColor: Colors.red,
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.length < 8) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Kata sandi tidak boleh kurang dari 8 karakter")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Kata sandi tidak boleh kurang dari 8 karakter",
+          backgroundColor: Colors.red,
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else {
       login();
     }

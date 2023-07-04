@@ -92,14 +92,14 @@ class _InformasiAkunState extends State<InformasiAkun> {
             margin: const EdgeInsets.symmetric(vertical: 50),
             width: 100,
             decoration: BoxDecoration(
-                color: grey.withOpacity(0.3),
+                color: Colors.grey.shade700,
                 borderRadius: BorderRadius.circular(100)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
                   "images/account.png",
-                  color: Colors.grey.shade800,
+                  color: white,
                 )
               ],
             ),

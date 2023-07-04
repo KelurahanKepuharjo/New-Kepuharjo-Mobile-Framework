@@ -1,3 +1,4 @@
+import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Pengajuan/daftar_keluarga.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
@@ -66,7 +67,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
                             crossAxisCount: 4,
                             crossAxisSpacing: 0,
                             mainAxisSpacing: 0,
-                            mainAxisExtent: 100),
+                            mainAxisExtent: 80),
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
@@ -81,9 +82,9 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: 40,
+                              height: 35,
                               child: SizedBox(
-                                height: 60,
+                                height: 35,
                                 child: index < isiData.length
                                     ? Image.network(
                                         Api.connectimage +
@@ -108,12 +109,67 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
                     },
                   );
                 } else if (snapshot.hasError) {
-                  return Text("${snapshot.data}");
+                  return GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 8,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 0,
+                      mainAxisExtent: 80,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          CardLoading(
+                            height: 35,
+                            width: 35,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          CardLoading(
+                            height: 12,
+                            width: 80,
+                            borderRadius: BorderRadius.circular(10),
+                            // color: Colors.grey,
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 }
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: primaryColor,
+                return GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 8,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 0,
+                    mainAxisExtent: 80,
                   ),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        CardLoading(
+                          height: 35,
+                          width: 35,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        CardLoading(
+                          height: 12,
+                          width: 80,
+                          borderRadius: BorderRadius.circular(10),
+                          // color: Colors.grey,
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
             ),

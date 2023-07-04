@@ -40,12 +40,12 @@ class _DashboardUserState extends State<DashboardUser> {
     {
       "active_icon": Image.asset(
         "images/beranda.png",
-        height: 25,
+        height: 20,
         color: primaryColor,
       ),
       "non_active_icon": Image.asset(
         "images/beranda.png",
-        height: 25,
+        height: 20,
         color: softgrey,
       ),
       "label": "Home"
@@ -53,12 +53,12 @@ class _DashboardUserState extends State<DashboardUser> {
     {
       "active_icon": Image.asset(
         "images/email.png",
-        height: 25,
+        height: 20,
         color: primaryColor,
       ),
       "non_active_icon": Image.asset(
         "images/email.png",
-        height: 25,
+        height: 20,
         color: softgrey,
       ),
       "label": "Pengajuan"
@@ -66,12 +66,12 @@ class _DashboardUserState extends State<DashboardUser> {
     {
       "active_icon": Image.asset(
         "images/clipboard.png",
-        height: 25,
+        height: 20,
         color: primaryColor,
       ),
       "non_active_icon": Image.asset(
         "images/clipboard.png",
-        height: 25,
+        height: 20,
         color: softgrey,
       ),
       "label": "Status"
@@ -79,12 +79,12 @@ class _DashboardUserState extends State<DashboardUser> {
     {
       "active_icon": Image.asset(
         "images/account.png",
-        height: 30,
+        height: 25,
         color: primaryColor,
       ),
       "non_active_icon": Image.asset(
         "images/account.png",
-        height: 30,
+        height: 25,
         color: softgrey,
       ),
       "label": "Profil"

@@ -73,14 +73,28 @@ class _DashboardRTState extends State<DashboardRT> {
         backgroundColor: white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: white,
+          backgroundColor: primaryColor,
           shadowColor: Colors.transparent,
           title: Row(
             children: [
-              Text(
-                "S-Kepuharjo",
-                style: MyFont.montserrat(
-                    fontSize: 18, color: black, fontWeight: FontWeight.bold),
+              Row(
+                children: [
+                  Text(
+                    "S-Kepuharjo",
+                    style: MyFont.montserrat(
+                        fontSize: 18,
+                        color: white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Image.asset(
+                    "images/mylogo.png",
+                    width: 30,
+                    height: 30,
+                  ),
+                ],
               ),
             ],
           ),
@@ -89,8 +103,8 @@ class _DashboardRTState extends State<DashboardRT> {
               _openDrawer();
             },
             child: Icon(
-              Icons.grid_view_rounded,
-              color: black,
+              Icons.menu,
+              color: white,
               // size: 30,
             ),
           ),
@@ -161,7 +175,7 @@ class _DashboardRTState extends State<DashboardRT> {
                 },
                 icon: Icon(
                   Icons.more_vert,
-                  color: black,
+                  color: white,
                 ),
               ),
             ),

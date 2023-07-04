@@ -1,3 +1,4 @@
+import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/daftar_keluarga.dart';
@@ -139,19 +140,42 @@ class _PengaturanState extends State<Pengaturan> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              user?.masyarakat?.namaLengkap ?? "",
-                              style: MyFont.poppins(
+                            Visibility(
+                              visible: user != null && user!.masyarakat != null,
+                              replacement: CardLoading(
+                                height: 15,
+                                width: 150,
+                                borderRadius: BorderRadius.circular(10),
+                                // color: Colors.grey,
+                              ),
+                              child: Text(
+                                user?.masyarakat?.namaLengkap ?? "",
+                                style: MyFont.poppins(
                                   fontSize: 14,
                                   color: black,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
-                            Text(
-                              user?.masyarakat?.nik.toString() ?? "",
-                              style: MyFont.poppins(
+                            Visibility(
+                              visible: user != null && user!.masyarakat != null,
+                              replacement: Padding(
+                                padding: const EdgeInsets.only(top: 5.0),
+                                child: CardLoading(
+                                  height: 15,
+                                  width: 200,
+                                  borderRadius: BorderRadius.circular(10),
+                                  // color: Colors.grey,
+                                ),
+                              ),
+                              child: Text(
+                                user?.masyarakat?.nik.toString() ?? "",
+                                style: MyFont.poppins(
                                   fontSize: 12,
                                   color: black,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -457,7 +481,7 @@ class _PengaturanState extends State<Pengaturan> {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
-              height: 48,
+              height: 45,
               width: MediaQuery.of(context).size.width,
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
@@ -465,15 +489,16 @@ class _PengaturanState extends State<Pengaturan> {
                   backgroundColor: primaryColor, // Warna latar belakang
                   // side: BorderSide(width: 1, color: primaryColor), // Border
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 onPressed: () {
                   showSuccessDialog(context);
                 },
                 child: Text(
-                  'Logout',
-                  style: MyFont.poppins(fontSize: 14, color: white),
+                  'Keluar',
+                  style: MyFont.poppins(
+                      fontSize: 14, color: white, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

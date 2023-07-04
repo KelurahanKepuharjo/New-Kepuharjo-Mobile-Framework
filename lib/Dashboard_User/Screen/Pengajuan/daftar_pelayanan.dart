@@ -1,3 +1,4 @@
+import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Pengajuan/daftar_keluarga.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
@@ -189,12 +190,103 @@ class _LayananState extends State<Layanan> {
                       },
                     );
                   } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
+                    return ListView.builder(
+                      itemCount: 8,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CardLoading(
+                                height: 70,
+                                width: 70,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                  child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CardLoading(
+                                    height: 16,
+                                    width: 100,
+                                    borderRadius: BorderRadius.circular(10),
+                                    // color: Colors.grey,
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  CardLoading(
+                                    height: 12,
+                                    width: 150,
+                                    borderRadius: BorderRadius.circular(10),
+                                    // color: Colors.grey,
+                                  ),
+                                ],
+                              ))
+                            ],
+                          ),
+                        );
+                      },
+                    );
                   }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
-                    ),
+                  // List<Surat>? data = snapshot.data;
+                  return ListView.builder(
+                    itemCount: 8,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CardLoading(
+                              height: 70,
+                              width: 70,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CardLoading(
+                                  height: 16,
+                                  width: 100,
+                                  borderRadius: BorderRadius.circular(10),
+                                  // color: Colors.grey,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                CardLoading(
+                                  height: 12,
+                                  width: 150,
+                                  borderRadius: BorderRadius.circular(10),
+                                  // color: Colors.grey,
+                                ),
+                              ],
+                            ))
+                          ],
+                        ),
+                      );
+                    },
                   );
                 },
               )
