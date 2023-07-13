@@ -3,6 +3,7 @@ import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
+import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 
 class WidgetCardRw extends StatefulWidget {
@@ -52,80 +53,102 @@ class _WidgetCardRwState extends State<WidgetCardRw> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
       child: Column(
         children: [
-          SizedBox(
-            height: 100,
-            child: Card(
-              elevation: 1, // tinggi bayangan
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      height: 80,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "${pengajuan.length}",
-                            style: MyFont.poppins(
-                                fontSize: 20,
-                                color: black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Surat Masuk",
-                            style: MyFont.poppins(
-                                fontSize: 12,
-                                color: black,
-                                fontWeight: FontWeight.normal),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 10),
-                      width: 1,
-                      height: MediaQuery.of(context).size.height,
-                      color: black.withOpacity(0.2),
-                    ),
-                    SizedBox(
-                      height: 80,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "${pengajuan1.length}",
-                            style: MyFont.poppins(
-                                fontSize: 20,
-                                color: black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Surat Disetujui",
-                            style: MyFont.poppins(
-                                fontSize: 12,
-                                color: black,
-                                fontWeight: FontWeight.normal),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   height: 125,
+          //   width: MediaQuery.of(context).size.width,
+          //   child: ListView.builder(
+          //     itemCount: 3,
+          //     shrinkWrap: true,
+          //     scrollDirection: Axis.horizontal,
+          //     itemBuilder: (context, index) {
+          //       return Stack(
+          //         fit: StackFit.loose,
+          //         children: [
+          //           Container(
+          //             margin: const EdgeInsets.symmetric(horizontal: 8),
+          //             // padding: const EdgeInsets.all(10),
+          //             height: 125,
+          //             width: 200,
+          //             decoration: BoxDecoration(
+          //               borderRadius: BorderRadius.circular(10),
+          //               color: (index == 0)
+          //                   ? Colors.yellow
+          //                   : (index == 1)
+          //                       ? Colors.green
+          //                       : (index == 2)
+          //                           ? Colors.red
+          //                           : Colors.grey,
+          //             ),
+          //           ),
+          //           Container(
+          //             padding: const EdgeInsets.all(10),
+          //             margin: const EdgeInsets.symmetric(horizontal: 8),
+          //             height: 125,
+          //             width: 193,
+          //             decoration: BoxDecoration(
+          //                 borderRadius: BorderRadius.circular(10),
+          //                 color: white),
+          //             child: Column(
+          //               children: [
+          //                 Row(
+          //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                   children: [
+          //                     (index == 0)
+          //                         ? Text(
+          //                             "Surat\nMasuk",
+          //                             style: MyFont.poppins(
+          //                                 fontSize: 16,
+          //                                 color: black,
+          //                                 fontWeight: FontWeight.bold),
+          //                           )
+          //                         : (index == 1)
+          //                             ? Text(
+          //                                 "Surat\nDisetujui",
+          //                                 style: MyFont.poppins(
+          //                                     fontSize: 16,
+          //                                     color: black,
+          //                                     fontWeight: FontWeight.bold),
+          //                               )
+          //                             : (index == 2)
+          //                                 ? Text(
+          //                                     "Surat\nDitolak",
+          //                                     style: MyFont.poppins(
+          //                                         fontSize: 16,
+          //                                         color: black,
+          //                                         fontWeight: FontWeight.bold),
+          //                                   )
+          //                                 : SizedBox(),
+          //                     (index == 0)
+          //                         ? Image.asset(
+          //                             "images/masuk.png",
+          //                             height: 50,
+          //                           )
+          //                         : (index == 1)
+          //                             ? Image.asset(
+          //                                 "images/proses.png",
+          //                                 height: 40,
+          //                               )
+          //                             : (index == 2)
+          //                                 ? Image.asset(
+          //                                     "images/tolak.png",
+          //                                     height: 40,
+          //                                   )
+          //                                 : SizedBox(),
+          //                   ],
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       );
+          //     },
+          //   ),
+          // ),
           Container(
-            margin: EdgeInsets.only(top: 10),
+            margin: EdgeInsets.only(top: 0),
             width: MediaQuery.of(context).size.width,
             height: 211,
             decoration: BoxDecoration(
@@ -167,7 +190,7 @@ class _WidgetCardRwState extends State<WidgetCardRw> {
                                       label: Text(
                                     style: MyFont.poppins(
                                         fontSize: 12, color: black),
-                                    "No.",
+                                    "Gambar",
                                   )),
                                   DataColumn(
                                       label: Text(
@@ -178,10 +201,14 @@ class _WidgetCardRwState extends State<WidgetCardRw> {
                                 ],
                                 rows: _surat.map((e) {
                                   return DataRow(cells: [
-                                    DataCell(Text(
-                                      e.idSurat.toString(),
-                                      style: MyFont.poppins(
-                                          fontSize: 11, color: black),
+                                    DataCell(Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Image.network(
+                                        Api.connectimage + e.image!.trim(),
+                                        height: 50,
+                                        width: 50,
+                                      ),
                                     )),
                                     DataCell(Text(
                                       "Surat Keterangan " +

@@ -1,5 +1,5 @@
 class Api {
-  static const connectapi = "http://192.168.0.117:8000";
+  static const connectapi = "http://192.168.43.199:8000";
   static const connectHost = "$connectapi/api";
   static const connectimage = "$connectapi/images/";
   static const connectpdf = "$connectapi/pdf/";
@@ -10,6 +10,7 @@ class Api {
   static const logout = "$connectHost/auth/logout";
   static const me = "$connectHost/auth/me";
   static const fcm_token = "$connectHost/auth/fcm-token";
+  static const check = "$connectHost/auth/fcm-token-check";
   static const notifikasi = "$connectHost/store";
 
   static const berita = "$connectHost/berita";

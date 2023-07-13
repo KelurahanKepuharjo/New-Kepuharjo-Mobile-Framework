@@ -6,8 +6,11 @@ import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/home_user.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Pengajuan/daftar_pelayanan.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/Settings.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/Status.dart';
+import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
+import 'package:mobile_kepuharjo_new/Services/api_services.dart';
+import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardUser extends StatefulWidget {
@@ -97,6 +100,18 @@ class _DashboardUserState extends State<DashboardUser> {
       _getUserInfo();
       print(userData);
     });
+  }
+
+  ApiServices apiServices = ApiServices();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initCheck();
+  }
+
+  Future<void> initCheck() async {
+    await apiServices.check();
   }
 
   @override

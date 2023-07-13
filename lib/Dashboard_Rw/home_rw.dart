@@ -6,8 +6,10 @@ import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Dashboard_Rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Rekap_Pengajuan_Rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Surat_Masuk_Rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Surat_Selesai_Rw.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/beranda_rw.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
+import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:provider/provider.dart';
 
@@ -25,16 +27,22 @@ class _DashboardRWState extends State<DashboardRW> {
     _scaffoldKeyRw.currentState?.openDrawer();
   }
 
+  Future<void> initCheck() async {
+    await apiServices.check();
+  }
+
+  ApiServices apiServices = ApiServices();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    initCheck();
   }
 
   Widget getPage(int index) {
     switch (index) {
       case 0:
-        return HomeRW();
+        return BerandaRW();
       case 1:
         return SuratMasukRw();
       case 2:
@@ -64,14 +72,14 @@ class _DashboardRWState extends State<DashboardRW> {
         backgroundColor: white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: white,
+          backgroundColor: primaryColor,
           shadowColor: Colors.transparent,
           title: Row(
             children: [
               Text(
                 "S-Kepuharjo",
                 style: MyFont.montserrat(
-                    fontSize: 18, color: black, fontWeight: FontWeight.bold),
+                    fontSize: 18, color: white, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -81,7 +89,7 @@ class _DashboardRWState extends State<DashboardRW> {
             },
             child: Icon(
               Icons.menu_rounded,
-              color: black,
+              color: white,
             ),
           ),
           actions: [
@@ -145,7 +153,7 @@ class _DashboardRWState extends State<DashboardRW> {
                 },
                 icon: Icon(
                   Icons.more_vert,
-                  color: black,
+                  color: white,
                 ),
               ),
             ),

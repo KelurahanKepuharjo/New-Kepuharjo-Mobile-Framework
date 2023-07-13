@@ -13,6 +13,7 @@ import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
+import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:provider/provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -31,10 +32,16 @@ class _DashboardRTState extends State<DashboardRT> {
     _scaffoldKey.currentState?.openDrawer();
   }
 
+  ApiServices apiServices = ApiServices();
+  Future<void> initCheck() async {
+    await apiServices.check();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    initCheck();
   }
 
   Widget getPage(int index) {

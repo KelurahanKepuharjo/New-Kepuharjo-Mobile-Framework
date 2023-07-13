@@ -28,72 +28,99 @@ class _RegisterPageState extends State<RegisterPage> {
   bool showpass = true;
   bool showconp = true;
   bool isLoading = false;
-  String errorMsg = '';
+  // String errorMsg = '';
   void verifyRegister() {
     if (nik.text.isEmpty) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Silahkan isi Nomor Induk Kependudukan anda")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Silahkan isi Nomor Induk Kependudukan anda",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (nik.text.length < 16) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title:
-                  "Nomor Induk Kependudukan tidak boleh kurang dari 16 digit")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Nomor Induk Kependudukan tidak boleh kurang dari 16 digit",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.isEmpty) {
-      MySnackbar(
-              type: SnackbarType.error, title: "Silahkan isi kata sandi anda")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Silahkan isi kata sandi anda",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.length < 8) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Kata sandi tidak boleh kurang dari 8 karakter")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Kata sandi tidak boleh kurang dari 8 karakter",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.contains(RegExp(r'[A-Z]')) == false) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Kata sandi harus mengandung huruf kapital")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Kata sandi harus mengandung huruf kapital",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.contains(RegExp(r'[a-z]')) == false) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Kata sandi harus mengandung huruf kecil")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Kata sandi harus mengandung huruf kecil",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.contains(RegExp(r'\d')) == false) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Kata sandi harus mengandung angka")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Kata sandi harus mengandung angka",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]')) == false) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Kata sandi harus mengandung spesial karakter")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Kata sandi harus mengandung spesial karakter",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (conpw.text.isEmpty) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Silahkan isi konfirmasi kata sandi anda")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Silahkan isi konfirmasi kata sandi anda",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (conpw.text.length < 8) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Kata sandi tidak boleh kurang dari 8 karakter")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Konfirmasi kata sandi tidak boleh kurang dari 8 karakter",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (pw.text != conpw.text) {
-      MySnackbar(
-              type: SnackbarType.error, title: "Kata sandi tidak boleh berbeda")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Kata sandi harus sama",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (notlp.text.isEmpty) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Silahkan isi nomor telepon anda")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Silahkan isi nomor telepon anda",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else if (notlp.text.length < 11) {
-      MySnackbar(
-              type: SnackbarType.error,
-              title: "Nomor telepon tidak boleh kurang dari 11 digit")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Nomor telepon tidak boleh kurang dari 11 digit",
+          backgroundColor: black.withOpacity(0.7),
+          webShowClose: true,
+          fontSize: 12,
+          gravity: ToastGravity.SNACKBAR);
     } else {
       register();
     }
@@ -102,7 +129,6 @@ class _RegisterPageState extends State<RegisterPage> {
   Future register() async {
     setState(() {
       isLoading = true;
-      errorMsg = '';
     });
     try {
       var res = await http.post(Uri.parse(Api.register), body: {
@@ -113,10 +139,13 @@ class _RegisterPageState extends State<RegisterPage> {
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         if (data["message"] == "Berhasil Register") {
-          MySnackbar(
-                  type: SnackbarType.success,
-                  title: "Nomor Induk Kependudukan anda telah diaktifkan")
-              .showSnackbar(context);
+          Fluttertoast.showToast(
+              msg: "Berhasil mengaktifkan Nomor Induk Kependudukan anda",
+              backgroundColor: black.withOpacity(0.7),
+              webShowClose: true,
+              fontSize: 12,
+              gravity: ToastGravity.SNACKBAR);
+
           setState(() {
             nik.clear();
             notlp.clear();
@@ -126,24 +155,27 @@ class _RegisterPageState extends State<RegisterPage> {
       } else {
         final data = jsonDecode(res.body);
         if (data["message"] == "Akun sudah terdaftar") {
-          MySnackbar(
-                  type: SnackbarType.error,
-                  title: "Nomor Induk Kependudukan sudah diaktifkan")
-              .showSnackbar(context);
+          Fluttertoast.showToast(
+              msg:
+                  "Nomor Induk Kependudukan anda sudah diaktifkan , silahkan gunakan NIK yang lain",
+              backgroundColor: black.withOpacity(0.7),
+              webShowClose: true,
+              fontSize: 12,
+              gravity: ToastGravity.SNACKBAR);
         } else if (data["message"] == "Nik anda belum terdaftar") {
-          MySnackbar(
-                  type: SnackbarType.error,
-                  title:
-                      "Silahkan melakukan aktifasi Nomor Induk KependudukaN anda terlebih dahulu kepada pihak kelurahan")
-              .showSnackbar(context);
+          Fluttertoast.showToast(
+              msg:
+                  "Silahkan melakukan aktifasi Nomor Induk Kependudukan anda terlebih dahulu kepada pihak kelurahan",
+              backgroundColor: black.withOpacity(0.7),
+              webShowClose: true,
+              fontSize: 12,
+              gravity: ToastGravity.SNACKBAR);
         } else {
-          setState(() {
-            errorMsg = "Gagal Daftar";
-          });
+          print("gagal register");
         }
       }
     } catch (e) {
-      errorMsg = e.toString();
+      // errorMsg = e.toString();
       print(e.toString());
     }
     setState(() {
@@ -351,15 +383,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              errorMsg.isEmpty
-                  ? SizedBox.shrink()
-                  : Text(
-                      errorMsg,
-                      style: MyFont.poppins(fontSize: 12, color: Colors.red),
-                    ),
               const SizedBox(
                 height: 50,
               ),

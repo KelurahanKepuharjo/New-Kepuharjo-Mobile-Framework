@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Model/Berita.dart';
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
@@ -26,6 +27,29 @@ class ApiServices {
       }
     } catch (e) {
       print('Terjadi kesalahan: $e');
+    }
+  }
+
+  Future<void> check() async {
+    final prefs = await SharedPreferences.getInstance();
+    final authtoken = prefs.getString('token');
+    try {
+      final response = await http.get(
+        Uri.parse(Api.check),
+        headers: {"Authorization": "Bearer $authtoken"},
+      );
+
+      if (response.statusCode == 200) {
+        print('ok');
+      } else {
+        final firebaseMessaging = FirebaseMessaging.instance;
+        String? fcmToken = await firebaseMessaging.getToken();
+        // Send the FCM token to the server
+        await sendFcmToken(fcmToken!);
+        await firebaseMessaging.subscribeToTopic('all');
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 

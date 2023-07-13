@@ -170,7 +170,7 @@ class _WidgetCardState extends State<WidgetCard> {
                                       label: Text(
                                     style: MyFont.poppins(
                                         fontSize: 12, color: black),
-                                    "Foto",
+                                    "Gambar",
                                   )),
                                   DataColumn(
                                       label: Text(

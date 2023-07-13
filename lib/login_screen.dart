@@ -28,34 +28,34 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var nik = TextEditingController();
   var pw = TextEditingController();
-  String errorMsg = '';
+  // String errorMsg = '';
   bool isLoading = false;
   void verifyLogin() {
     if (nik.text.isEmpty) {
       Fluttertoast.showToast(
           msg: "Silahkan isi Nomor Induk Kependudukan anda",
-          backgroundColor: Colors.red,
+          backgroundColor: black.withOpacity(0.7),
           webShowClose: true,
           fontSize: 12,
           gravity: ToastGravity.SNACKBAR);
     } else if (nik.text.length < 16) {
       Fluttertoast.showToast(
           msg: "Nomor Induk Kependudukan tidak boleh kurang dari 16 digit",
-          backgroundColor: Colors.red,
+          backgroundColor: black.withOpacity(0.7),
           webShowClose: true,
           fontSize: 12,
           gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.isEmpty) {
       Fluttertoast.showToast(
-          msg: "Kata sandi tidak boleh kosong",
-          backgroundColor: Colors.red,
+          msg: "Silahkan isi kata sandi anda",
+          backgroundColor: black.withOpacity(0.7),
           webShowClose: true,
           fontSize: 12,
           gravity: ToastGravity.SNACKBAR);
     } else if (pw.text.length < 8) {
       Fluttertoast.showToast(
           msg: "Kata sandi tidak boleh kurang dari 8 karakter",
-          backgroundColor: Colors.red,
+          backgroundColor: black.withOpacity(0.7),
           webShowClose: true,
           fontSize: 12,
           gravity: ToastGravity.SNACKBAR);
@@ -78,19 +78,12 @@ class _LoginPageState extends State<LoginPage> {
             nik.clear();
             pw.clear();
           });
-          // ignore: use_build_context_synchronously
-
           final prefs = await SharedPreferences.getInstance();
           prefs.setString('token', data['token']);
           prefs.setString('role', data['role']);
           prefs.setString('user', json.encode(data['user']));
           final role = data['role'];
-          final firebaseMessaging = FirebaseMessaging.instance;
-          String? fcmToken = await firebaseMessaging.getToken();
-          ApiServices apiServices = ApiServices();
-          // Send the FCM token to the server
-          await apiServices.sendFcmToken(fcmToken!);
-          await firebaseMessaging.subscribeToTopic('all');
+
           if (role == "4") {
             // ignore: use_build_context_synchronously
             Navigator.pushAndRemoveUntil(
@@ -100,10 +93,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               (Route<dynamic> route) => false,
             );
-            MySnackbar(
-                    type: SnackbarType.success,
-                    title: "Selamat, anda berhasil masuk")
-                .showSnackbar(context);
+            Fluttertoast.showToast(
+                msg: "Selamat anda berhasil masuk",
+                backgroundColor: black.withOpacity(0.7),
+                webShowClose: true,
+                fontSize: 12,
+                gravity: ToastGravity.SNACKBAR);
           } else if (role == "2") {
             // Jika role == 2, push ke DashboardRt
             // ignore: use_build_context_synchronously
@@ -114,10 +109,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               (Route<dynamic> route) => false,
             );
-            MySnackbar(
-                    type: SnackbarType.success,
-                    title: "Selamat, anda berhasil masuk")
-                .showSnackbar(context);
+            Fluttertoast.showToast(
+                msg: "Selamat anda berhasil masuk",
+                backgroundColor: black.withOpacity(0.7),
+                webShowClose: true,
+                fontSize: 12,
+                gravity: ToastGravity.SNACKBAR);
           } else if (role == "3") {
             // Jika role == 3, push ke DashboardRw
             // ignore: use_build_context_synchronously
@@ -128,40 +125,36 @@ class _LoginPageState extends State<LoginPage> {
               ),
               (Route<dynamic> route) => false,
             );
-            MySnackbar(
-                    type: SnackbarType.success,
-                    title: "Selamat, anda berhasil masuk")
-                .showSnackbar(context);
+            Fluttertoast.showToast(
+                msg: "Selamat anda berhasil masuk",
+                backgroundColor: black.withOpacity(0.7),
+                webShowClose: true,
+                fontSize: 12,
+                gravity: ToastGravity.SNACKBAR);
           }
         }
       } else {
         final data = jsonDecode(res.body);
         if (data['message'] == "Nik Anda Belum Terdaftar") {
-          // ignore: use_build_context_synchronously
-          setState(() {
-            errorMsg = "Silahkan Aktifkan NIK anda terlebih dahulu";
-          });
-          MySnackbar(
-                  type: SnackbarType.error,
-                  title:
-                      "Silahkan Aktifkan Nomor Induk Kependudukan anda terlebih dahulu")
-              .showSnackbar(context);
+          Fluttertoast.showToast(
+              msg:
+                  "Silahkan Aktifkan Nomor Induk Kependudukan anda terlebih dahulu",
+              backgroundColor: black.withOpacity(0.7),
+              webShowClose: true,
+              fontSize: 12,
+              gravity: ToastGravity.SNACKBAR);
         } else if (data['message'] == "Password Anda Salah") {
-          setState(() {
-            errorMsg = "Password Anda Salah";
-          });
-
-          MySnackbar(type: SnackbarType.error, title: "Kata sandi salah")
-              .showSnackbar(context);
+          Fluttertoast.showToast(
+              msg: "Password anda salah",
+              backgroundColor: black.withOpacity(0.7),
+              webShowClose: true,
+              fontSize: 12,
+              gravity: ToastGravity.SNACKBAR);
         } else {
-          MySnackbar(type: SnackbarType.error, title: "Gagal masuk")
-              .showSnackbar(context);
+          print("gagal masuk");
         }
       }
     } catch (e) {
-      setState(() {
-        errorMsg = e.toString();
-      });
       print(e.toString());
     }
     setState(() {
@@ -242,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 GetTextFieldUser(
                   controller: nik,
-                  label: "No. NIK",
+                  label: "Nomor Induk Kependudukan",
                   keyboardType: TextInputType.number,
                   inputFormatters:
                       FilteringTextInputFormatter.singleLineFormatter,
@@ -307,15 +300,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                errorMsg.isEmpty
-                    ? SizedBox.shrink()
-                    : Text(
-                        errorMsg,
-                        style: MyFont.poppins(fontSize: 12, color: Colors.red),
-                      ),
                 const SizedBox(
                   height: 50,
                 ),
