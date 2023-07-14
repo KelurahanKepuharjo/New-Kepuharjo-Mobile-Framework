@@ -36,7 +36,9 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
     });
   }
 
-  Future status_setuju(String id) async {
+  ApiServices apiServices = ApiServices();
+
+  Future status_setuju_rw(String id, String fcmToken) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -47,11 +49,15 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
         if (data['message'] == "Status surat updated successfully") {
           Fluttertoast.showToast(
               msg: "Status pengajuan berhasil disetujui",
-              backgroundColor: Colors.green);
+              backgroundColor: Colors.black.withOpacity(0.7));
+          apiServices.sendNotification(
+              "Pengajuan surat anda telah disetujui oleh pihak RW",
+              fcmToken,
+              "Pengajuan Surat Disetujui");
         }
       } else {
         Fluttertoast.showToast(
-            msg: data['message'], backgroundColor: Colors.red);
+            msg: data['message'], backgroundColor: black.withOpacity(0.7));
       }
     } catch (e) {
       print(e.toString());
@@ -566,11 +572,9 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                                     onPressed: () {
                                                                       setState(
                                                                           () {
-                                                                        status_setuju(
-                                                                          pengajuan[index]
-                                                                              .id
-                                                                              .toString(),
-                                                                        );
+                                                                        status_setuju_rw(
+                                                                            pengajuan[index].idPengajuan.toString(),
+                                                                            pengajuan[index].masyarakat!.user!.fcmToken.toString());
                                                                         _getSuratMasuk();
                                                                         Navigator.pop(
                                                                             context);

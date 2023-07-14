@@ -2,7 +2,8 @@ import 'package:mobile_kepuharjo_new/Model/Masyarakat.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
 
 class Pengajuan {
-  int? id;
+  int? idPengajuan;
+  String? uuid;
   String? nomorSurat;
   String? noPengantar;
   String? status;
@@ -14,13 +15,14 @@ class Pengajuan {
   String? imageKk;
   String? imageBukti;
   String? info;
-  String? idMasyarakat;
+  int? idMasyarakat;
   int? idSurat;
   Masyarakat? masyarakat;
   Surat? surat;
 
   Pengajuan(
-      {this.id,
+      {this.idPengajuan,
+      this.uuid,
       this.nomorSurat,
       this.noPengantar,
       this.status,
@@ -38,7 +40,8 @@ class Pengajuan {
       this.surat});
 
   Pengajuan.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    idPengajuan = json['id_pengajuan'];
+    uuid = json['uuid'];
     nomorSurat = json['nomor_surat'];
     noPengantar = json['no_pengantar'];
     status = json['status'];
@@ -53,14 +56,15 @@ class Pengajuan {
     idMasyarakat = json['id_masyarakat'];
     idSurat = json['id_surat'];
     masyarakat = json['masyarakat'] != null
-        ? new Masyarakat.fromJson(json['masyarakat'])
+        ? Masyarakat.fromJson(json['masyarakat'])
         : null;
-    surat = json['surat'] != null ? new Surat.fromJson(json['surat']) : null;
+    surat = json['surat'] != null ? Surat.fromJson(json['surat']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id_pengajuan'] = this.idPengajuan;
+    data['uuid'] = this.uuid;
     data['nomor_surat'] = this.nomorSurat;
     data['status'] = this.status;
     data['keterangan'] = this.keterangan;

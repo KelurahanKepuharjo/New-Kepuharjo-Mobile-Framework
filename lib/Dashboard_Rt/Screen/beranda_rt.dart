@@ -153,6 +153,24 @@ class _BerandaRTState extends State<BerandaRT> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Selamat Datang, ",
+                          style: MyFont.poppins(
+                              fontSize: 12,
+                              color: white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Image.asset(
+                          "images/hand.png",
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: 100,
                     child: Card(

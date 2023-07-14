@@ -2,7 +2,8 @@ import 'package:mobile_kepuharjo_new/Model/Kks.dart';
 import 'package:mobile_kepuharjo_new/Model/User.dart';
 
 class Masyarakat {
-  String? idMasyarakat;
+  int? idMasyarakat;
+  String? uuid;
   int? nik;
   String? namaLengkap;
   String? jenisKelamin;
@@ -22,12 +23,13 @@ class Masyarakat {
   String? namaIbu;
   String? createdAt;
   String? updatedAt;
-  String? id;
+  int? id_kk;
   Kks? kks;
   User? user;
 
   Masyarakat(
       {this.idMasyarakat,
+      this.uuid,
       this.nik,
       this.namaLengkap,
       this.jenisKelamin,
@@ -47,12 +49,13 @@ class Masyarakat {
       this.namaIbu,
       this.createdAt,
       this.updatedAt,
-      this.id,
+      this.id_kk,
       this.kks,
       this.user});
 
   Masyarakat.fromJson(Map<String, dynamic> json) {
     idMasyarakat = json['id_masyarakat'];
+    uuid = json['uuid'];
     nik = json['nik'];
     namaLengkap = json['nama_lengkap'];
     jenisKelamin = json['jenis_kelamin'];
@@ -72,14 +75,15 @@ class Masyarakat {
     namaIbu = json['nama_ibu'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    id = json['id'];
-    kks = json['kks'] != null ? new Kks.fromJson(json['kks']) : null;
-    user = json['akun'] != null ? new User.fromJson(json['akun']) : null;
+    id_kk = json['id_kk'];
+    kks = json['kks'] != null ? Kks.fromJson(json['kks']) : null;
+    user = json['akun'] != null ? User.fromJson(json['akun']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id_masyarakat'] = this.idMasyarakat;
+    data['uuid'] = this.uuid;
     data['nik'] = this.nik;
     data['nama_lengkap'] = this.namaLengkap;
     data['jenis_kelamin'] = this.jenisKelamin;
@@ -99,7 +103,7 @@ class Masyarakat {
     data['nama_ibu'] = this.namaIbu;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['id'] = this.id;
+    data['id'] = this.id_kk;
     if (this.kks != null) {
       data['kks'] = this.kks!.toJson();
     }

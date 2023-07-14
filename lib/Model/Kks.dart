@@ -1,5 +1,5 @@
 class Kks {
-  String? id;
+  int? id;
   int? noKk;
   String? alamat;
   int? rt;
@@ -29,7 +29,7 @@ class Kks {
       this.updatedAt});
 
   Kks.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id_kk'];
     noKk = json['no_kk'];
     alamat = json['alamat'];
     rt = json['rt'];

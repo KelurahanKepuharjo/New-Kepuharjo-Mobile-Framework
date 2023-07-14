@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_Rt/custom_navigation_drawer.dart';
 import 'package:mobile_kepuharjo_new/Model/Keluarga.dart';
 import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
@@ -25,7 +27,9 @@ class AuthServices {
           MaterialPageRoute(
             builder: (context) => const LoginPage(),
           ),
-        );
+        ).then((value) => Fluttertoast.showToast(
+            msg: "Berhasil keluar dari aplikasi",
+            backgroundColor: black.withOpacity(0.7)));
       }
     } catch (e) {
       print(e.toString());

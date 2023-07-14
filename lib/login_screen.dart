@@ -293,7 +293,7 @@ class _LoginPageState extends State<LoginPage> {
                                       )
                                     : Icon(
                                         Icons.visibility,
-                                        color: blue,
+                                        color: primaryColor,
                                         size: 20,
                                       ))),
                       ),
@@ -321,8 +321,10 @@ class _LoginPageState extends State<LoginPage> {
                               color: white,
                             )
                           : Text('Masuk',
-                              style:
-                                  MyFont.poppins(fontSize: 14, color: white)),
+                              style: MyFont.poppins(
+                                  fontSize: 14,
+                                  color: white,
+                                  fontWeight: FontWeight.bold)),
                     )),
                 const SizedBox(
                   height: 15,

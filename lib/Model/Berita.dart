@@ -1,7 +1,6 @@
 class Berita {
   int? id;
   String? judul;
-  String? subTitle;
   String? deskripsi;
   String? image;
   String? createdAt;
@@ -10,7 +9,6 @@ class Berita {
   Berita(
       {this.id,
       this.judul,
-      this.subTitle,
       this.deskripsi,
       this.image,
       this.createdAt,
@@ -19,7 +17,6 @@ class Berita {
   Berita.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     judul = json['judul'];
-    subTitle = json['sub_title'];
     deskripsi = json['deskripsi'];
     image = json['image'];
     createdAt = json['created_at'];
@@ -30,7 +27,6 @@ class Berita {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['judul'] = this.judul;
-    data['sub_title'] = this.subTitle;
     data['deskripsi'] = this.deskripsi;
     data['image'] = this.image;
     data['created_at'] = this.createdAt;

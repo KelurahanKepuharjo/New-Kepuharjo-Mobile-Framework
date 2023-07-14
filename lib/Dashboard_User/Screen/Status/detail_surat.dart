@@ -68,8 +68,8 @@ class _DetailSuratState extends State<DetailSurat> {
       if (res.statusCode == 200) {
         if (data['message'] == "Surat berhasil dibatalkan") {
           Fluttertoast.showToast(
-              msg: "Berhasil membatalkan surat",
-              backgroundColor: Colors.green,
+              msg: "Pengajuan surat berhasil dibatalkan",
+              backgroundColor: black.withOpacity(0.7),
               toastLength: Toast.LENGTH_LONG);
           setState(() {
             listdata = apiServices.getStatus("Diajukan");
@@ -325,7 +325,8 @@ class _DetailSuratState extends State<DetailSurat> {
                     borderRadius: BorderRadius.circular(10),
                   )),
               onPressed: () {
-                showSuccessDialog(context, widget.pengajuan.id.toString());
+                showSuccessDialog(
+                    context, widget.pengajuan.idPengajuan.toString());
               },
               child: Text(
                 'Batalkan Surat',

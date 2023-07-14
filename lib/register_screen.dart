@@ -148,6 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
           setState(() {
             nik.clear();
+            conpw.clear();
             notlp.clear();
             pw.clear();
           });
@@ -404,7 +405,10 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: white,
                           )
                         : Text('Aktifkan akun',
-                            style: MyFont.poppins(fontSize: 14, color: white)),
+                            style: MyFont.poppins(
+                                fontSize: 14,
+                                color: white,
+                                fontWeight: FontWeight.bold)),
                   )),
               const SizedBox(
                 height: 15,

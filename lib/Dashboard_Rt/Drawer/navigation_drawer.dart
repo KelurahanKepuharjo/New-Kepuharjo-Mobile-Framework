@@ -30,18 +30,18 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
     _loadSharedPreferences();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _loadSharedPreferences();
-  }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   _loadSharedPreferences();
+  // }
 
   void _loadSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
       currentSelectedIndex = prefs.getInt('selectedIndex') ?? 0;
-    }); 
+    });
   }
 
   void saveSharedPreferences(int index) async {

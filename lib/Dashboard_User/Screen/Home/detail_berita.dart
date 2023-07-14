@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/custom_navigation_drawer.dart';
 import 'package:mobile_kepuharjo_new/Model/Berita.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
 class DetailBerita extends StatefulWidget {
   Berita berita;
@@ -18,6 +20,13 @@ class DetailBerita extends StatefulWidget {
 class _DetailBeritaState extends State<DetailBerita> {
   @override
   Widget build(BuildContext context) {
+    String dateTime = widget.berita.createdAt.toString();
+    final date = DateTime.parse(dateTime);
+    initializeDateFormatting('id_ID', null);
+    final dateFormat = DateFormat('dd MMMM yyyy', 'id_ID');
+    final timeFormat = DateFormat('HH:mm');
+    final formattedDate = dateFormat.format(date);
+    final formattedTime = timeFormat.format(date);
     return Scaffold(
       appBar: AppBar(
           backgroundColor: white,
@@ -68,7 +77,7 @@ class _DetailBeritaState extends State<DetailBerita> {
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
               child: Text(
-                widget.berita.subTitle!,
+                "$formattedDate  $formattedTime",
                 style: MyFont.poppins(
                     fontSize: 12, color: softgrey, fontWeight: FontWeight.w300),
               ),

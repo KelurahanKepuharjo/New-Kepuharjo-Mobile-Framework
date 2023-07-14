@@ -1,10 +1,12 @@
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/daftar_keluarga.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/info_aplikasi.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/informasi_akun.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/tentang_user.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/ubah_nohp.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/TabBarView/surat_dibatalkan.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Model/User.dart';
@@ -55,6 +57,9 @@ class _PengaturanState extends State<Pengaturan> {
       descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
       btnOkOnPress: () {
         authServices.logout(context);
+        Fluttertoast.showToast(
+            msg: "Berhasil keluar dari aplikasi",
+            backgroundColor: black.withOpacity(0.7));
       },
       btnCancelOnPress: () {
         Navigator.pushAndRemoveUntil(
@@ -227,20 +232,30 @@ class _PengaturanState extends State<Pengaturan> {
                         const Divider(
                           height: 30,
                         ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              "images/call.png",
-                              height: 25,
-                            ),
-                            const SizedBox(
-                              width: 17,
-                            ),
-                            Text(
-                              "Ubah Nomer Telepon",
-                              style: MyFont.poppins(fontSize: 12, color: black),
-                            ),
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UbahNoHp(),
+                                ));
+                          },
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "images/call.png",
+                                height: 25,
+                              ),
+                              const SizedBox(
+                                width: 17,
+                              ),
+                              Text(
+                                "Ubah Nomer Telepon",
+                                style:
+                                    MyFont.poppins(fontSize: 12, color: black),
+                              ),
+                            ],
+                          ),
                         ),
                         const Divider(
                           height: 30,

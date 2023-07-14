@@ -213,7 +213,7 @@ class _DashboardRTState extends State<DashboardRT> {
         authServices.logout(context);
         Fluttertoast.showToast(
             msg: "Berhasil keluar dari aplikasi",
-            backgroundColor: Colors.green);
+            backgroundColor: black.withOpacity(0.7));
       },
       btnCancelOnPress: () {
         Navigator.pushAndRemoveUntil(
@@ -221,7 +221,7 @@ class _DashboardRTState extends State<DashboardRT> {
             MaterialPageRoute(
               builder: (context) => const DashboardRT(),
             ),
-            (route) => false);
+            (route) => false);  
       },
       btnCancelIcon: Icons.highlight_off_rounded,
       btnOkIcon: Icons.task_alt_rounded,

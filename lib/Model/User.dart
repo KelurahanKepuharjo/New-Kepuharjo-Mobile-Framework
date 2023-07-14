@@ -1,18 +1,20 @@
 import 'package:mobile_kepuharjo_new/Model/Masyarakat.dart';
 
 class User {
-  String? id;
+  int? akunId;
+  String? uuid;
   String? password;
-  int? noHp;
+  String? noHp;
   String? role;
   String? fcmToken;
   String? createdAt;
   String? updatedAt;
-  String? idMasyarakat;
+  int? idMasyarakat;
   Masyarakat? masyarakat;
 
   User(
-      {this.id,
+      {this.akunId,
+      this.uuid,
       this.password,
       this.noHp,
       this.role,
@@ -23,7 +25,8 @@ class User {
       this.masyarakat});
 
   User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    akunId = json['akun_id'];
+    uuid = json['uuid'];
     password = json['password'];
     noHp = json['no_hp'];
     role = json['role'];
@@ -32,13 +35,14 @@ class User {
     updatedAt = json['updated_at'];
     idMasyarakat = json['id_masyarakat'];
     masyarakat = json['masyarakat'] != null
-        ? new Masyarakat.fromJson(json['masyarakat'])
+        ? Masyarakat.fromJson(json['masyarakat'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['akun_id'] = this.akunId;
+    data['uuid'] = this.uuid;
     data['password'] = this.password;
     data['no_hp'] = this.noHp;
     data['role'] = this.role;

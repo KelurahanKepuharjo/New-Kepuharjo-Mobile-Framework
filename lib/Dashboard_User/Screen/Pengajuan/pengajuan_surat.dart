@@ -168,32 +168,30 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     var response = await req.send();
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
-          msg: "Berhasil mengajukan surat", backgroundColor: Colors.green);
+          msg:
+              "Pengajuan surat anda berhasil, surat akan diproses oleh pihak RT",
+          backgroundColor: black.withOpacity(0.7));
 
-      apiServices.sendNotification("Pengajuan surat anda berhasil diajukan",
-          user?.fcmToken ?? "", "Berhasil");
+      apiServices.sendNotification("Surat akan diproses oleh pihak RT",
+          user?.fcmToken ?? "", "Pengajuan surat anda berhasil");
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => DashboardUser(),
-          )).then((value) => MySnackbar(
-              type: SnackbarType.success, title: "Berhasil mengajukan surat")
-          .showSnackbar(context));
+          ));
     } else if (response.statusCode == 404) {
       var responseJson = await response.stream.bytesToString();
       print(responseJson);
       var responseData = json.decode(responseJson);
       var errorMessage = responseData['message'];
       if (errorMessage == "Surat sebelumnya belum selesai") {
-        Fluttertoast.showToast(msg: errorMessage, backgroundColor: Colors.red);
-        MySnackbar(
-                type: SnackbarType.failed,
-                title: "Surat sebelumnya masih belum selesai")
-            .showSnackbar(context);
+        Fluttertoast.showToast(
+            msg: errorMessage, backgroundColor: black.withOpacity(0.7));
       } else {
-        MySnackbar(type: SnackbarType.failed, title: "Gagal mengajukan surat")
-            .showSnackbar(context);
+        Fluttertoast.showToast(
+            msg: "Gagal mengajukan surat",
+            backgroundColor: black.withOpacity(0.7));
       }
     }
   }
@@ -405,7 +403,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                     color: black,
                     child: imageKK == null
                         ? Container(
-                            height: 150,
+                            height: 200,
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 color: grey.withOpacity(0.1),
@@ -430,7 +428,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                             ),
                           )
                         : Container(
-                            height: 150,
+                            height: 200,
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
@@ -454,7 +452,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                     color: black,
                     child: imageBukti == null
                         ? Container(
-                            height: 150,
+                            height: 200,
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 color: grey.withOpacity(0.1),
@@ -479,7 +477,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                             ),
                           )
                         : Container(
-                            height: 150,
+                            height: 200,
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
@@ -499,14 +497,17 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                         backgroundColor: primaryColor,
                         shadowColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(10),
                         )),
                     onPressed: () async {
                       verifypengajuan(context);
                     },
                     child: Text('Ajukan Surat',
                         textAlign: TextAlign.center,
-                        style: MyFont.poppins(fontSize: 14, color: white)),
+                        style: MyFont.poppins(
+                            fontSize: 14,
+                            color: white,
+                            fontWeight: FontWeight.bold)),
                   )),
             ),
           ],

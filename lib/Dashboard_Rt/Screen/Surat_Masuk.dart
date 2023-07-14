@@ -50,9 +50,11 @@ class _SuratMasukState extends State<SuratMasuk> {
         if (data['message'] == "Status surat updated successfully") {
           Fluttertoast.showToast(
               msg: "Status pengajuan berhasil disetujui",
-              backgroundColor: Colors.green);
+              backgroundColor: black.withOpacity(0.7));
           apiServices.sendNotification(
-              "Surat anda telah disetujui oleh rt", tokenfcm, "Berhasil");
+              "Pengajuan surat anda telah disetujui oleh pihak RT",
+              tokenfcm,
+              "Pengajuan Surat Disetujui");
           setState(() {
             noPengantar.clear();
             ketDitolak.clear();
@@ -60,14 +62,15 @@ class _SuratMasukState extends State<SuratMasuk> {
         }
       } else {
         Fluttertoast.showToast(
-            msg: data['message'], backgroundColor: Colors.red);
+            msg: data['message'], backgroundColor: black.withOpacity(0.7));
       }
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future status_tolak(String id, String keteranganTolak) async {
+  Future status_tolak(
+      String id, String keteranganTolak, String tokenfcm) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -79,11 +82,15 @@ class _SuratMasukState extends State<SuratMasuk> {
         if (data['message'] == "Status surat updated successfully") {
           Fluttertoast.showToast(
               msg: "Status pengajuan berhasil ditolak",
-              backgroundColor: Colors.red);
+              backgroundColor: black.withOpacity(0.7));
           setState(() {
             noPengantar.clear();
             ketDitolak.clear();
           });
+          apiServices.sendNotification(
+              "Pengajuan surat anda ditolak oleh pihak RT",
+              tokenfcm,
+              "Pengajuan Surat Ditolak");
         }
       } else {
         Fluttertoast.showToast(
@@ -623,10 +630,10 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                                             .isEmpty) {
                                                                           Fluttertoast.showToast(
                                                                               msg: "Silahkan Isi No. Pengantar",
-                                                                              backgroundColor: Colors.green);
+                                                                              backgroundColor: Colors.black.withOpacity(0.7));
                                                                         } else {
                                                                           status_setuju(
-                                                                              pengajuan[index].id.toString(),
+                                                                              pengajuan[index].idPengajuan.toString(),
                                                                               noPengantar.text,
                                                                               pengajuan[index].masyarakat!.user!.fcmToken.toString());
                                                                           _getSuratMasuk();
@@ -663,12 +670,13 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                                             .isEmpty) {
                                                                           Fluttertoast.showToast(
                                                                               msg: "Silahkan Isi Keterangan Ditolak",
-                                                                              backgroundColor: Colors.green);
+                                                                              backgroundColor: black.withOpacity(0.7));
                                                                         } else {
                                                                           _getSuratMasuk();
                                                                           status_tolak(
-                                                                              pengajuan[index].id.toString(),
-                                                                              ketDitolak.text);
+                                                                              pengajuan[index].idPengajuan.toString(),
+                                                                              ketDitolak.text,
+                                                                              pengajuan[index].masyarakat!.user!.fcmToken.toString());
                                                                           Navigator.pop(
                                                                               context);
                                                                         }

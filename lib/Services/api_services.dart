@@ -40,7 +40,11 @@ class ApiServices {
       );
 
       if (response.statusCode == 200) {
-        print('ok');
+        final firebaseMessaging = FirebaseMessaging.instance;
+        String? fcmToken = await firebaseMessaging.getToken();
+        // Send the FCM token to the server
+        await sendFcmToken(fcmToken!);
+        await firebaseMessaging.subscribeToTopic('all');
       } else {
         final firebaseMessaging = FirebaseMessaging.instance;
         String? fcmToken = await firebaseMessaging.getToken();

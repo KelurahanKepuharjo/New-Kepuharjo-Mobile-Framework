@@ -11,6 +11,7 @@ class Api {
   static const me = "$connectHost/auth/me";
   static const fcm_token = "$connectHost/auth/fcm-token";
   static const check = "$connectHost/auth/fcm-token-check";
+  static const checkRole = "$connectHost/auth/role";
   static const notifikasi = "$connectHost/store";
 
   static const berita = "$connectHost/berita";
