@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 Future<void> _backgroundMessageHandler(RemoteMessage message) async {
   // Notifikasi diterima saat aplikasi ditutup (terminated)
@@ -122,7 +123,25 @@ class _MyAppState extends State<MyApp> {
     configureFirebaseMessaging();
     LocalNotificationsServices.initialized();
     FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
+    requestPermissions();
     // FirebaseMessaging.instance.subscribeToTopic('all');
+  }
+
+  late PermissionStatus _notificationStatus;
+  late PermissionStatus _storageStatus;
+
+  Future<void> requestPermissions() async {
+    // Request notification permission
+    final notificationStatus = await Permission.notification.request();
+    setState(() {
+      _notificationStatus = notificationStatus;
+    });
+
+    // Request external storage permission
+    final storageStatus = await Permission.storage.request();
+    setState(() {
+      _storageStatus = storageStatus;
+    });
   }
 
   @override

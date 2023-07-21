@@ -1,4 +1,6 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Drawer/navigation_drawer.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/select.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
@@ -7,6 +9,7 @@ import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Rekap_Pengajuan_Rw.dart
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Surat_Masuk_Rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Surat_Selesai_Rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/beranda_rw.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/info_aplikasi.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
@@ -76,10 +79,24 @@ class _DashboardRWState extends State<DashboardRW> {
           shadowColor: Colors.transparent,
           title: Row(
             children: [
-              Text(
-                "S-Kepuharjo",
-                style: MyFont.montserrat(
-                    fontSize: 18, color: white, fontWeight: FontWeight.bold),
+              Row(
+                children: [
+                  Text(
+                    "S-Kepuharjo",
+                    style: MyFont.montserrat(
+                        fontSize: 18,
+                        color: white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Image.asset(
+                    "images/mylogo.png",
+                    width: 30,
+                    height: 30,
+                  ),
+                ],
               ),
             ],
           ),
@@ -146,8 +163,14 @@ class _DashboardRWState extends State<DashboardRW> {
                       ]).then((value) {
                     if (value != null) {
                       if (value == 1) {
-                        authServices.logout(context);
-                      } else {}
+                        showSuccessDialog(context);
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => InfoAplikasi(),
+                            ));
+                      }
                     }
                   });
                 },
@@ -168,5 +191,34 @@ class _DashboardRWState extends State<DashboardRW> {
             return getPage(selectedPage.selectedIndex);
           },
         ));
+  }
+
+  showSuccessDialog(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.WARNING,
+      title: 'Warning!',
+      titleTextStyle: MyFont.poppins(
+          fontSize: 25, color: primaryColor, fontWeight: FontWeight.bold),
+      desc: 'Apakah anda yakin, untuk Keluar dari aplikasi',
+      descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
+      btnOkOnPress: () {
+        authServices.logout(context);
+        Fluttertoast.showToast(
+            msg: "Berhasil keluar dari aplikasi",
+            backgroundColor: black.withOpacity(0.7));
+      },
+      btnCancelOnPress: () {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const DashboardRW(),
+            ),
+            (route) => false);
+      },
+      btnCancelIcon: Icons.highlight_off_rounded,
+      btnOkIcon: Icons.task_alt_rounded,
+    ).show();
   }
 }

@@ -90,7 +90,7 @@ class _UbahNoHpState extends State<UbahNoHp> {
                       color: softgrey,
                     ),
                     border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: lavender)),
+                        borderSide: BorderSide(color: primaryColor)),
                   ),
                 ),
                 const SizedBox(
@@ -109,7 +109,7 @@ class _UbahNoHpState extends State<UbahNoHp> {
                               "Batal",
                               style: MyFont.poppins(
                                   fontSize: 12,
-                                  color: lavender,
+                                  color: primaryColor,
                                   fontWeight: FontWeight.bold),
                             )),
                         TextButton(
@@ -130,6 +130,13 @@ class _UbahNoHpState extends State<UbahNoHp> {
                                       "Nomor HP berhasil diperbarui") {
                                     // ignore: use_build_context_synchronously
                                     Navigator.pop(context);
+                                  } else if (data['message'] ==
+                                      "Nomor HP baru harus berbeda dengan nomor HP lama") {
+                                    Fluttertoast.showToast(
+                                        msg:
+                                            "Nomor Telepon baru harus berbeda dengan nomor Telepon lama",
+                                        backgroundColor: black.withOpacity(0.7),
+                                        toastLength: Toast.LENGTH_LONG);
                                   }
                                 } else {
                                   Fluttertoast.showToast(
@@ -145,7 +152,7 @@ class _UbahNoHpState extends State<UbahNoHp> {
                               "Simpan",
                               style: MyFont.poppins(
                                   fontSize: 12,
-                                  color: lavender,
+                                  color: primaryColor,
                                   fontWeight: FontWeight.bold),
                             ))
                       ],
@@ -234,7 +241,7 @@ class _UbahNoHpState extends State<UbahNoHp> {
                   ),
                 ),
                 border: UnderlineInputBorder(
-                    borderSide: BorderSide(color: lavender)),
+                    borderSide: BorderSide(color: primaryColor)),
               ),
             )
           ],

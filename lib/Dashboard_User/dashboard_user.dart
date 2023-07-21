@@ -119,7 +119,7 @@ class _DashboardUserState extends State<DashboardUser> {
     return Scaffold(
       backgroundColor: white,
       body: screen[index],
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar( 
           showSelectedLabels: true,
           unselectedLabelStyle: MyFont.poppins(
               fontSize: 12, color: grey, fontWeight: FontWeight.w300),

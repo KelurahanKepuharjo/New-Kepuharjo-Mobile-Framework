@@ -148,15 +148,18 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
                                     width: 80,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color:
-                                            (e.status.toString() == "Diajukan")
-                                                ? Colors.amberAccent
+                                        color: (e.status.toString() ==
+                                                "Diajukan")
+                                            ? Colors.amberAccent
+                                            : (e.status.toString() ==
+                                                    "Disetujui RT"
+                                                ? Colors.green
                                                 : (e.status.toString() ==
-                                                        "Disetujui RT"
-                                                    ? Colors.green
+                                                        "Ditolak RT")
+                                                    ? Colors.red
                                                     : (e.status.toString() ==
-                                                            "Ditolak RT")
-                                                        ? Colors.red
+                                                            "Disetujui RW")
+                                                        ? Colors.green
                                                         : Colors.grey)),
                                     child: Center(
                                       child: Text(
@@ -192,23 +195,35 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
                                                     child: Expanded(
                                                       child: Column(
                                                         children: [
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
+                                                          Visibility(
+                                                            visible: pengajuan[
+                                                                            index]
+                                                                        .noPengantar !=
+                                                                    null &&
+                                                                pengajuan[index]
                                                                     .noPengantar
-                                                                    .toString()),
-                                                            label:
-                                                                "No. Pengantar",
-                                                            isEnable: true,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .singleLineFormatter,
-                                                            length: 255,
-                                                            icon: Icons.receipt,
+                                                                    .toString()
+                                                                    .isNotEmpty,
+                                                            child:
+                                                                GetTextFieldUser(
+                                                              controller: TextEditingController(
+                                                                  text: pengajuan[
+                                                                          index]
+                                                                      .noPengantar
+                                                                      .toString()),
+                                                              label:
+                                                                  "No. Pengantar",
+                                                              isEnable: true,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .text,
+                                                              inputFormatters:
+                                                                  FilteringTextInputFormatter
+                                                                      .singleLineFormatter,
+                                                              length: 255,
+                                                              icon:
+                                                                  Icons.receipt,
+                                                            ),
                                                           ),
                                                           GetTextFieldUser(
                                                             controller: TextEditingController(
@@ -380,24 +395,35 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
                                                             icon: Icons
                                                                 .people_rounded,
                                                           ),
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
+                                                          Visibility(
+                                                            visible: pengajuan[
+                                                                            index]
+                                                                        .keteranganDitolak !=
+                                                                    null &&
+                                                                pengajuan[index]
                                                                     .keteranganDitolak
-                                                                    .toString()),
-                                                            label:
-                                                                "Keterangan Ditolak",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .singleLineFormatter,
-                                                            length: 255,
-                                                            icon: Icons
-                                                                .highlight_off_rounded,
+                                                                    .toString()
+                                                                    .isNotEmpty,
+                                                            child:
+                                                                GetTextFieldUser(
+                                                              controller: TextEditingController(
+                                                                  text: pengajuan[
+                                                                          index]
+                                                                      .keteranganDitolak
+                                                                      .toString()),
+                                                              label:
+                                                                  "Keterangan Ditolak",
+                                                              isEnable: true,
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .text,
+                                                              inputFormatters:
+                                                                  FilteringTextInputFormatter
+                                                                      .singleLineFormatter,
+                                                              length: 255,
+                                                              icon: Icons
+                                                                  .highlight_off_rounded,
+                                                            ),
                                                           ),
                                                           const SizedBox(
                                                             height: 10,

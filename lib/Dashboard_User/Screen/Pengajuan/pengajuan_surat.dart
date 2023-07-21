@@ -12,6 +12,7 @@ import 'package:async/async.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Model/Keluarga.dart';
@@ -50,8 +51,12 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     nokk.text = widget.keluarga.noKk.toString();
     nik.text = widget.masyarakat.nik.toString();
     nama.text = widget.masyarakat.namaLengkap.toString();
-    ttl.text =
-        "${widget.masyarakat.tempatLahir}, ${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.masyarakat.tglLahir.toString()))}";
+    String date = widget.masyarakat.tglLahir.toString();
+    final dateParse = DateTime.parse(date);
+    initializeDateFormatting('id_ID', null);
+    final dateFormat = DateFormat('dd MMMM yyyy', 'id_ID');
+    final formattedDate = dateFormat.format(dateParse);
+    ttl.text = "${widget.masyarakat.tempatLahir}, $formattedDate";
     goldarah.text = widget.masyarakat.golonganDarah.toString();
     jk.text = widget.masyarakat.jenisKelamin.toString();
     kewarganegaraan.text = widget.masyarakat.kewarganegaraan.toString();
@@ -167,6 +172,26 @@ class _PengajuansuratState extends State<Pengajuansurat> {
 
     var response = await req.send();
     if (response.statusCode == 200) {
+      // final data = await response.stream.bytesToString();
+      // final responsemsg = json.decode(data);
+      // if (responsemsg['message'] == "Berhasil mengajukan surat") {
+      //   Fluttertoast.showToast(
+      //     msg:
+      //         "Pengajuan surat anda berhasil, surat akan diproses oleh pihak RT",
+      //     backgroundColor: black.withOpacity(0.7));
+
+      // apiServices.sendNotification("Surat akan diproses oleh pihak RT",
+      //     user?.fcmToken ?? "", "Pengajuan surat anda berhasil");
+      // // ignore: use_build_context_synchronously
+      // Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => DashboardUser(),
+      //     ));
+      // } else if (responsemsg['message'] == "Surat sebelumnya belum selesai"){
+      //   Fluttertoast.showToast(
+      //       msg: responsemsg['message'], backgroundColor: black.withOpacity(0.7));
+      // }
       Fluttertoast.showToast(
           msg:
               "Pengajuan surat anda berhasil, surat akan diproses oleh pihak RT",

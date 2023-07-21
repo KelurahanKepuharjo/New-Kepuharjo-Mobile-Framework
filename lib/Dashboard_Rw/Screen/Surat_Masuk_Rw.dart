@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_kepuharjo_new/Dashboard_Rw/home_rw.dart';
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/MyTextField.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
@@ -38,7 +40,7 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
 
   ApiServices apiServices = ApiServices();
 
-  Future status_setuju_rw(String id, String fcmToken) async {
+  Future status_setuju(String id, String fcmToken) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -62,6 +64,32 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  showsetujuDialog(BuildContext context, String id, String fcmToken) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.WARNING,
+      title: 'Perhatian!',
+      titleTextStyle: MyFont.poppins(
+          fontSize: 25, color: primaryColor, fontWeight: FontWeight.bold),
+      desc: 'Apakah anda yakin, untuk menyetujui surat?',
+      descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
+      btnOkOnPress: () {
+        status_setuju(id, fcmToken);
+      },
+      btnCancelOnPress: () {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const DashboardRW(),
+            ),
+            (route) => false);
+      },
+      btnCancelIcon: Icons.highlight_off_rounded,
+      btnOkIcon: Icons.task_alt_rounded,
+    ).show();
   }
 
   @override
@@ -570,15 +598,28 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                                               BorderRadius.circular(10),
                                                                         )),
                                                                     onPressed: () {
-                                                                      setState(
-                                                                          () {
-                                                                        status_setuju_rw(
-                                                                            pengajuan[index].idPengajuan.toString(),
-                                                                            pengajuan[index].masyarakat!.user!.fcmToken.toString());
-                                                                        _getSuratMasuk();
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      });
+                                                                      status_setuju(
+                                                                          pengajuan[index]
+                                                                              .idPengajuan
+                                                                              .toString(),
+                                                                          pengajuan[index]
+                                                                              .masyarakat!
+                                                                              .user!
+                                                                              .fcmToken
+                                                                              .toString());
+                                                                      _getSuratMasuk();
+                                                                      Navigator.pop(
+                                                                          context);
+
+                                                                      // status_setuju(
+                                                                      //     pengajuan[index]
+                                                                      //         .idPengajuan
+                                                                      //         .toString(),
+                                                                      //     pengajuan[index].masyarakat!.user!.fcmToken ??
+                                                                      //         '');
+                                                                      // _getSuratMasuk();
+                                                                      // Navigator.pop(
+                                                                      //     context);
                                                                     },
                                                                     child: Text(
                                                                       "Setujui",
