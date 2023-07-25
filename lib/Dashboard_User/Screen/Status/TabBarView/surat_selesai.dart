@@ -8,15 +8,12 @@ import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
-import 'package:date_format/date_format.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:intl/intl.dart';
-import 'package:path/path.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:path_provider/path_provider.dart';
 
 class SuratSelesaiUser extends StatefulWidget {
   const SuratSelesaiUser({super.key});
@@ -272,7 +269,7 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
                           AnimatedSize(
                             duration: const Duration(milliseconds: 1000),
                             curve: Curves.fastOutSlowIn,
-                            vsync: this,
+                            // vsync: this,
                             child: Visibility(
                               visible: _isVisible[index],
                               child: Row(

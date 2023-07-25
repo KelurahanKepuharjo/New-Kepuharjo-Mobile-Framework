@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/navigation_drawer.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/select.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Dashboard_Rt.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Rekap_Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Surat_Ditolak.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Surat_Masuk.dart';
@@ -9,11 +8,9 @@ import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Surat_Selesai.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/beranda_rt.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/info_aplikasi.dart';
-import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
-import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:provider/provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -32,18 +29,6 @@ class _DashboardRTState extends State<DashboardRT> {
     _scaffoldKey.currentState?.openDrawer();
   }
 
-  ApiServices apiServices = ApiServices();
-  Future<void> initCheck() async {
-    await apiServices.check();
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initCheck();
-  }
-
   Widget getPage(int index) {
     switch (index) {
       case 0:
@@ -59,7 +44,7 @@ class _DashboardRTState extends State<DashboardRT> {
       case 5:
         return Tentang();
       default:
-        return HomeRT();
+        return BerandaRT();
     }
   }
 
@@ -74,7 +59,6 @@ class _DashboardRTState extends State<DashboardRT> {
 
   @override
   Widget build(BuildContext context) {
-    bool showAppBar = selectedIndex != 0;
     return Scaffold(
         key: _scaffoldKey,
         backgroundColor: white,
@@ -221,7 +205,7 @@ class _DashboardRTState extends State<DashboardRT> {
             MaterialPageRoute(
               builder: (context) => const DashboardRT(),
             ),
-            (route) => false);  
+            (route) => false);
       },
       btnCancelIcon: Icons.highlight_off_rounded,
       btnOkIcon: Icons.task_alt_rounded,

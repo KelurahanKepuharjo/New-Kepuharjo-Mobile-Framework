@@ -9,7 +9,6 @@ import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Wellcome/onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -19,8 +18,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool _isLoggedIn = false;
-  String _userRole = '';
+  bool isLoggedIn = false;
+  String userRole = '';
   void _checkIfLoggedIn() async {
     // check if token is there
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -30,8 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
       var role = localStorage.getString('role');
       var user = json.decode(userJson!);
       setState(() {
-        _isLoggedIn = true;
-        _userRole = role!;
+        isLoggedIn = true;
+        userRole = role!;
       });
     }
   }
@@ -48,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _checkIfLoggedIn();
     Timer(
       Duration(seconds: 3),
-      () => _isLoggedIn
+      () => isLoggedIn
           ? _getUserRole().then((userRole) {
               Widget targetScreen;
               if (userRole == '4') {

@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/select.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Services/local_notifications_services.dart';
-import 'package:mobile_kepuharjo_new/Wellcome/onboarding.dart';
 import 'package:mobile_kepuharjo_new/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -44,8 +42,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _isLoggedIn = false;
-  String _userRole = '';
+  bool isLogin = false;
+  String userRole = '';
   void _checkIfLoggedIn() async {
     // check if token is there
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -55,13 +53,13 @@ class _MyAppState extends State<MyApp> {
       var role = localStorage.getString('role');
       var user = json.decode(userJson!);
       setState(() {
-        _isLoggedIn = true;
-        _userRole = role!;
+        isLogin = true;
+        userRole = role!;
       });
     }
   }
 
-  Future<String> _getUserRole() async {
+  Future<String> getUserRole() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userJson = localStorage.getString('role');
     return userJson.toString();
@@ -124,7 +122,6 @@ class _MyAppState extends State<MyApp> {
     LocalNotificationsServices.initialized();
     FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
     requestPermissions();
-    // FirebaseMessaging.instance.subscribeToTopic('all');
   }
 
   late PermissionStatus _notificationStatus;

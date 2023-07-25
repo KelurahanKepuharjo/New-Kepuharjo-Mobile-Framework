@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
 import 'package:mobile_kepuharjo_new/Resource/MyTextField.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:mobile_kepuharjo_new/login_screen.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';

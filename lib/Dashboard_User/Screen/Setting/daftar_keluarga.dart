@@ -1,8 +1,6 @@
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Pengajuan/pengajuan_surat.dart';
 import 'package:mobile_kepuharjo_new/Model/Keluarga.dart';
-import 'package:mobile_kepuharjo_new/Model/Surat.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';

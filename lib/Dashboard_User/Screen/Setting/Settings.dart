@@ -1,7 +1,6 @@
 import 'package:card_loading/card_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/daftar_keluarga.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/info_aplikasi.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/informasi_akun.dart';

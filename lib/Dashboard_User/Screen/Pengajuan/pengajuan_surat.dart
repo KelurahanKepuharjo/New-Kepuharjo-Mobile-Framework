@@ -1,29 +1,30 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cookie_jar/cookie_jar.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
-import 'package:provider/provider.dart';
-import 'package:path/path.dart';
-import 'package:async/async.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Model/Keluarga.dart';
 import 'package:mobile_kepuharjo_new/Model/Masyarakat.dart';
-import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
 import 'package:mobile_kepuharjo_new/Resource/MyTextField_Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Pengajuansurat extends StatefulWidget {
   String idsurat;
@@ -85,144 +86,80 @@ class _PengajuansuratState extends State<Pengajuansurat> {
   final rw = TextEditingController();
   final keperluan = TextEditingController();
 
-  void verifypengajuan(BuildContext context) {
+  void verifypengajuan() {
     if (keperluan.text.isEmpty) {
-      MySnackbar(
-              type: SnackbarType.failed, title: "Silahkan isi keperluan anda")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Silahkan isi keperluan anda",
+          backgroundColor: black.withOpacity(0.7));
     } else if (imageKK == null) {
-      MySnackbar(
-              type: SnackbarType.failed,
-              title: "Silahkan upload foto Kartu Keluarga anda")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Silahkan upload foto Kartu Keluarga anda",
+          backgroundColor: black.withOpacity(0.7));
     } else if (imageBukti == null) {
-      MySnackbar(
-              type: SnackbarType.failed,
-              title: "Silahkan upload foto bukti/pendukung anda")
-          .showSnackbar(context);
+      Fluttertoast.showToast(
+          msg: "Silahkan upload foto bukti/pendukung anda",
+          backgroundColor: black.withOpacity(0.7));
     } else {
-      showSuccessDialog(context, imageKK!, imageBukti!);
+      showSuccessDialog(context);
     }
   }
 
-  // Future pengajuansurat() async {
-  //   try {
-  //     var res = await http.post(Uri.parse(Api.pengajuan), body: {
-  //       "nik": widget.masyarakat.nik.toString(),
-  //       "id_surat": widget.idsurat,
-  //       "keterangan": keperluan.text,
-  //     });
-  //     final data = jsonDecode(res.body);
-  //     if (res.statusCode == 200) {
-  //       if (data['message'] == "Berhasil mengajukan surat") {
-  //         // ignore: use_build_context_synchronously
-  //         Navigator.pushAndRemoveUntil(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => const DashboardUser(),
-  //           ),
-  //           (Route<dynamic> route) => false,
-  //         ).then((value) {
-  //           Fluttertoast.showToast(
-  //               msg: "Berhasil mengajukan surat",
-  //               backgroundColor: Colors.green,
-  //               toastLength: Toast.LENGTH_LONG);
-  //         });
-  //       }
-  //     } else {
-  //       final data = jsonDecode(res.body);
-  //       if (data['message'] == "Surat sebelumnya belum selesai") {
-  //         MySnackbar(
-  //                 type: SnackbarType.failed,
-  //                 title:
-  //                     "Mohon maaf, anda tidak bisa mengajukan surat , jika surat sebelumnya masih belum selesai")
-  //             .showSnackbar(context);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  // }
   ApiServices apiServices = ApiServices();
-  Future pengajuan_surat(
-      BuildContext context, File imageFileKK, File imageFileBukti) async {
-    var uri = Uri.parse(Api.pengajuan);
-    var req = http.MultipartRequest('POST', uri);
 
-    // Menambahkan bagian (part) pertama untuk file imageFileKK
-    var streamKK =
-        http.ByteStream(DelegatingStream.typed(imageFileKK.openRead()));
-    var lengthKK = await imageFileKK.length();
-    var multipartFileKK = http.MultipartFile('image_kk', streamKK, lengthKK,
-        filename: imageFileKK.path);
-    req.files.add(multipartFileKK);
-
-    // Menambahkan bagian (part) kedua untuk file imageFileBukti
-    var streamBukti =
-        http.ByteStream(DelegatingStream.typed(imageFileBukti.openRead()));
-    var lengthBukti = await imageFileBukti.length();
-    var multipartFileBukti = http.MultipartFile(
-        'image_bukti', streamBukti, lengthBukti,
-        filename: imageFileBukti.path);
-    req.files.add(multipartFileBukti);
-
-    req.fields['keterangan'] = keperluan.text;
-    req.fields['id_surat'] = widget.idsurat;
-    req.fields['nik'] = widget.masyarakat.nik.toString();
-
-    var response = await req.send();
-    if (response.statusCode == 200) {
-      // final data = await response.stream.bytesToString();
-      // final responsemsg = json.decode(data);
-      // if (responsemsg['message'] == "Berhasil mengajukan surat") {
-      //   Fluttertoast.showToast(
-      //     msg:
-      //         "Pengajuan surat anda berhasil, surat akan diproses oleh pihak RT",
-      //     backgroundColor: black.withOpacity(0.7));
-
-      // apiServices.sendNotification("Surat akan diproses oleh pihak RT",
-      //     user?.fcmToken ?? "", "Pengajuan surat anda berhasil");
-      // // ignore: use_build_context_synchronously
-      // Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => DashboardUser(),
-      //     ));
-      // } else if (responsemsg['message'] == "Surat sebelumnya belum selesai"){
-      //   Fluttertoast.showToast(
-      //       msg: responsemsg['message'], backgroundColor: black.withOpacity(0.7));
-      // }
+  Future submitForm() async {
+    if (imageKK == null || imageBukti == null) {
       Fluttertoast.showToast(
-          msg:
-              "Pengajuan surat anda berhasil, surat akan diproses oleh pihak RT",
+          msg: "Silahkan upload foto bukti dan Kartu Keluarga anda",
           backgroundColor: black.withOpacity(0.7));
+    }
+    const url = Api.pengajuan;
 
-      apiServices.sendNotification("Surat akan diproses oleh pihak RT",
-          user?.fcmToken ?? "", "Pengajuan surat anda berhasil");
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DashboardUser(),
+    final dio = Dio();
+    var cookieJar = CookieJar();
+
+    dio.interceptors.add(CookieManager(cookieJar));
+    final formData = FormData.fromMap({
+      'keterangan': keperluan.text,
+      'id_surat': widget.idsurat,
+      'nik': widget.masyarakat.nik.toString(),
+      'image_kk': await MultipartFile.fromFile(
+        imageKK!.path,
+        filename: 'image_kk.jpg',
+      ),
+      'image_bukti': await MultipartFile.fromFile(
+        imageBukti!.path,
+        filename: 'image_bukti.jpg',
+      ),
+    });
+    // Hindari validasi 5xx status
+    try {
+      final response = await dio.post(url,
+          data: formData,
+          options: Options(
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! < 500;
+            },
+            contentType: 'application/json',
+            responseType: ResponseType.plain,
           ));
-    } else if (response.statusCode == 404) {
-      var responseJson = await response.stream.bytesToString();
-      print(responseJson);
-      var responseData = json.decode(responseJson);
-      var errorMessage = responseData['message'];
-      if (errorMessage == "Surat sebelumnya belum selesai") {
-        Fluttertoast.showToast(
-            msg: errorMessage, backgroundColor: black.withOpacity(0.7));
+
+      if (response.statusCode == 200) {
+        print('Pengajuan surat berhasil');
       } else {
-        Fluttertoast.showToast(
-            msg: "Gagal mengajukan surat",
-            backgroundColor: black.withOpacity(0.7));
+        print('Gagal mengajukan surat. Status: ${response.statusCode}');
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        final responseData = e.response!.data;
+        print('Gagal mengajukan surat. Respons dari server: $responseData');
+      } else {
+        print('Gagal mengajukan surat. Kesalahan lainnya: $e');
       }
     }
   }
 
-  showSuccessDialog(
-      BuildContext context, File imageFileKK, File imageFileBukti) {
+  showSuccessDialog(BuildContext context) {
     AwesomeDialog(
       context: context,
       animType: AnimType.SCALE,
@@ -233,7 +170,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
       desc: 'Apakah anda yakin, Jika data yang anda telah benar',
       descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
       btnOkOnPress: () {
-        pengajuan_surat(context, imageFileKK, imageFileBukti);
+        submitForm();
       },
       btnCancelOnPress: () {
         Navigator.pop(context);
@@ -525,7 +462,85 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                           borderRadius: BorderRadius.circular(10),
                         )),
                     onPressed: () async {
-                      verifypengajuan(context);
+                      if (keperluan.text.isEmpty) {
+                        Fluttertoast.showToast(
+                            msg: "Silahkan isi keperluan anda",
+                            backgroundColor: black.withOpacity(0.7));
+                      } else {
+                        final request = http.MultipartRequest(
+                            'POST', Uri.parse(Api.pengajuan));
+                        request.fields['keterangan'] = keperluan.text;
+                        request.fields['id_surat'] = widget.idsurat;
+                        request.fields['nik'] =
+                            widget.masyarakat.nik.toString();
+
+                        // Tambahkan gambar KK (jika sudah dipilih)
+                        if (imageKK != null) {
+                          final kkFile = await http.MultipartFile.fromPath(
+                            'image_kk',
+                            imageKK!.path,
+                            contentType: MediaType(
+                                'image', path.extension(imageKK!.path)),
+                          );
+                          request.files.add(kkFile);
+                        }
+
+                        // Tambahkan gambar bukti (jika sudah dipilih)
+                        if (imageBukti != null) {
+                          final buktiFile = await http.MultipartFile.fromPath(
+                            'image_bukti',
+                            imageBukti!.path,
+                            contentType: MediaType(
+                                'image', path.extension(imageBukti!.path)),
+                          );
+                          request.files.add(buktiFile);
+                        }
+
+                        try {
+                          // Kirim permintaan ke backend
+                          final response = await request.send();
+
+                          if (response.statusCode == 200) {
+                            final responseString =
+                                await response.stream.bytesToString();
+
+                            // Parse responseString sebagai JSON
+                            final jsonResponse = json.decode(responseString);
+
+                            // Cek apakah ada pesan dari server
+                            if (jsonResponse.containsKey('message')) {
+                              final message = jsonResponse['message'];
+
+                              // Cek apakah pesan adalah "Surat sebelumnya belum selesai"
+                              if (message == 'Surat sebelumnya belum selesai') {
+                                Fluttertoast.showToast(
+                                  msg: message,
+                                  backgroundColor:
+                                      Colors.black.withOpacity(0.7),
+                                );
+                              } else {
+                                apiServices.sendNotificationRt();
+                                Fluttertoast.showToast(
+                                  msg: message,
+                                  backgroundColor:
+                                      Colors.black.withOpacity(0.7),
+                                );
+                              }
+                            } else {
+                              print('Pengajuan surat berhasil');
+                            }
+                          } else {
+                            // Jika gagal, tangkap pesan kesalahan dari respons
+                            final responseString =
+                                await response.stream.bytesToString();
+                            print(
+                                'Pengajuan surat gagal. Respons dari server: $responseString');
+                          }
+                        } catch (e) {
+                          // Tangkap kesalahan jika terjadi kesalahan selain dari respons server
+                          print('Pengajuan surat gagal. Kesalahan lainnya: $e');
+                        }
+                      }
                     },
                     child: Text('Ajukan Surat',
                         textAlign: TextAlign.center,
@@ -538,33 +553,62 @@ class _PengajuansuratState extends State<Pengajuansurat> {
           ],
         ),
       ),
-      //   bottomNavigationBar: BottomAppBar(
-      //     elevation: 0,
-      //     color: Colors.transparent,
-      //     child: Container(
-      //       padding: EdgeInsets.all(5),
-      //       height: 70,
-      //       color: Colors.transparent,
-      //       child: Container(
-      //           margin: EdgeInsets.all(8),
-      //           height: 40,
-      //           width: MediaQuery.of(context).size.width,
-      //           child: ElevatedButton(
-      //             style: ElevatedButton.styleFrom(
-      //                 backgroundColor: primaryColor,
-      //                 shadowColor: Colors.transparent,
-      //                 shape: RoundedRectangleBorder(
-      //                   borderRadius: BorderRadius.circular(10),
-      //                 )),
-      //             onPressed: () async {
-      //               verifypengajuan(context);
-      //             },
-      //             child: Text('Ajukan Surat',
-      //                 textAlign: TextAlign.center,
-      //                 style: MyFont.poppins(fontSize: 14, color: white)),
-      //           )),
-      //     ),
-      //   ),
     );
+  }
+
+// ... kode lainnya ...
+
+// Fungsi untuk mengunggah data dan gambar ke backend (menggunakan paket http)
+  Future<void> uploadDataAndImages() async {
+    const url = Api.pengajuan; // Ganti URL sesuai dengan endpoint backend Anda
+
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+    // Tambahkan bearer token ke header permintaan
+    final prefs = await SharedPreferences.getInstance();
+    final bearerToken = prefs.getString('token'); // Ganti dengan token Anda
+    request.headers['Authorization'] = 'Bearer $bearerToken';
+
+    // Tambahkan data pengajuan dari controller yang sudah diisi sebelumnya
+    // Contoh:
+    request.fields['keterangan'] = keperluan.text;
+    request.fields['id_surat'] = widget.idsurat;
+    request.fields['nik'] = widget.masyarakat.nik.toString();
+
+    // Tambahkan gambar KK (jika sudah dipilih)
+    if (imageKK != null) {
+      final kkFile = await http.MultipartFile.fromPath(
+        'image_kk',
+        imageKK!.path,
+        contentType: MediaType('image', path.extension(imageKK!.path)),
+      );
+      request.files.add(kkFile);
+    }
+
+    // Tambahkan gambar bukti (jika sudah dipilih)
+    if (imageBukti != null) {
+      final buktiFile = await http.MultipartFile.fromPath(
+        'image_bukti',
+        imageBukti!.path,
+        contentType: MediaType('image', path.extension(imageBukti!.path)),
+      );
+      request.files.add(buktiFile);
+    }
+
+    try {
+      // Kirim permintaan ke backend
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        // Jika berhasil, lakukan sesuatu (misalnya menampilkan pesan berhasil)
+        print('Pengajuan surat berhasil');
+      } else {
+        // Jika gagal, tangkap pesan kesalahan dari respons
+        final responseString = await response.stream.bytesToString();
+        print('Pengajuan surat gagal. Respons dari server: $responseString');
+      }
+    } catch (e) {
+      // Tangkap kesalahan jika terjadi kesalahan selain dari respons server
+      print('Pengajuan surat gagal. Kesalahan lainnya: $e');
+    }
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Model/Berita.dart';
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
@@ -54,6 +53,22 @@ class ApiServices {
       }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future<void> sendNotificationRt() async {
+    final prefs = await SharedPreferences.getInstance();
+    final authtoken = prefs.getString('token');
+    try {
+      final response = await http.post(Uri.parse(Api.notifikasi_rt),
+          headers: {"Authorization": "Bearer $authtoken"});
+      if (response.statusCode == 200) {
+        print('Berhasil mengirim notifikasi ke pihak rt');
+      } else {
+        print('Gagal mengirim notifikasi');
+      }
+    } catch (e) {
+      print('Terjadi kesalahan: $e');
     }
   }
 

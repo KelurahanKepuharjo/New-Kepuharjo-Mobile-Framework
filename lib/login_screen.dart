@@ -7,12 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/home_rt.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/home_rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
-import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
 import 'package:mobile_kepuharjo_new/Resource/MyTextField.dart';
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:mobile_kepuharjo_new/register_screen.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
@@ -83,6 +81,12 @@ class _LoginPageState extends State<LoginPage> {
           prefs.setString('role', data['role']);
           prefs.setString('user', json.encode(data['user']));
           final role = data['role'];
+          final firebaseMessaging = FirebaseMessaging.instance;
+          String? fcmToken = await firebaseMessaging.getToken();
+          // Send the FCM token to the server
+          ApiServices apiServices = ApiServices();
+          await apiServices.sendFcmToken(fcmToken!);
+          await firebaseMessaging.subscribeToTopic('all');
 
           if (role == "4") {
             // ignore: use_build_context_synchronously

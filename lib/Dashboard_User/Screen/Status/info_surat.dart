@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Model/Masyarakat.dart';
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Model/Surat.dart';
@@ -10,11 +7,6 @@ import 'package:mobile_kepuharjo_new/Resource/MyTextField_Pengajuan.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:intl/intl.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:mobile_kepuharjo_new/Services/api_services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:mobile_kepuharjo_new/Services/api_connect.dart';
 
 class InfoSurat extends StatefulWidget {

@@ -1,16 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/home.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/home_user.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Pengajuan/daftar_pelayanan.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/Settings.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/Status.dart';
-import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
-import 'package:mobile_kepuharjo_new/Services/api_services.dart';
-import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardUser extends StatefulWidget {
@@ -102,24 +98,12 @@ class _DashboardUserState extends State<DashboardUser> {
     });
   }
 
-  ApiServices apiServices = ApiServices();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initCheck();
-  }
-
-  Future<void> initCheck() async {
-    await apiServices.check();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
       body: screen[index],
-      bottomNavigationBar: BottomNavigationBar( 
+      bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: true,
           unselectedLabelStyle: MyFont.poppins(
               fontSize: 12, color: grey, fontWeight: FontWeight.w300),

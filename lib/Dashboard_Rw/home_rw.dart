@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Drawer/navigation_drawer.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Drawer/select.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rt/Screen/Tentang.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Dashboard_Rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Rekap_Pengajuan_Rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Surat_Masuk_Rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/Surat_Selesai_Rw.dart';
@@ -12,7 +11,6 @@ import 'package:mobile_kepuharjo_new/Dashboard_Rw/Screen/beranda_rw.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/info_aplikasi.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
-import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:provider/provider.dart';
 
@@ -30,18 +28,6 @@ class _DashboardRWState extends State<DashboardRW> {
     _scaffoldKeyRw.currentState?.openDrawer();
   }
 
-  Future<void> initCheck() async {
-    await apiServices.check();
-  }
-
-  ApiServices apiServices = ApiServices();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initCheck();
-  }
-
   Widget getPage(int index) {
     switch (index) {
       case 0:
@@ -55,7 +41,7 @@ class _DashboardRWState extends State<DashboardRW> {
       case 4:
         return Tentang();
       default:
-        return HomeRW();
+        return BerandaRW();
     }
   }
 

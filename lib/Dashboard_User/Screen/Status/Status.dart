@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/TabBarView/surat_diajukan.dart';
-import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/TabBarView/surat_dibatalkan.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/TabBarView/surat_diproses.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/TabBarView/surat_ditolak.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/TabBarView/surat_selesai.dart';
@@ -61,9 +60,9 @@ class _StatusState extends State<Status> {
                         Tab(text: "Surat Ditolak"),
                       ]),
                 ),
-                Expanded(
+                const Expanded(
                     child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: TabBarView(children: [
                     SizedBox(
                       child: Column(

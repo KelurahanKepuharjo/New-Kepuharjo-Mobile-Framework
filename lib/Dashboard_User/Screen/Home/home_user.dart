@@ -7,8 +7,6 @@ import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_berita.da
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_pelayanan.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Home/widget_text_berita.dart';
 import 'package:mobile_kepuharjo_new/Model/User.dart';
-import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
-import 'package:mobile_kepuharjo_new/Resource/MySnackbar.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 
 class HomeUser extends StatefulWidget {
