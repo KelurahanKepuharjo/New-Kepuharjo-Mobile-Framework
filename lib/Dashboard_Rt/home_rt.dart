@@ -12,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
@@ -28,6 +29,24 @@ class _DashboardRTState extends State<DashboardRT> {
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
   }
+
+  late PermissionStatus _notificationStatus;
+  late PermissionStatus _storageStatus;
+
+  Future<void> requestPermissions() async {
+    // Request notification permission
+    final notificationStatus = await Permission.notification.request();
+    setState(() {
+      _notificationStatus = notificationStatus;
+    });
+
+    // Request external storage permission
+    final storageStatus = await Permission.storage.request();
+    setState(() {
+      _storageStatus = storageStatus;
+    });
+  }
+
 
   Widget getPage(int index) {
     switch (index) {
@@ -55,6 +74,12 @@ class _DashboardRTState extends State<DashboardRT> {
     setState(() {
       selectedIndex = index;
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    requestPermissions();
   }
 
   @override

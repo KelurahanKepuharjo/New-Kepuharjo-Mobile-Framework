@@ -13,7 +13,7 @@ import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
-import 'package:android_intent_plus/android_intent.dart';
+// import 'package:android_intent_plus/android_intent.dart';
 
 class Pengaturan extends StatefulWidget {
   const Pengaturan({super.key});
@@ -318,12 +318,12 @@ class _PengaturanState extends State<Pengaturan> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            final intent = AndroidIntent(
-                                action: 'action_view',
-                                data: Uri.encodeFull(
-                                    'google.navigation:q=${lokasi.trim()}'),
-                                package: 'com.google.android.apps.maps');
-                            await intent.launch();
+                            // final intent = AndroidIntent(
+                            //     action: 'action_view',
+                            //     data: Uri.encodeFull(
+                            //         'google.navigation:q=${lokasi.trim()}'),
+                            //     package: 'com.google.android.apps.maps');
+                            // await intent.launch();
                           },
                           child: Row(
                             children: [

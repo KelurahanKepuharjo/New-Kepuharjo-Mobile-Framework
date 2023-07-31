@@ -12,6 +12,7 @@ import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/info_aplikasi
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class DashboardRW extends StatefulWidget {
@@ -53,6 +54,30 @@ class _DashboardRWState extends State<DashboardRW> {
       selectedIndex = index;
     });
   }
+  late PermissionStatus _notificationStatus;
+  late PermissionStatus _storageStatus;
+
+  Future<void> requestPermissions() async {
+    // Request notification permission
+    final notificationStatus = await Permission.notification.request();
+    setState(() {
+      _notificationStatus = notificationStatus;
+    });
+
+    // Request external storage permission
+    final storageStatus = await Permission.storage.request();
+    setState(() {
+      _storageStatus = storageStatus;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    requestPermissions();
+  }
+
 
   @override
   Widget build(BuildContext context) {

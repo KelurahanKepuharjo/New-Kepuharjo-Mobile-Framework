@@ -123,14 +123,54 @@ class ApiServices {
   }
 
   //rekap rt
-  Future<List<Pengajuan>> getRekapRt() async {
+  // Future<List<Pengajuan>> getRekapRt(int page) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final token = prefs.getString('token');
+  //   final response = await http.get(Uri.parse('${Api.rekap_rt}?page=$page'),
+  //       headers: {"Authorization": "Bearer $token"});
+  //   if (response.statusCode == 200) {
+  //     List jsonResponse = json.decode(response.body)['data'];
+  //     return jsonResponse.map((e) => Pengajuan.fromJson(e)).toList();
+  //   } else {
+  //     throw Exception('Failed to load');
+  //   }
+  // }
+  Future<Map<String, dynamic>> getRekapRt(int page) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
-    final response = await http.get(Uri.parse(Api.rekap_rt),
+    final response = await http.get(Uri.parse('${Api.rekap_rt}?page=$page'),
         headers: {"Authorization": "Bearer $token"});
     if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((e) => Pengajuan.fromJson(e)).toList();
+      final jsonData = json.decode(response.body);
+      final List<Pengajuan> pengajuanList =
+          (jsonData['data'] as List).map((e) => Pengajuan.fromJson(e)).toList();
+
+      final Map<String, dynamic> result = {
+        'pengajuanList': pengajuanList,
+        'lastPage': jsonData['last_page'],
+      };
+
+      return result;
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+  Future<Map<String, dynamic>> getRekapRw(int page) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    final response = await http.get(Uri.parse('${Api.rekap_rw}?page=$page'),
+        headers: {"Authorization": "Bearer $token"});
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final List<Pengajuan> pengajuanList =
+          (jsonData['data'] as List).map((e) => Pengajuan.fromJson(e)).toList();
+
+      final Map<String, dynamic> result = {
+        'pengajuanList': pengajuanList,
+        'lastPage': jsonData['last_page'],
+      };
+
+      return result;
     } else {
       throw Exception('Failed to load');
     }
@@ -151,18 +191,18 @@ class ApiServices {
   }
 
   //rekap rt
-  Future<List<Pengajuan>> getRekapRw() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    final response = await http.get(Uri.parse(Api.rekap_rw),
-        headers: {"Authorization": "Bearer $token"});
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((e) => Pengajuan.fromJson(e)).toList();
-    } else {
-      throw Exception('Failed to load');
-    }
-  }
+  // Future<List<Pengajuan>> getRekapRw() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final token = prefs.getString('token');
+  //   final response = await http.get(Uri.parse(Api.rekap_rw),
+  //       headers: {"Authorization": "Bearer $token"});
+  //   if (response.statusCode == 200) {
+  //     List jsonResponse = json.decode(response.body);
+  //     return jsonResponse.map((e) => Pengajuan.fromJson(e)).toList();
+  //   } else {
+  //     throw Exception('Failed to load');
+  //   }
+  // }
 
   Future<List<dynamic>> keluarga() async {
     final prefs = await SharedPreferences.getInstance();

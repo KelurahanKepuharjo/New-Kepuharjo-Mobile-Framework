@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:cookie_jar/cookie_jar.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_kepuharjo_new/Dashboard_User/dashboard_user.dart';
 import 'package:mobile_kepuharjo_new/Model/User.dart';
 import 'package:mobile_kepuharjo_new/Services/api_services.dart';
 import 'package:mobile_kepuharjo_new/Services/auth_services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/date_symbol_data_local.dart';
@@ -106,58 +104,58 @@ class _PengajuansuratState extends State<Pengajuansurat> {
 
   ApiServices apiServices = ApiServices();
 
-  Future submitForm() async {
-    if (imageKK == null || imageBukti == null) {
-      Fluttertoast.showToast(
-          msg: "Silahkan upload foto bukti dan Kartu Keluarga anda",
-          backgroundColor: black.withOpacity(0.7));
-    }
-    const url = Api.pengajuan;
-
-    final dio = Dio();
-    var cookieJar = CookieJar();
-
-    dio.interceptors.add(CookieManager(cookieJar));
-    final formData = FormData.fromMap({
-      'keterangan': keperluan.text,
-      'id_surat': widget.idsurat,
-      'nik': widget.masyarakat.nik.toString(),
-      'image_kk': await MultipartFile.fromFile(
-        imageKK!.path,
-        filename: 'image_kk.jpg',
-      ),
-      'image_bukti': await MultipartFile.fromFile(
-        imageBukti!.path,
-        filename: 'image_bukti.jpg',
-      ),
-    });
-    // Hindari validasi 5xx status
-    try {
-      final response = await dio.post(url,
-          data: formData,
-          options: Options(
-            followRedirects: false,
-            validateStatus: (status) {
-              return status! < 500;
-            },
-            contentType: 'application/json',
-            responseType: ResponseType.plain,
-          ));
-
-      if (response.statusCode == 200) {
-        print('Pengajuan surat berhasil');
-      } else {
-        print('Gagal mengajukan surat. Status: ${response.statusCode}');
-      }
-    } on DioError catch (e) {
-      if (e.response != null) {
-        final responseData = e.response!.data;
-        print('Gagal mengajukan surat. Respons dari server: $responseData');
-      } else {
-        print('Gagal mengajukan surat. Kesalahan lainnya: $e');
-      }
-    }
-  }
+  // Future submitForm() async {
+  //   if (imageKK == null || imageBukti == null) {
+  //     Fluttertoast.showToast(
+  //         msg: "Silahkan upload foto bukti dan Kartu Keluarga anda",
+  //         backgroundColor: black.withOpacity(0.7));
+  //   }
+  //   const url = Api.pengajuan;
+  //
+  //   final dio = Dio();
+  //   var cookieJar = CookieJar();
+  //
+  //   dio.interceptors.add(CookieManager(cookieJar));
+  //   final formData = FormData.fromMap({
+  //     'keterangan': keperluan.text,
+  //     'id_surat': widget.idsurat,
+  //     'nik': widget.masyarakat.nik.toString(),
+  //     'image_kk': await MultipartFile.fromFile(
+  //       imageKK!.path,
+  //       filename: 'image_kk.jpg',
+  //     ),
+  //     'image_bukti': await MultipartFile.fromFile(
+  //       imageBukti!.path,
+  //       filename: 'image_bukti.jpg',
+  //     ),
+  //   });
+  //   // Hindari validasi 5xx status
+  //   try {
+  //     final response = await dio.post(url,
+  //         data: formData,
+  //         options: Options(
+  //           followRedirects: false,
+  //           validateStatus: (status) {
+  //             return status! < 500;
+  //           },
+  //           contentType: 'application/json',
+  //           responseType: ResponseType.plain,
+  //         ));
+  //
+  //     if (response.statusCode == 200) {
+  //       print('Pengajuan surat berhasil');
+  //     } else {
+  //       print('Gagal mengajukan surat. Status: ${response.statusCode}');
+  //     }
+  //   } on DioError catch (e) {
+  //     if (e.response != null) {
+  //       final responseData = e.response!.data;
+  //       print('Gagal mengajukan surat. Respons dari server: $responseData');
+  //     } else {
+  //       print('Gagal mengajukan surat. Kesalahan lainnya: $e');
+  //     }
+  //   }
+  // }
 
   showSuccessDialog(BuildContext context) {
     AwesomeDialog(
@@ -170,7 +168,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
       desc: 'Apakah anda yakin, Jika data yang anda telah benar',
       descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
       btnOkOnPress: () {
-        submitForm();
+        // submitForm();
       },
       btnCancelOnPress: () {
         Navigator.pop(context);
@@ -518,13 +516,19 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                                   backgroundColor:
                                       Colors.black.withOpacity(0.7),
                                 );
-                              } else {
+                              } else if (message ==
+                                  'Berhasil mengajukan surat') {
                                 apiServices.sendNotificationRt();
                                 Fluttertoast.showToast(
                                   msg: message,
                                   backgroundColor:
                                       Colors.black.withOpacity(0.7),
-                                );
+                                ).then((value) => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DashboardUser(),
+                                    )));
+                                // ignore: use_build_context_synchronously
                               }
                             } else {
                               print('Pengajuan surat berhasil');

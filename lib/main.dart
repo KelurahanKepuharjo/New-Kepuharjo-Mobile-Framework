@@ -121,25 +121,8 @@ class _MyAppState extends State<MyApp> {
     configureFirebaseMessaging();
     LocalNotificationsServices.initialized();
     FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
-    requestPermissions();
   }
 
-  late PermissionStatus _notificationStatus;
-  late PermissionStatus _storageStatus;
-
-  Future<void> requestPermissions() async {
-    // Request notification permission
-    final notificationStatus = await Permission.notification.request();
-    setState(() {
-      _notificationStatus = notificationStatus;
-    });
-
-    // Request external storage permission
-    final storageStatus = await Permission.storage.request();
-    setState(() {
-      _storageStatus = storageStatus;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

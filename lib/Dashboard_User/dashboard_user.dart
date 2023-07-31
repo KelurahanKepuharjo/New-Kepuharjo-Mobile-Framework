@@ -7,6 +7,7 @@ import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Setting/Settings.dart
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/Status.dart';
 import 'package:mobile_kepuharjo_new/Resource/Mycolor.dart';
 import 'package:mobile_kepuharjo_new/Resource/Myfont.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardUser extends StatefulWidget {
@@ -34,6 +35,22 @@ class _DashboardUserState extends State<DashboardUser> {
     const Status(),
     const Pengaturan(),
   ];
+  late PermissionStatus _notificationStatus;
+  late PermissionStatus _storageStatus;
+
+  Future<void> requestPermissions() async {
+    // Request notification permission
+    final notificationStatus = await Permission.notification.request();
+    setState(() {
+      _notificationStatus = notificationStatus;
+    });
+
+    // Request external storage permission
+    final storageStatus = await Permission.storage.request();
+    setState(() {
+      _storageStatus = storageStatus;
+    });
+  }
 
   List navbutton = [
     {
@@ -96,6 +113,12 @@ class _DashboardUserState extends State<DashboardUser> {
       _getUserInfo();
       print(userData);
     });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    requestPermissions();
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
@@ -16,19 +18,35 @@ class RekapPengajuan extends StatefulWidget {
 
 class _RekapPengajuanState extends State<RekapPengajuan> {
   List<Pengajuan> pengajuan = [];
+  int currentPage = 1;
+  int lastPage = 1;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getRekapPengajuan();
+    getRekapPengajuan(currentPage);
   }
 
-  Future<void> getRekapPengajuan() async {
+  Future<void> getRekapPengajuan(int page) async {
     final api = ApiServices();
-    final surat = await api.getRekapRt();
+    final response = await api.getRekapRt(page);
     setState(() {
-      pengajuan = surat;
+      pengajuan = response['pengajuanList'];
+      lastPage = response['lastPage'];
+      currentPage = page;
     });
+  }
+
+  Future<void> _loadNextPage() async {
+    if (currentPage < lastPage) {
+      await getRekapPengajuan(currentPage + 1);
+    }
+  }
+
+  Future<void> _loadPreviousPage() async {
+    if (currentPage > 1) {
+      await getRekapPengajuan(currentPage - 1);
+    }
   }
 
   @override
@@ -38,7 +56,7 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
           child: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height * 1,
             padding: EdgeInsets.all(10),
             child: Card(
               elevation: 3, // tinggi bayangan
@@ -47,9 +65,11 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
-                  child: Expanded(
-                    child: Column(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
@@ -124,7 +144,8 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
                               rows: pengajuan.map((e) {
                                 return DataRow(cells: [
                                   DataCell(Text(
-                                    ('${pengajuan.indexOf(e) + 1}').toString(),
+                                    ('${pengajuan.indexOf(e) + 1}')
+                                        .toString(),
                                     style: MyFont.poppins(
                                         fontSize: 11, color: black),
                                   )),
@@ -147,7 +168,8 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
                                     height: 20,
                                     width: 80,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius:
+                                            BorderRadius.circular(10),
                                         color: (e.status.toString() ==
                                                 "Diajukan")
                                             ? Colors.amberAccent
@@ -186,401 +208,393 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
                                           showDialog(
                                             context: context,
                                             builder: (context) {
-                                              return SizedBox(
-                                                width: double.infinity,
-                                                child: AlertDialog(
-                                                  scrollable: true,
-                                                  content:
-                                                      SingleChildScrollView(
-                                                    child: Expanded(
-                                                      child: Column(
+                                              return AlertDialog(
+                                                scrollable: true,
+                                                content:
+                                                    SingleChildScrollView(
+                                                  child: Column(
+                                                    children: [
+                                                      Visibility(
+                                                        visible: pengajuan[index]
+                                                                    .noPengantar !=
+                                                                null &&
+                                                            pengajuan[
+                                                                    index]
+                                                                .noPengantar
+                                                                .toString()
+                                                                .isNotEmpty,
+                                                        child:
+                                                            GetTextFieldUser(
+                                                          controller: TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .noPengantar
+                                                                  .toString()),
+                                                          label:
+                                                              "No. Pengantar",
+                                                          isEnable:
+                                                              true,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .text,
+                                                          inputFormatters:
+                                                              FilteringTextInputFormatter
+                                                                  .singleLineFormatter,
+                                                          length: 255,
+                                                          icon: Icons
+                                                              .receipt,
+                                                        ),
+                                                      ),
+                                                      GetTextFieldUser(
+                                                        controller: TextEditingController(
+                                                            text: pengajuan[
+                                                                    index]
+                                                                .masyarakat!
+                                                                .nik
+                                                                .toString()),
+                                                        label:
+                                                            "Nomor Induk Keluarga",
+                                                        isEnable: false,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .number,
+                                                        inputFormatters:
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly,
+                                                        length: 16,
+                                                        icon:
+                                                            Icons.badge,
+                                                      ),
+                                                      GetTextFieldUser(
+                                                        controller: TextEditingController(
+                                                            text: pengajuan[
+                                                                    index]
+                                                                .masyarakat!
+                                                                .namaLengkap
+                                                                .toString()),
+                                                        label:
+                                                            "Nama Lengkap",
+                                                        isEnable: false,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .name,
+                                                        inputFormatters:
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly,
+                                                        length: 16,
+                                                        icon: Icons
+                                                            .person,
+                                                      ),
+                                                      GetTextFieldUser(
+                                                        controller:
+                                                            TextEditingController(
+                                                                text:
+                                                                    "${pengajuan[index].masyarakat!.tempatLahir}, ${pengajuan[index].masyarakat!.tglLahir}"),
+                                                        label:
+                                                            "Tempat, Tanggal Lahir",
+                                                        isEnable: false,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .name,
+                                                        inputFormatters:
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly,
+                                                        length: 16,
+                                                        icon: Icons
+                                                            .calendar_month,
+                                                      ),
+                                                      GetTextFieldUser(
+                                                        controller: TextEditingController(
+                                                            text: pengajuan[
+                                                                    index]
+                                                                .masyarakat!
+                                                                .jenisKelamin
+                                                                .toString()),
+                                                        label:
+                                                            "Jenis Kelamin",
+                                                        isEnable: false,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .name,
+                                                        inputFormatters:
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly,
+                                                        length: 16,
+                                                        icon: Icons
+                                                            .man_3_outlined,
+                                                      ),
+                                                      GetTextFieldUser(
+                                                        controller: TextEditingController(
+                                                            text: pengajuan[
+                                                                    index]
+                                                                .masyarakat!
+                                                                .agama
+                                                                .toString()),
+                                                        label: "Agama",
+                                                        isEnable: false,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .name,
+                                                        inputFormatters:
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly,
+                                                        length: 16,
+                                                        icon: Icons
+                                                            .account_balance,
+                                                      ),
+                                                      GetTextFieldUser(
+                                                        controller: TextEditingController(
+                                                            text: pengajuan[
+                                                                    index]
+                                                                .masyarakat!
+                                                                .pendidikan
+                                                                .toString()),
+                                                        label:
+                                                            "Pendidikan",
+                                                        isEnable: false,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .name,
+                                                        inputFormatters:
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly,
+                                                        length: 16,
+                                                        icon: Icons
+                                                            .school,
+                                                      ),
+                                                      GetTextFieldUser(
+                                                        controller: TextEditingController(
+                                                            text: pengajuan[
+                                                                    index]
+                                                                .masyarakat!
+                                                                .pekerjaan
+                                                                .toString()),
+                                                        label:
+                                                            "Pekerjaan",
+                                                        isEnable: false,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .name,
+                                                        inputFormatters:
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly,
+                                                        length: 16,
+                                                        icon:
+                                                            Icons.work,
+                                                      ),
+                                                      GetTextFieldUser(
+                                                        controller: TextEditingController(
+                                                            text: pengajuan[
+                                                                    index]
+                                                                .masyarakat!
+                                                                .golonganDarah
+                                                                .toString()),
+                                                        label:
+                                                            "Golongan Darah",
+                                                        isEnable: false,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .name,
+                                                        inputFormatters:
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly,
+                                                        length: 16,
+                                                        icon: Icons
+                                                            .opacity,
+                                                      ),
+                                                      GetTextFieldUser(
+                                                        controller: TextEditingController(
+                                                            text: pengajuan[
+                                                                    index]
+                                                                .masyarakat!
+                                                                .statusPerkawinan
+                                                                .toString()),
+                                                        label:
+                                                            "Status Perkawinan",
+                                                        isEnable: false,
+                                                        keyboardType:
+                                                            TextInputType
+                                                                .name,
+                                                        inputFormatters:
+                                                            FilteringTextInputFormatter
+                                                                .digitsOnly,
+                                                        length: 16,
+                                                        icon: Icons
+                                                            .people_rounded,
+                                                      ),
+                                                      Visibility(
+                                                        visible: pengajuan[index]
+                                                                    .keteranganDitolak !=
+                                                                null &&
+                                                            pengajuan[
+                                                                    index]
+                                                                .keteranganDitolak
+                                                                .toString()
+                                                                .isNotEmpty,
+                                                        child:
+                                                            GetTextFieldUser(
+                                                          controller: TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .keteranganDitolak
+                                                                  .toString()),
+                                                          label:
+                                                              "Keterangan Ditolak",
+                                                          isEnable:
+                                                              true,
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .text,
+                                                          inputFormatters:
+                                                              FilteringTextInputFormatter
+                                                                  .singleLineFormatter,
+                                                          length: 255,
+                                                          icon: Icons
+                                                              .highlight_off_rounded,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
                                                         children: [
-                                                          Visibility(
-                                                            visible: pengajuan[
-                                                                            index]
-                                                                        .noPengantar !=
-                                                                    null &&
-                                                                pengajuan[index]
-                                                                    .noPengantar
-                                                                    .toString()
-                                                                    .isNotEmpty,
-                                                            child:
-                                                                GetTextFieldUser(
-                                                              controller: TextEditingController(
-                                                                  text: pengajuan[
-                                                                          index]
-                                                                      .noPengantar
-                                                                      .toString()),
-                                                              label:
-                                                                  "No. Pengantar",
-                                                              isEnable: true,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                              inputFormatters:
-                                                                  FilteringTextInputFormatter
-                                                                      .singleLineFormatter,
-                                                              length: 255,
-                                                              icon:
-                                                                  Icons.receipt,
-                                                            ),
-                                                          ),
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
-                                                                    .masyarakat!
-                                                                    .nik
-                                                                    .toString()),
-                                                            label:
-                                                                "Nomor Induk Keluarga",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                            length: 16,
-                                                            icon: Icons.badge,
-                                                          ),
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
-                                                                    .masyarakat!
-                                                                    .namaLengkap
-                                                                    .toString()),
-                                                            label:
-                                                                "Nama Lengkap",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                            length: 16,
-                                                            icon: Icons.person,
-                                                          ),
-                                                          GetTextFieldUser(
-                                                            controller:
-                                                                TextEditingController(
-                                                                    text:
-                                                                        "${pengajuan[index].masyarakat!.tempatLahir}, ${pengajuan[index].masyarakat!.tglLahir}"),
-                                                            label:
-                                                                "Tempat, Tanggal Lahir",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                            length: 16,
-                                                            icon: Icons
-                                                                .calendar_month,
-                                                          ),
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
-                                                                    .masyarakat!
-                                                                    .jenisKelamin
-                                                                    .toString()),
-                                                            label:
-                                                                "Jenis Kelamin",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                            length: 16,
-                                                            icon: Icons
-                                                                .man_3_outlined,
-                                                          ),
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
-                                                                    .masyarakat!
-                                                                    .agama
-                                                                    .toString()),
-                                                            label: "Agama",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                            length: 16,
-                                                            icon: Icons
-                                                                .account_balance,
-                                                          ),
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
-                                                                    .masyarakat!
-                                                                    .pendidikan
-                                                                    .toString()),
-                                                            label: "Pendidikan",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                            length: 16,
-                                                            icon: Icons.school,
-                                                          ),
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
-                                                                    .masyarakat!
-                                                                    .pekerjaan
-                                                                    .toString()),
-                                                            label: "Pekerjaan",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                            length: 16,
-                                                            icon: Icons.work,
-                                                          ),
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
-                                                                    .masyarakat!
-                                                                    .golonganDarah
-                                                                    .toString()),
-                                                            label:
-                                                                "Golongan Darah",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                            length: 16,
-                                                            icon: Icons.opacity,
-                                                          ),
-                                                          GetTextFieldUser(
-                                                            controller: TextEditingController(
-                                                                text: pengajuan[
-                                                                        index]
-                                                                    .masyarakat!
-                                                                    .statusPerkawinan
-                                                                    .toString()),
-                                                            label:
-                                                                "Status Perkawinan",
-                                                            isEnable: false,
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .name,
-                                                            inputFormatters:
-                                                                FilteringTextInputFormatter
-                                                                    .digitsOnly,
-                                                            length: 16,
-                                                            icon: Icons
-                                                                .people_rounded,
-                                                          ),
-                                                          Visibility(
-                                                            visible: pengajuan[
-                                                                            index]
-                                                                        .keteranganDitolak !=
-                                                                    null &&
-                                                                pengajuan[index]
-                                                                    .keteranganDitolak
-                                                                    .toString()
-                                                                    .isNotEmpty,
-                                                            child:
-                                                                GetTextFieldUser(
-                                                              controller: TextEditingController(
-                                                                  text: pengajuan[
-                                                                          index]
-                                                                      .keteranganDitolak
-                                                                      .toString()),
-                                                              label:
-                                                                  "Keterangan Ditolak",
-                                                              isEnable: true,
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                              inputFormatters:
-                                                                  FilteringTextInputFormatter
-                                                                      .singleLineFormatter,
-                                                              length: 255,
-                                                              icon: Icons
-                                                                  .highlight_off_rounded,
-                                                            ),
+                                                          Icon(
+                                                            Icons.image,
+                                                            size: 25,
+                                                            color: grey,
                                                           ),
                                                           const SizedBox(
-                                                            height: 10,
+                                                            width: 8,
                                                           ),
-                                                          Row(
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             children: [
-                                                              Icon(
-                                                                Icons.image,
-                                                                size: 25,
-                                                                color: grey,
+                                                              Text(
+                                                                "Foto Kartu Keluarga",
+                                                                style: MyFont.poppins(
+                                                                    fontSize:
+                                                                        11,
+                                                                    color:
+                                                                        black),
                                                               ),
                                                               const SizedBox(
-                                                                width: 8,
+                                                                height:
+                                                                    5,
                                                               ),
-                                                              Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    "Foto Kartu Keluarga",
-                                                                    style: MyFont.poppins(
-                                                                        fontSize:
-                                                                            11,
-                                                                        color:
-                                                                            black),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    height: 5,
-                                                                  ),
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      showDialog(
-                                                                        context:
-                                                                            context,
-                                                                        builder:
-                                                                            (context) {
-                                                                          return AlertDialog(
-                                                                            content:
-                                                                                Image.network(
-                                                                              Api.connectimage + pengajuan[index].imageKk.toString(),
-                                                                            ),
-                                                                          );
-                                                                        },
+                                                              InkWell(
+                                                                onTap:
+                                                                    () {
+                                                                  showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) {
+                                                                      return AlertDialog(
+                                                                        content: Image.network(
+                                                                          Api.connectimage + pengajuan[index].imageKk.toString(),
+                                                                        ),
                                                                       );
                                                                     },
-                                                                    child:
-                                                                        Container(
-                                                                      padding:
-                                                                          const EdgeInsets.all(
-                                                                              8),
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .withOpacity(0.2),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                      ),
-                                                                      child:
-                                                                          Text(
-                                                                        pengajuan[index]
-                                                                            .imageKk
-                                                                            .toString(),
-                                                                        style: MyFont.poppins(
-                                                                            fontSize:
-                                                                                11,
-                                                                            color:
-                                                                                black),
-                                                                      ),
-                                                                    ),
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      const EdgeInsets.all(8),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color:
+                                                                        Colors.grey.withOpacity(0.2),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(10),
                                                                   ),
-                                                                ],
+                                                                  child:
+                                                                      Text(
+                                                                    pengajuan[index].imageKk.toString(),
+                                                                    style:
+                                                                        MyFont.poppins(fontSize: 11, color: black),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.image,
-                                                                size: 25,
-                                                                color: grey,
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 8,
-                                                              ),
-                                                              Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    "Foto Bukti",
-                                                                    style: MyFont.poppins(
-                                                                        fontSize:
-                                                                            11,
-                                                                        color:
-                                                                            black),
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    height: 5,
-                                                                  ),
-                                                                  InkWell(
-                                                                    onTap: () {
-                                                                      showDialog(
-                                                                        context:
-                                                                            context,
-                                                                        builder:
-                                                                            (context) {
-                                                                          return AlertDialog(
-                                                                            content:
-                                                                                Image.network(
-                                                                              Api.connectimage + pengajuan[index].imageBukti.toString(),
-                                                                            ),
-                                                                          );
-                                                                        },
-                                                                      );
-                                                                    },
-                                                                    child:
-                                                                        Container(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              8),
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: Colors
-                                                                            .grey
-                                                                            .withOpacity(0.2),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                      ),
-                                                                      child:
-                                                                          Text(
-                                                                        pengajuan[index]
-                                                                            .imageBukti
-                                                                            .toString(),
-                                                                        style: MyFont.poppins(
-                                                                            fontSize:
-                                                                                11,
-                                                                            color:
-                                                                                black),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 20,
                                                           ),
                                                         ],
                                                       ),
-                                                    ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.image,
+                                                            size: 25,
+                                                            color: grey,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 8,
+                                                          ),
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                "Foto Bukti",
+                                                                style: MyFont.poppins(
+                                                                    fontSize:
+                                                                        11,
+                                                                    color:
+                                                                        black),
+                                                              ),
+                                                              const SizedBox(
+                                                                height:
+                                                                    5,
+                                                              ),
+                                                              InkWell(
+                                                                onTap:
+                                                                    () {
+                                                                  showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) {
+                                                                      return AlertDialog(
+                                                                        content: Image.network(
+                                                                          Api.connectimage + pengajuan[index].imageBukti.toString(),
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets.all(8),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color:
+                                                                        Colors.grey.withOpacity(0.2),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(10),
+                                                                  ),
+                                                                  child:
+                                                                      Text(
+                                                                    pengajuan[index].imageBukti.toString(),
+                                                                    style:
+                                                                        MyFont.poppins(fontSize: 11, color: black),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               );
@@ -598,11 +612,59 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
                         ),
                       ],
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 25),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _loadPreviousPage();
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              color: softgrey,
+                              // Tidak ada halaman berikutnya jika currentPage adalah lastPage
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.keyboard_arrow_left_rounded,
+                                  color: white,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _loadNextPage();
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              color: primaryColor,
+                              // Tidak ada halaman berikutnya jika currentPage adalah lastPage
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Icon(
+                                  Icons.keyboard_arrow_right_rounded,
+                                  color: white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       )),
     );
