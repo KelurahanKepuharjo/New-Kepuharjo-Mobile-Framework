@@ -40,7 +40,7 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
 
   ApiServices apiServices = ApiServices();
 
-  Future status_setuju(String id, String fcmToken) async {
+  Future status_setuju(String id) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -52,10 +52,9 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
           Fluttertoast.showToast(
               msg: "Status pengajuan berhasil disetujui",
               backgroundColor: Colors.black.withOpacity(0.7));
-          apiServices.sendNotification(
-              "Pengajuan surat anda telah disetujui oleh pihak RW",
-              fcmToken,
-              "Pengajuan Surat Disetujui");
+          // apiServices.sendNotificationUser(
+          //     "Pengajuan surat anda telah disetujui oleh pihak RW",
+          //     "Pengajuan Surat Disetujui");
         }
       } else {
         Fluttertoast.showToast(
@@ -77,7 +76,7 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
       desc: 'Apakah anda yakin, untuk menyetujui surat?',
       descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
       btnOkOnPress: () {
-        status_setuju(id, fcmToken);
+        status_setuju(id);
       },
       btnCancelOnPress: () {
         Navigator.pushAndRemoveUntil(
@@ -182,8 +181,7 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                             rows: pengajuan.map((e) {
                               return DataRow(cells: [
                                 DataCell(Text(
-                                  ('${pengajuan.indexOf(e) + 1}')
-                                      .toString(),
+                                  ('${pengajuan.indexOf(e) + 1}').toString(),
                                   style: MyFont.poppins(
                                       fontSize: 11, color: black),
                                 )),
@@ -201,8 +199,7 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                   height: 25,
                                   width: 80,
                                   decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(10),
                                       color: Colors.grey.withOpacity(0.2)),
                                   child: Center(
                                     child: Text(
@@ -233,21 +230,19 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                           builder: (context) {
                                             return AlertDialog(
                                               scrollable: true,
-                                              content:
-                                                  SingleChildScrollView(
+                                              content: SingleChildScrollView(
                                                 child: Column(
                                                   children: [
                                                     GetTextFieldUser(
-                                                      controller: TextEditingController(
-                                                          text: pengajuan[
-                                                                  index]
-                                                              .noPengantar),
-                                                      label:
-                                                          "No. Pengantar",
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .noPengantar),
+                                                      label: "No. Pengantar",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .text,
+                                                          TextInputType.text,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .singleLineFormatter,
@@ -255,18 +250,18 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                       icon: Icons.receipt,
                                                     ),
                                                     GetTextFieldUser(
-                                                      controller: TextEditingController(
-                                                          text: pengajuan[
-                                                                  index]
-                                                              .masyarakat!
-                                                              .nik
-                                                              .toString()),
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .masyarakat!
+                                                                  .nik
+                                                                  .toString()),
                                                       label:
                                                           "Nomor Induk Keluarga",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .number,
+                                                          TextInputType.number,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .digitsOnly,
@@ -274,18 +269,17 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                       icon: Icons.badge,
                                                     ),
                                                     GetTextFieldUser(
-                                                      controller: TextEditingController(
-                                                          text: pengajuan[
-                                                                  index]
-                                                              .masyarakat!
-                                                              .namaLengkap
-                                                              .toString()),
-                                                      label:
-                                                          "Nama Lengkap",
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .masyarakat!
+                                                                  .namaLengkap
+                                                                  .toString()),
+                                                      label: "Nama Lengkap",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .name,
+                                                          TextInputType.name,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .digitsOnly,
@@ -301,66 +295,64 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                           "Tempat, Tanggal Lahir",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .name,
+                                                          TextInputType.name,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .digitsOnly,
                                                       length: 16,
-                                                      icon: Icons
-                                                          .calendar_month,
+                                                      icon:
+                                                          Icons.calendar_month,
                                                     ),
                                                     GetTextFieldUser(
-                                                      controller: TextEditingController(
-                                                          text: pengajuan[
-                                                                  index]
-                                                              .masyarakat!
-                                                              .jenisKelamin
-                                                              .toString()),
-                                                      label:
-                                                          "Jenis Kelamin",
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .masyarakat!
+                                                                  .jenisKelamin
+                                                                  .toString()),
+                                                      label: "Jenis Kelamin",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .name,
+                                                          TextInputType.name,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .digitsOnly,
                                                       length: 16,
-                                                      icon: Icons
-                                                          .man_3_outlined,
+                                                      icon:
+                                                          Icons.man_3_outlined,
                                                     ),
                                                     GetTextFieldUser(
-                                                      controller: TextEditingController(
-                                                          text: pengajuan[
-                                                                  index]
-                                                              .masyarakat!
-                                                              .agama
-                                                              .toString()),
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .masyarakat!
+                                                                  .agama
+                                                                  .toString()),
                                                       label: "Agama",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .name,
+                                                          TextInputType.name,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .digitsOnly,
                                                       length: 16,
-                                                      icon: Icons
-                                                          .account_balance,
+                                                      icon:
+                                                          Icons.account_balance,
                                                     ),
                                                     GetTextFieldUser(
-                                                      controller: TextEditingController(
-                                                          text: pengajuan[
-                                                                  index]
-                                                              .masyarakat!
-                                                              .pendidikan
-                                                              .toString()),
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .masyarakat!
+                                                                  .pendidikan
+                                                                  .toString()),
                                                       label: "Pendidikan",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .name,
+                                                          TextInputType.name,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .digitsOnly,
@@ -368,17 +360,17 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                       icon: Icons.school,
                                                     ),
                                                     GetTextFieldUser(
-                                                      controller: TextEditingController(
-                                                          text: pengajuan[
-                                                                  index]
-                                                              .masyarakat!
-                                                              .pekerjaan
-                                                              .toString()),
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .masyarakat!
+                                                                  .pekerjaan
+                                                                  .toString()),
                                                       label: "Pekerjaan",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .name,
+                                                          TextInputType.name,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .digitsOnly,
@@ -386,18 +378,17 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                       icon: Icons.work,
                                                     ),
                                                     GetTextFieldUser(
-                                                      controller: TextEditingController(
-                                                          text: pengajuan[
-                                                                  index]
-                                                              .masyarakat!
-                                                              .golonganDarah
-                                                              .toString()),
-                                                      label:
-                                                          "Golongan Darah",
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .masyarakat!
+                                                                  .golonganDarah
+                                                                  .toString()),
+                                                      label: "Golongan Darah",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .name,
+                                                          TextInputType.name,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .digitsOnly,
@@ -405,24 +396,24 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                       icon: Icons.opacity,
                                                     ),
                                                     GetTextFieldUser(
-                                                      controller: TextEditingController(
-                                                          text: pengajuan[
-                                                                  index]
-                                                              .masyarakat!
-                                                              .statusPerkawinan
-                                                              .toString()),
+                                                      controller:
+                                                          TextEditingController(
+                                                              text: pengajuan[
+                                                                      index]
+                                                                  .masyarakat!
+                                                                  .statusPerkawinan
+                                                                  .toString()),
                                                       label:
                                                           "Status Perkawinan",
                                                       isEnable: false,
                                                       keyboardType:
-                                                          TextInputType
-                                                              .name,
+                                                          TextInputType.name,
                                                       inputFormatters:
                                                           FilteringTextInputFormatter
                                                               .digitsOnly,
                                                       length: 16,
-                                                      icon: Icons
-                                                          .people_rounded,
+                                                      icon:
+                                                          Icons.people_rounded,
                                                     ),
                                                     const SizedBox(
                                                       height: 10,
@@ -444,11 +435,12 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                           children: [
                                                             Text(
                                                               "Foto Kartu Keluarga",
-                                                              style: MyFont.poppins(
-                                                                  fontSize:
-                                                                      11,
-                                                                  color:
-                                                                      black),
+                                                              style: MyFont
+                                                                  .poppins(
+                                                                      fontSize:
+                                                                          11,
+                                                                      color:
+                                                                          black),
                                                             ),
                                                             const SizedBox(
                                                               height: 5,
@@ -461,30 +453,33 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                                   builder:
                                                                       (context) {
                                                                     return AlertDialog(
-                                                                      content:
-                                                                          Image.network(
-                                                                        Api.connectimage + pengajuan[index].imageKk.toString(),
+                                                                      content: Image
+                                                                          .network(
+                                                                        Api.connectimage +
+                                                                            pengajuan[index].imageKk.toString(),
                                                                       ),
                                                                     );
                                                                   },
                                                                 );
                                                               },
-                                                              child:
-                                                                  Container(
+                                                              child: Container(
                                                                 padding:
-                                                                    EdgeInsets.all(
-                                                                        8),
+                                                                    EdgeInsets
+                                                                        .all(8),
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   color: Colors
                                                                       .grey
-                                                                      .withOpacity(0.2),
+                                                                      .withOpacity(
+                                                                          0.2),
                                                                   borderRadius:
-                                                                      BorderRadius.circular(10),
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
                                                                 ),
-                                                                child:
-                                                                    Text(
-                                                                  pengajuan[index]
+                                                                child: Text(
+                                                                  pengajuan[
+                                                                          index]
                                                                       .imageKk
                                                                       .toString(),
                                                                   style: MyFont.poppins(
@@ -519,11 +514,12 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                           children: [
                                                             Text(
                                                               "Foto Bukti",
-                                                              style: MyFont.poppins(
-                                                                  fontSize:
-                                                                      11,
-                                                                  color:
-                                                                      black),
+                                                              style: MyFont
+                                                                  .poppins(
+                                                                      fontSize:
+                                                                          11,
+                                                                      color:
+                                                                          black),
                                                             ),
                                                             const SizedBox(
                                                               height: 5,
@@ -536,30 +532,33 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                                   builder:
                                                                       (context) {
                                                                     return AlertDialog(
-                                                                      content:
-                                                                          Image.network(
-                                                                        Api.connectimage + pengajuan[index].imageBukti.toString(),
+                                                                      content: Image
+                                                                          .network(
+                                                                        Api.connectimage +
+                                                                            pengajuan[index].imageBukti.toString(),
                                                                       ),
                                                                     );
                                                                   },
                                                                 );
                                                               },
-                                                              child:
-                                                                  Container(
+                                                              child: Container(
                                                                 padding:
-                                                                    EdgeInsets.all(
-                                                                        8),
+                                                                    EdgeInsets
+                                                                        .all(8),
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   color: Colors
                                                                       .grey
-                                                                      .withOpacity(0.2),
+                                                                      .withOpacity(
+                                                                          0.2),
                                                                   borderRadius:
-                                                                      BorderRadius.circular(10),
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
                                                                 ),
-                                                                child:
-                                                                    Text(
-                                                                  pengajuan[index]
+                                                                child: Text(
+                                                                  pengajuan[
+                                                                          index]
                                                                       .imageBukti
                                                                       .toString(),
                                                                   style: MyFont.poppins(
@@ -587,26 +586,39 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                           height: 40,
                                                           width: 80,
                                                           child: ElevatedButton(
-                                                              style: ElevatedButton.styleFrom(
-                                                                  backgroundColor: Colors.green,
-                                                                  shadowColor: Colors.transparent,
-                                                                  shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(10),
-                                                                  )),
+                                                              style: ElevatedButton
+                                                                  .styleFrom(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .green,
+                                                                      shadowColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10),
+                                                                      )),
                                                               onPressed: () {
-                                                                status_setuju(
-                                                                    pengajuan[index]
+                                                                setState(() {
+                                                                  status_setuju(
+                                                                    pengajuan[
+                                                                            index]
                                                                         .idPengajuan
                                                                         .toString(),
-                                                                    pengajuan[index]
-                                                                        .masyarakat!
-                                                                        .user!
-                                                                        .fcmToken
-                                                                        .toString());
-                                                                _getSuratMasuk();
-                                                                Navigator.pop(
-                                                                    context);
+                                                                  );
+                                                                  _getSuratMasuk();
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  apiServices.sendNotificationUser(
+                                                                      "Pengajuan surat anda telah disetujui oleh pihak RW",
+                                                                      "Pengajuan Surat Disetujui",
+                                                                      pengajuan[
+                                                                              index]
+                                                                          .masyarakat!
+                                                                          .nik
+                                                                          .toString());
+                                                                });
 
                                                                 // status_setuju(
                                                                 //     pengajuan[index]
@@ -620,11 +632,12 @@ class _SuratMasukRwState extends State<SuratMasukRw> {
                                                               },
                                                               child: Text(
                                                                 "Setujui",
-                                                                style: MyFont.poppins(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color:
-                                                                        white),
+                                                                style: MyFont
+                                                                    .poppins(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color:
+                                                                            white),
                                                               )),
                                                         ),
                                                       ],

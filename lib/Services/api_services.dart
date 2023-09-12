@@ -72,6 +72,22 @@ class ApiServices {
     }
   }
 
+  Future<void> sendNotificationRw() async {
+    final prefs = await SharedPreferences.getInstance();
+    final auth = prefs.getString('token');
+    try {
+      final res = await http.post(Uri.parse(Api.notifikasi_rw),
+          headers: {"Authorization": "Bearer $auth"});
+      if (res.statusCode == 200) {
+        print('berhasil mengirim notifikasi ke pihak rw');
+      } else {
+        print('gagal mengirim notifikasi ke pihak rw');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   Future<void> sendNotification(String body, String token, String title) async {
     try {
       final response = await http.post(
@@ -88,7 +104,34 @@ class ApiServices {
     }
   }
 
+  Future<void> sendNotificationUser(
+      String body, String title, String nik) async {
+    try {
+      final response = await http.post(
+        Uri.parse(Api.notifikasi_user),
+        body: {'title': title, 'body': body, 'nik': nik},
+      );
+      if (response.statusCode == 200) {
+        print('Berhasil mengirim notifikasi');
+      } else {
+        print('Gagal mengirim notifikasi');
+      }
+    } catch (e) {
+      print('Terjadi kesalahan: $e');
+    }
+  }
+
   Future<List<Berita>> getBerita() async {
+    final response = await http.get(Uri.parse(Api.news));
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body)['data'];
+      return jsonResponse.map((e) => Berita.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<List<Berita>> getAllBerita() async {
     final response = await http.get(Uri.parse(Api.berita));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body)['data'];
@@ -155,6 +198,7 @@ class ApiServices {
       throw Exception('Failed to load');
     }
   }
+
   Future<Map<String, dynamic>> getRekapRw(int page) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');

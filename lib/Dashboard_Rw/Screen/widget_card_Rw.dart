@@ -172,50 +172,52 @@ class _WidgetCardRwState extends State<WidgetCardRw> {
                     decoration: BoxDecoration(
                         color: white.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Jenis Pengajuan Surat",
-                          style: MyFont.poppins(
-                              fontSize: 14,
-                              color: black,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        DataTable(
-                            columns: [
-                              DataColumn(
-                                  label: Text(
-                                style: MyFont.poppins(
-                                    fontSize: 12, color: black),
-                                "Gambar",
-                              )),
-                              DataColumn(
-                                  label: Text(
-                                "Nama Surat",
-                                style: MyFont.poppins(
-                                    fontSize: 12, color: black),
-                              ))
-                            ],
-                            rows: _surat.map((e) {
-                              return DataRow(cells: [
-                                DataCell(Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8.0),
-                                  child: Image.network(
-                                    Api.connectimage + e.image!.trim(),
-                                    height: 50,
-                                    width: 50,
-                                  ),
-                                )),
-                                DataCell(Text(
-                                  "Surat Keterangan ${e.namaSurat}",
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Jenis Pengajuan Surat",
+                            style: MyFont.poppins(
+                                fontSize: 14,
+                                color: black,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          DataTable(
+                              columns: [
+                                DataColumn(
+                                    label: Text(
                                   style: MyFont.poppins(
-                                      fontSize: 11, color: black),
+                                      fontSize: 12, color: black),
+                                  "Gambar",
                                 )),
-                              ]);
-                            }).toList())
-                      ],
+                                DataColumn(
+                                    label: Text(
+                                  "Nama Surat",
+                                  style: MyFont.poppins(
+                                      fontSize: 12, color: black),
+                                ))
+                              ],
+                              rows: _surat.map((e) {
+                                return DataRow(cells: [
+                                  DataCell(Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Image.network(
+                                      Api.connectimage + e.image!.trim(),
+                                      height: 50,
+                                      width: 50,
+                                    ),
+                                  )),
+                                  DataCell(Text(
+                                    "Surat Keterangan ${e.namaSurat}",
+                                    style: MyFont.poppins(
+                                        fontSize: 11, color: black),
+                                  )),
+                                ]);
+                              }).toList())
+                        ],
+                      ),
                     ),
                   )
                 ],

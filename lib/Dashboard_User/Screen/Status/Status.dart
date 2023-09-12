@@ -55,7 +55,7 @@ class _StatusState extends State<Status> {
                       indicatorColor: primaryColor,
                       tabs: const [
                         Tab(text: "Surat Diajukan"),
-                        Tab(text: "Surat Diporoses"),
+                        Tab(text: "Surat Diproses"),
                         Tab(text: "Surat Selesai"),
                         Tab(text: "Surat Ditolak"),
                       ]),

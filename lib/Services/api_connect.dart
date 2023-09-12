@@ -1,5 +1,5 @@
 class Api {
-  static const connectapi = "http://192.168.179.87:8000";
+  static const connectapi = "https://suketkepuharjo.com";
   static const connectHost = "$connectapi/api";
   static const connectimage = "$connectapi/images/";
   static const connectpdf = "$connectapi/pdf/";
@@ -14,8 +14,11 @@ class Api {
   static const checkRole = "$connectHost/auth/role";
   static const notifikasi = "$connectHost/store";
   static const notifikasi_rt = "$connectHost/send-notification-rt";
+  static const notifikasi_user = "$connectHost/send-notification-user";
+  static const notifikasi_rw = "$connectHost/send-notification-rw";
 
   static const berita = "$connectHost/berita";
+  static const news = "$connectHost/news";
   static const surat = "$connectHost/surat";
 
   static const keluarga = "$connectHost/keluarga";

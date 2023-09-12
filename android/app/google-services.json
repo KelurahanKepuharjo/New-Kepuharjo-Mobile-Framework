@@ -33,6 +33,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681998080091:android:ef6af1eb9c01a47351877e",
+        "android_client_info": {
+          "package_name": "com.kepuharjo.mobile_kepuharjo_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681998080091-fqo97djug1m7ufn7ubjffae32hdj8mn7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADImLoUuWsRvlTBLZAZK5FCWHJy69x58w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681998080091-fqo97djug1m7ufn7ubjffae32hdj8mn7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

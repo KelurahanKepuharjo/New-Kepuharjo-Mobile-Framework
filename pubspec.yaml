@@ -26,7 +26,8 @@ dependencies:
   firebase_messaging: ^14.6.5
   flutter_local_notifications: ^15.1.0+1
   firebase_core: ^2.15.0
-  # android_intent_plus: 
+  android_intent_plus: ^4.0.2
+  device_info_plus: ^9.0.3
   google_fonts: ^5.1.0
   card_loading: ^0.3.0
   page_transition: ^2.0.9

@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:card_loading/card_loading.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile_kepuharjo_new/Dashboard_User/Screen/Status/info_surat.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_kepuharjo_new/Model/Pengajuan.dart';
@@ -22,8 +25,7 @@ class SuratSelesaiUser extends StatefulWidget {
   State<SuratSelesaiUser> createState() => _SuratSelesaiUserState();
 }
 
-class _SuratSelesaiUserState extends State<SuratSelesaiUser>
-    with SingleTickerProviderStateMixin {
+class _SuratSelesaiUserState extends State<SuratSelesaiUser> {
   ApiServices apiServices = ApiServices();
   late Future<List<Pengajuan>> listdata;
 
@@ -32,6 +34,7 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
     // TODO: implement initState
     super.initState();
     listdata = apiServices.getStatus("Selesai");
+    test();
   }
 
   Future<void> downloadPdf(String pdfUrl, String fileName) async {
@@ -47,6 +50,30 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<bool> req_permissions(Permission permission) async {
+    AndroidDeviceInfo build = await DeviceInfoPlugin().androidInfo;
+    if (build.version.sdkInt >= 30) {
+      var req = await Permission.manageExternalStorage.request();
+
+      if (req.isGranted) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (await permission.isGranted) {
+        return true;
+      } else {
+        var result = await permission.request();
+        if (result.isGranted) {
+          return true;
+        } else {
+          return false;
+        }
+      }
     }
   }
 
@@ -292,7 +319,13 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
                                                 await Permission.storage
                                                     .request()
                                                     .isGranted;
-                                            if (permissionStatus) {
+                                            // var permission = await Permission
+                                            //     .manageExternalStorage
+                                            //     .request()
+                                            //     .isGranted;
+                                            // if (permissionStatus
+                                            //     ) {
+                                            //   print("permission is granted");
                                               await downloadPdf(
                                                   Api.connectpdf +
                                                       data[index]
@@ -301,7 +334,10 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
                                                   data[index]
                                                       .filePdf
                                                       .toString());
-                                            } else {}
+                                            // } else {
+                                            //   print("permission is denied");
+                                            //
+                                            // }
                                           },
                                           child: Column(
                                             mainAxisAlignment:
@@ -331,62 +367,6 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
                                           )),
                                     ),
                                   ),
-                                  //   Expanded(
-                                  //     child: Container(
-                                  //       margin: EdgeInsets.all(8),
-                                  //       height: _isVisible[index] ? 40 : 0,
-                                  //       width: MediaQuery.of(context).size.width,
-                                  //       child: ElevatedButton(
-                                  //           style: ElevatedButton.styleFrom(
-                                  //               backgroundColor: Colors.blue,
-                                  //               shadowColor: Colors.transparent,
-                                  //               shape: RoundedRectangleBorder(
-                                  //                 borderRadius:
-                                  //                     BorderRadius.circular(5),
-                                  //               )),
-                                  //           onPressed: () {
-                                  //             Navigator.push(
-                                  //                 context,
-                                  //                 MaterialPageRoute(
-                                  //                   builder: (context) =>
-                                  //                       InfoSurat(
-                                  //                           surat: data[index]
-                                  //                               .surat!,
-                                  //                           pengajuan:
-                                  //                               data[index],
-                                  //                           masyarakat:
-                                  //                               data[index]
-                                  //                                   .masyarakat!),
-                                  //                 ));
-                                  //           },
-                                  //           child: Column(
-                                  //             mainAxisAlignment:
-                                  //                 MainAxisAlignment.center,
-                                  //             children: [
-                                  //               Row(
-                                  //                 crossAxisAlignment:
-                                  //                     CrossAxisAlignment.center,
-                                  //                 mainAxisAlignment:
-                                  //                     MainAxisAlignment.center,
-                                  //                 children: [
-                                  //                   Icon(
-                                  //                     Icons.info_outline_rounded,
-                                  //                     color: white,
-                                  //                     size: 27,
-                                  //                   ),
-                                  //                   const SizedBox(
-                                  //                     width: 7,
-                                  //                   ),
-                                  //                   Text('Info Surat',
-                                  //                       style: MyFont.poppins(
-                                  //                           fontSize: 12,
-                                  //                           color: white)),
-                                  //                 ],
-                                  //               ),
-                                  //             ],
-                                  //           )),
-                                  //     ),
-                                  //   ),
                                 ],
                               ),
                             ),
@@ -443,5 +423,23 @@ class _SuratSelesaiUserState extends State<SuratSelesaiUser>
         );
       },
     );
+  }
+  void test() async {
+    final plugin = DeviceInfoPlugin();
+    final android = await plugin.androidInfo;
+
+    final storageStatus = android.version.sdkInt < 33
+        ? await Permission.storage.request()
+        : PermissionStatus.granted;
+
+    if (storageStatus == PermissionStatus.granted) {
+      print("granted");
+    }
+    if (storageStatus == PermissionStatus.denied) {
+      print("denied");
+    }
+    if (storageStatus == PermissionStatus.permanentlyDenied) {
+      openAppSettings();
+    }
   }
 }
