@@ -161,7 +161,7 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     AwesomeDialog(
       context: context,
       animType: AnimType.SCALE,
-      dialogType: DialogType.WARNING,
+      dialogType: DialogType.SUCCES,
       title: 'Warning!',
       titleTextStyle: MyFont.poppins(
           fontSize: 25, color: lavender, fontWeight: FontWeight.bold),

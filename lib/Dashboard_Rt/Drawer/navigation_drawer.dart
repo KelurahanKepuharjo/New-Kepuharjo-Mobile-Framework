@@ -66,24 +66,23 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
     return Material(
       elevation: 80.0,
       child: Container(
-        width: 200,
+        width: 225,
         decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Colors.blue.shade900,
-          Colors.blue.shade800,
-          Colors.blue.shade600,
-        ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            gradient: LinearGradient(
+                colors: [tPrimary, tSecondary],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter)),
         child: Column(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 50, bottom: 30),
               child: ListTile(
                   leading: Image.asset(
-                    "images/mylogo.png",
+                    "images/logos.png",
                     height: 40,
                   ),
                   title: Text(
-                    "S-Kepuharjo",
+                    "S-Tompokersan",
                     style: MyFont.poppins(
                         fontSize: 18,
                         color: white,

@@ -19,7 +19,7 @@ class IntroPage1 extends StatelessWidget {
             height: 70,
           ),
           Text(
-            "Smart App Pengajuan Surat\nS-Kepuharjo akan mempermudahkan dalam proses pengajuan surat yang dilakukan oleh masyarakat.",
+            "Sistem Online Bantu Administrasi Desa (SOBAT-Desa) Tompokersan\nakan mempermudahkan dalam proses pengajuan surat yang dilakukan oleh masyarakat.",
             textAlign: TextAlign.center,
             style: MyFont.poppins(fontSize: 12, color: black),
           )

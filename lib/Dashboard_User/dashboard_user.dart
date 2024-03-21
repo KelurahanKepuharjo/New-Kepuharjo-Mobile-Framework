@@ -57,7 +57,7 @@ class _DashboardUserState extends State<DashboardUser> {
       "active_icon": Image.asset(
         "images/beranda.png",
         height: 20,
-        color: primaryColor,
+        color: tPrimary,
       ),
       "non_active_icon": Image.asset(
         "images/beranda.png",
@@ -70,7 +70,7 @@ class _DashboardUserState extends State<DashboardUser> {
       "active_icon": Image.asset(
         "images/email.png",
         height: 20,
-        color: primaryColor,
+        color: tPrimary,
       ),
       "non_active_icon": Image.asset(
         "images/email.png",
@@ -83,7 +83,7 @@ class _DashboardUserState extends State<DashboardUser> {
       "active_icon": Image.asset(
         "images/clipboard.png",
         height: 20,
-        color: primaryColor,
+        color: tPrimary,
       ),
       "non_active_icon": Image.asset(
         "images/clipboard.png",
@@ -96,7 +96,7 @@ class _DashboardUserState extends State<DashboardUser> {
       "active_icon": Image.asset(
         "images/account.png",
         height: 25,
-        color: primaryColor,
+        color: tPrimary,
       ),
       "non_active_icon": Image.asset(
         "images/account.png",
@@ -114,6 +114,7 @@ class _DashboardUserState extends State<DashboardUser> {
       print(userData);
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -135,7 +136,7 @@ class _DashboardUserState extends State<DashboardUser> {
           selectedFontSize: 12,
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: false,
-          selectedItemColor: primaryColor,
+          selectedItemColor: tPrimary,
           unselectedItemColor: softgrey,
           currentIndex: index,
           onTap: onTap,

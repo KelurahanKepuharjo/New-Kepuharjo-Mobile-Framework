@@ -152,11 +152,10 @@ class _WidgetCardRwState extends State<WidgetCardRw> {
             width: MediaQuery.of(context).size.width,
             height: 211,
             decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Colors.blue.shade900,
-                  Colors.blue.shade800,
-                  Colors.blue.shade600,
-                ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                gradient: LinearGradient(
+                    colors: [tPrimary, tSecondary],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter),
                 borderRadius: BorderRadius.circular(15)),
             child: Padding(
               padding: const EdgeInsets.all(8),

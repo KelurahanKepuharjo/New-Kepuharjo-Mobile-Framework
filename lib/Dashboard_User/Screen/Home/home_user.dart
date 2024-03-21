@@ -64,25 +64,25 @@ class _HomeUserState extends State<HomeUser> {
               child: Row(
                 children: [
                   Text(
-                    "S-Kepuharjo",
+                    "S-Tompokersan",
                     style: MyFont.montserrat(
                         fontSize: 18,
                         color: white,
                         fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Image.asset(
-                    "images/mylogo.png",
-                    width: 30,
-                    height: 30,
-                  ),
+                  // const SizedBox(
+                  //   width: 5,
+                  // ),
+                  // Image.asset(
+                  //   "images/mylogo.png",
+                  //   width: 30,
+                  //   height: 30,
+                  // ),
                 ],
               ),
             ),
             pinned: true,
-            backgroundColor: primaryColor,
+            backgroundColor: tPrimary,
             shadowColor: Colors.transparent,
             expandedHeight: 200,
             bottom: PreferredSize(
@@ -99,7 +99,7 @@ class _HomeUserState extends State<HomeUser> {
             flexibleSpace: FlexibleSpaceBar(
                 background: Container(
               padding: EdgeInsets.fromLTRB(20, 0, 20, 40),
-              color: blue,
+              color: tPrimary,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -294,7 +294,7 @@ class _HomeUserState extends State<HomeUser> {
                 //                     child: ElevatedButton(
                 //                       style: ElevatedButton.styleFrom(
                 //                           backgroundColor:
-                //                               primaryColor.withOpacity(0.9),
+                //                               tPrimary.withOpacity(0.9),
                 //                           shadowColor: Colors.transparent,
                 //                           shape: RoundedRectangleBorder(
                 //                             borderRadius:
@@ -320,14 +320,17 @@ class _HomeUserState extends State<HomeUser> {
                 ),
           ),
           SliverToBoxAdapter(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                WidgetPelayanan(),
-                WidgetTextBerita(),
-                WidgetBerita(),
-              ],
+            child: Container(
+              color: white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  WidgetPelayanan(),
+                  WidgetTextBerita(),
+                  WidgetBerita(),
+                ],
+              ),
             ),
           )
         ],

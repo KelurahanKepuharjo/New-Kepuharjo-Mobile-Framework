@@ -7,46 +7,29 @@ class InfoAplikasi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
       body: Center(
-        child: Container(
-          color: white,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
                 padding: const EdgeInsets.all(28.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(" S-Kepuharjo",
-                        style: MyFont.montserrat(
-                            fontSize: 24,
-                            color: black,
-                            fontWeight: FontWeight.bold)),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Image.asset(
-                      "images/mylogo.png",
-                      height: 45,
-                    )
-                  ],
-                ),
-              ),
-              Text(
-                "Versi 1.0.1",
-                style: MyFont.poppins(
-                    fontSize: 12, color: black, fontWeight: FontWeight.w300),
-              ),
-              Text(
-                "Copyright © S-Kepuharjo 2023",
-                style: MyFont.poppins(
-                    fontSize: 12, color: black, fontWeight: FontWeight.w300),
-              ),
-            ],
-          ),
+                child: Image.asset(
+                  'images/tompokersan.png',
+                  height: 60,
+                )),
+            Text(
+              "Versi 1.0.1",
+              style: MyFont.poppins(
+                  fontSize: 12, color: black, fontWeight: FontWeight.w300),
+            ),
+            Text(
+              "Copyright © S-Tompokersan 2024",
+              style: MyFont.poppins(
+                  fontSize: 12, color: black, fontWeight: FontWeight.w300),
+            ),
+          ],
         ),
       ),
     );

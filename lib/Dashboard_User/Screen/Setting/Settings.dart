@@ -73,7 +73,7 @@ class _PengaturanState extends State<Pengaturan> {
     ).show();
   }
 
-  String lokasi = "kantor Kelurahan Kepuharjo Kabupaten Lumajang";
+  String lokasi = "kantor Kelurahan Tompokersan Kabupaten Lumajang";
 
   @override
   Widget build(BuildContext context) {
@@ -187,8 +187,7 @@ class _PengaturanState extends State<Pengaturan> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, top: 5),
+                    padding: const EdgeInsets.only(left: 15, top: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -217,8 +216,7 @@ class _PengaturanState extends State<Pengaturan> {
                           ),
                           title: Text(
                             "Informasi Akun",
-                            style:
-                            MyFont.poppins(fontSize: 12, color: black),
+                            style: MyFont.poppins(fontSize: 12, color: black),
                           ),
                         ),
                         const Divider(
@@ -238,8 +236,7 @@ class _PengaturanState extends State<Pengaturan> {
                           ),
                           title: Text(
                             "Ubah Nomer Telepon",
-                            style:
-                            MyFont.poppins(fontSize: 12, color: black),
+                            style: MyFont.poppins(fontSize: 12, color: black),
                           ),
                         ),
                         const Divider(
@@ -259,8 +256,7 @@ class _PengaturanState extends State<Pengaturan> {
                           ),
                           title: Text(
                             "Daftar Keluarga",
-                            style:
-                            MyFont.poppins(fontSize: 12, color: black),
+                            style: MyFont.poppins(fontSize: 12, color: black),
                           ),
                         ),
                       ],
@@ -279,8 +275,7 @@ class _PengaturanState extends State<Pengaturan> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, top: 5),
+                    padding: const EdgeInsets.only(left: 15, top: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -310,8 +305,7 @@ class _PengaturanState extends State<Pengaturan> {
                           ),
                           title: Text(
                             "Lokasi Kelurahan",
-                            style:
-                            MyFont.poppins(fontSize: 12, color: black),
+                            style: MyFont.poppins(fontSize: 12, color: black),
                           ),
                         ),
                       ],
@@ -330,8 +324,7 @@ class _PengaturanState extends State<Pengaturan> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, top: 5),
+                    padding: const EdgeInsets.only(left: 15, top: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -360,8 +353,7 @@ class _PengaturanState extends State<Pengaturan> {
                           ),
                           title: Text(
                             "Surat Dibatalkan",
-                            style:
-                            MyFont.poppins(fontSize: 12, color: black),
+                            style: MyFont.poppins(fontSize: 12, color: black),
                           ),
                         ),
                       ],
@@ -380,8 +372,7 @@ class _PengaturanState extends State<Pengaturan> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 15, top: 5),
+                    padding: const EdgeInsets.only(left: 15, top: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -410,8 +401,7 @@ class _PengaturanState extends State<Pengaturan> {
                           ),
                           title: Text(
                             "Info Aplikasi",
-                            style:
-                            MyFont.poppins(fontSize: 12, color: black),
+                            style: MyFont.poppins(fontSize: 12, color: black),
                           ),
                         ),
                         const Divider(
@@ -431,11 +421,9 @@ class _PengaturanState extends State<Pengaturan> {
                           ),
                           title: Text(
                             "Tentang",
-                            style:
-                            MyFont.poppins(fontSize: 12, color: black),
+                            style: MyFont.poppins(fontSize: 12, color: black),
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -473,7 +461,7 @@ class _PengaturanState extends State<Pengaturan> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "S-Kepuharjo\nversi 1.0.1",
+                  "S-Tompokersan\nversi 1.0.1",
                   textAlign: TextAlign.center,
                   style: MyFont.poppins(fontSize: 12, color: softgrey),
                 ),

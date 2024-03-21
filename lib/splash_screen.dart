@@ -75,33 +75,20 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      body: Container(
-        color: white,
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(" S-Kepuharjo",
-                    style: MyFont.montserrat(
-                        fontSize: 24,
-                        color: black,
-                        fontWeight: FontWeight.bold)),
-                const SizedBox(
-                  width: 5,
-                ),
-                Image.asset(
-                  "images/mylogo.png",
-                  height: 45,
-                )
-              ],
+            Image.asset(
+              'images/tompokersan.png',
+              height: 60,
             ),
             const SizedBox(
-              height: 70,
+              height: 50,
             ),
             CircularProgressIndicator(
-              color: primaryColor,
+              color: tPrimary,
             )
           ],
         ),

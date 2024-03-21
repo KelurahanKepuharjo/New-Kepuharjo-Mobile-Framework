@@ -19,7 +19,7 @@ class IntroPage2 extends StatelessWidget {
             height: 70,
           ),
           Text(
-            "S-Kepuharjo juga memuat berbagai\ninformasi dan berita terkini mengenai Kelurahan Kepuharjo,mulai dari berita terbaru tentang kegiatan masyarakat, kondisi lingkungan, hingga pengumuman pemerintah setempat.",
+            "S-Tompokersan juga memuat berbagai\ninformasi dan berita terkini mengenai Kelurahan Kepuharjo,mulai dari berita terbaru tentang kegiatan masyarakat, kondisi lingkungan, hingga pengumuman pemerintah setempat.",
             textAlign: TextAlign.center,
             style: MyFont.poppins(fontSize: 12, color: black),
           )

@@ -186,28 +186,15 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(" S-Kepuharjo",
-                              style: MyFont.montserrat(
-                                  fontSize: 24,
-                                  color: black,
-                                  fontWeight: FontWeight.bold)),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Image.asset(
-                            "images/mylogo.png",
-                            height: 45,
-                          )
-                        ],
+                      Image.asset(
+                        "images/tompokersan.png",
+                        height: 60,
                       ),
                       const SizedBox(
                         height: 20,
                       ),
                       Text(
-                        "Smart aplikasi layanan pengajuan\nsurat keterangan.",
+                        "Sistem Online Bantu Administrasi Desa",
                         textAlign: TextAlign.center,
                         style: MyFont.poppins(
                             fontSize: 12,
@@ -297,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
                                       )
                                     : Icon(
                                         Icons.visibility,
-                                        color: primaryColor,
+                                        color: tPrimary,
                                         size: 20,
                                       ))),
                       ),
@@ -312,7 +299,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
+                          backgroundColor: tPrimary,
                           shadowColor: Colors.transparent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -344,7 +331,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text("Aktifasi Akun",
                           style: MyFont.poppins(
                               fontSize: 12,
-                              color: primaryColor,
+                              color: tPrimary,
                               fontWeight: FontWeight.w600)),
                       onTap: () {
                         Navigator.push(

@@ -200,53 +200,33 @@ class _AllNewsState extends State<AllNews> {
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return Container(
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CardLoading(
-                            height: 120,
-                            width: 150,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                              child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CardLoading(
-                                height: 16,
-                                width: 100,
-                                borderRadius: BorderRadius.circular(10),
-                                // color: Colors.grey,
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              CardLoading(
-                                height: 12,
-                                width: 160,
-                                borderRadius: BorderRadius.circular(10),
-                                // color: Colors.grey,
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              CardLoading(
-                                height: 12,
-                                width: 160,
-                                borderRadius: BorderRadius.circular(10),
-                                // color: Colors.grey,
-                              ),
-                            ],
-                          ))
-                        ],
-                      ),
-                    );
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CardLoading(
+                              height: 200,
+                              width: MediaQuery.of(context).size.width,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CardLoading(
+                              height: 15,
+                              width: MediaQuery.of(context).size.width,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            CardLoading(
+                              height: 10,
+                              width: MediaQuery.of(context).size.width - 200,
+                              borderRadius: BorderRadius.circular(8),
+                            )
+                          ],
+                        ));
                   },
                 );
               },

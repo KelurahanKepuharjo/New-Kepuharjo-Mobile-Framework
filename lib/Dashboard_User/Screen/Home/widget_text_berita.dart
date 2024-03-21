@@ -25,7 +25,7 @@ class WidgetTextBerita extends StatelessWidget {
                           fontSize: 13,
                           color: black,
                           fontWeight: FontWeight.w500)),
-                  Text("Berbagai berita terkait kelurahan kepuharjo",
+                  Text("Berbagai berita terkait Kelurahan Tompokersan",
                       style: MyFont.poppins(
                           fontSize: 12,
                           color: softgrey,

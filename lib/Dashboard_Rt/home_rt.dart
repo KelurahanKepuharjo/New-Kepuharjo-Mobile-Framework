@@ -47,7 +47,6 @@ class _DashboardRTState extends State<DashboardRT> {
     });
   }
 
-
   Widget getPage(int index) {
     switch (index) {
       case 0:
@@ -75,6 +74,7 @@ class _DashboardRTState extends State<DashboardRT> {
       selectedIndex = index;
     });
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -93,24 +93,10 @@ class _DashboardRTState extends State<DashboardRT> {
           shadowColor: Colors.transparent,
           title: Row(
             children: [
-              Row(
-                children: [
-                  Text(
-                    "S-Kepuharjo",
-                    style: MyFont.montserrat(
-                        fontSize: 18,
-                        color: white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Image.asset(
-                    "images/mylogo.png",
-                    width: 30,
-                    height: 30,
-                  ),
-                ],
+              Text(
+                "S-Tompokersan",
+                style: MyFont.montserrat(
+                    fontSize: 18, color: white, fontWeight: FontWeight.bold),
               ),
             ],
           ),

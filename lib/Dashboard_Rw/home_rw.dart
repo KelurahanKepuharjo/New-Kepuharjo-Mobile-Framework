@@ -54,6 +54,7 @@ class _DashboardRWState extends State<DashboardRW> {
       selectedIndex = index;
     });
   }
+
   late PermissionStatus _notificationStatus;
   late PermissionStatus _storageStatus;
 
@@ -78,7 +79,6 @@ class _DashboardRWState extends State<DashboardRW> {
     requestPermissions();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,24 +90,10 @@ class _DashboardRWState extends State<DashboardRW> {
           shadowColor: Colors.transparent,
           title: Row(
             children: [
-              Row(
-                children: [
-                  Text(
-                    "S-Kepuharjo",
-                    style: MyFont.montserrat(
-                        fontSize: 18,
-                        color: white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Image.asset(
-                    "images/mylogo.png",
-                    width: 30,
-                    height: 30,
-                  ),
-                ],
+              Text(
+                "S-Tompokersan",
+                style: MyFont.montserrat(
+                    fontSize: 18, color: white, fontWeight: FontWeight.bold),
               ),
             ],
           ),
