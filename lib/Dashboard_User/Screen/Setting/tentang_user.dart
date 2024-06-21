@@ -17,7 +17,6 @@ class _TentangUserState extends State<TentangUser> {
       appBar: AppBar(
           backgroundColor: white,
           shadowColor: Colors.transparent,
-          // centerTitle: true,
           automaticallyImplyLeading: false,
           title: Padding(
             padding: const EdgeInsets.only(left: 8.0),

@@ -439,7 +439,6 @@ class _PengaturanState extends State<Pengaturan> {
               width: MediaQuery.of(context).size.width,
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  primary: Colors.black, // Warna teks
                   backgroundColor: primaryColor, // Warna latar belakang
                   // side: BorderSide(width: 1, color: primaryColor), // Border
                   shape: RoundedRectangleBorder(
